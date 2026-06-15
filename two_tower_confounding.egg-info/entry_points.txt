@@ -1,0 +1,4 @@
+[console_scripts]
+two-tower-compare-propensity = compare_propensity_param:main
+two-tower-estimate-position-bias = estimate_position_bias:main
+two-tower-run = run:main

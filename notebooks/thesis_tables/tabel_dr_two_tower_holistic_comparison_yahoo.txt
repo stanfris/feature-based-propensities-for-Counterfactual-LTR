@@ -1,0 +1,28 @@
+\begin{table}[h!]
+  \caption{Frequency-based DR comparison on \DatasetYahoo. The table includes the oracle-bias baseline in the position-bias estimation group and groups additive, multiplicative, and CSV position-bias variants separately. Cells show mean (SD) NDCG. Bold marks the best non-oracle model within each comparison block. Significance markers compare each other model with this best model using a paired two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{0.95\textwidth}{!}{
+    \begin{tabular}{llccc}
+      \toprule
+      & & \textbf{10K} & \textbf{100K} & \textbf{1000K} \\
+      \textbf{Comparison Group} & \textbf{Model} & NDCG & NDCG & NDCG \\
+      \midrule
+      \multirow{1}{*}{Baseline}
+& Regular DR & 0.767 (0.002) & 0.780 (0.004) & 0.784 (0.001) \\
+      \midrule
+      \multirow{4}{*}{Additive Two-Tower Variants}
+& Bias Only & 0.742 (0.002)$^{\blacktriangledown}$ & 0.779 (0.002) & - \\
+      & Regression Only & 0.770 (0.001) & 0.784 (0.004) & - \\
+      & Full Two-Tower & 0.738 (0.005)$^{\triangledown}$ & 0.779 (0.005) & - \\
+      & Full Two-Tower (Shallow) & 0.743 (0.005)$^{\triangledown}$ & 0.779 (0.004) & - \\
+      \midrule
+      \multirow{4}{*}{Multiplicative Two-Tower Variants}
+& Bias Only & 0.739 (0.001)$^{\blacktriangledown}$ & 0.772 (0.005) & - \\
+      & Regression Only & 0.774 (0.003)$^{\triangle}$ & 0.779 (0.005) & - \\
+      & Full Two-Tower & 0.738 (0.003)$^{\blacktriangledown}$ & 0.778 (0.002) & - \\
+      & Full Two-Tower (Shallow) & 0.743 (0.002)$^{\triangledown}$ & 0.775 (0.003) & - \\
+      \bottomrule
+    \end{tabular}}
+  \label{tab:dr_two_tower_holistic_comparison_yahoo}
+\end{table}

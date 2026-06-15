@@ -1,0 +1,11 @@
+type: propensity_mlp_classifier
+
+classifier:
+  layers: 4
+  hidden_units: 256
+  dropout: 0.3
+
+training:
+  learning_rate: 5.0e-3
+  min_delta: 1.0e-5
+  batch_size: 512

@@ -1,0 +1,86 @@
+dataset_dir: /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets
+experiment: compare_propensity_estimators_counts
+random_state: 2023
+use_cross_validation: false
+sample_queries: null
+features: all
+relevance: deep
+relevance_noise: 0.0
+relevance_quantization: false
+train_clicks: 50000
+val_clicks: 50000
+test_clicks: 50000
+policy_strength: 1.0
+policy_temperature: 0.5
+bias_strength: 1.0
+param_shift: 0.0
+deterministic_groups: false
+query_sampling_ratios:
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+- 0.1
+use_propensity_weighting: false
+freeze_bias_tower: false
+single_param: false
+param_idx: 0
+save_test_datasets: false
+load_test_datasets: false
+test_dataset_name: test_dataset_name.pkl
+test_click_dataset_name: test_click_dataset.pkl
+propensity_classifier_layers: 2
+propensity_classifier_hidden_units: 128
+propensity_classifier_dropout: 0.1
+cosine_threshold: 0.9
+knn_k: 3
+num_groups: 500
+min_cluster_size: 3
+kmeans_iters: 5
+data:
+  dataset:
+    _target_: two_tower_confounding.data.datasets.mslr.MSLR30K
+    base_dir: ${dataset_dir}
+  preprocessor:
+    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    normalize_features: true
+    generate_query_document_ids: true
+    sample_queries: ${sample_queries}
+    top_documents_per_query: 25
+    min_relevance_per_query: 1
+    random_state: ${random_state}
+    relevance: ${relevance}
+    features: ${features}
+    relevance_noise: ${relevance_noise}
+    relevance_quantization: ${relevance_quantization}
+logging_policy_ranker:
+  _target_: two_tower_confounding.simulation.simulator.NeuralRanker
+  model_type: deep
+  policy_strength: ${policy_strength}
+  random_state: ${random_state}
+logging_policy_sampler:
+  _target_: two_tower_confounding.simulation.simulator.EGreedySampler
+  policy_temperature: ${policy_temperature}
+  random_state: ${random_state}
+bias_tower:
+  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
+  _partial_: true
+  positions: ???
+  rngs: ???
+relevance_tower:
+  _target_: two_tower_confounding.models.towers.DeepRelevanceTower
+  _partial_: true
+  features: ???
+  layers: 2
+  hidden_units: 32
+  dropout: 0
+  rngs: ???
+propensity_model:
+  type: knn
+  knn:
+    knn_k: ${knn_k}

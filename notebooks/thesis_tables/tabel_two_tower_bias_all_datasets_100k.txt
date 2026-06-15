@@ -1,0 +1,41 @@
+\begin{table}[h!]
+  \caption{Comparison of matched oracle-bias, two-tower-bias, and CSV position-bias estimators on \DatasetMSLR, \DatasetYahoo, and \DatasetIstella at the larger sample count. Columns are grouped by dataset and counterfactual learning objective. Cells show mean (SD) NDCG. Bold marks the best non-oracle model within each comparison block. Significance markers compare each other model with this best model using a paired two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \setlength{\tabcolsep}{4pt}
+  \resizebox{0.95\textwidth}{!}{
+    \begin{tabular}{llccccccccc}
+      \toprule
+      & & \multicolumn{3}{c}{\textbf{MSLR30K}} & \multicolumn{3}{c}{\textbf{Yahoo}} & \multicolumn{3}{c}{\textbf{Istella}} \\
+      \cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-11}
+      \textbf{Propensity} & \textbf{Bias Source} & IPS & DM & DR & IPS & DM & DR & IPS & DM & DR \\
+      \midrule
+      \multirow{7}{*}{Frequency-Based}
+      & Real Targets & 0.483 (0.011) & 0.464 (0.012) & 0.462 (0.010) & 0.776 (0.001) & 0.777 (0.002) & 0.780 (0.004) & 0.743 (0.020) & 0.754 (0.005) & 0.755 (0.016) \\
+      & Add. Two-Tower Bias & 0.483 (0.005) & 0.470 (0.005) & 0.469 (0.012) & 0.776 (0.001) & 0.769 (0.001)$^{\triangledown}$ & 0.779 (0.002) & - & 0.756 (0.010) & 0.751 (0.012) \\
+      & Mul. Two-Tower Bias & 0.429 (0.005)$^{\triangledown}$ & 0.408 (0.080) & 0.408 (0.024) & - & 0.783 (0.001)$^{\triangle}$ & 0.770 (0.007) & - & 0.463 (0.216) & 0.615 (0.021)$^{\triangledown}$ \\
+      & PB: Adjacent Chain & 0.345 (0.001)$^{\blacktriangledown}$ & 0.373 (0.012)$^{\blacktriangledown}$ & 0.336 (0.006)$^{\blacktriangledown}$ & 0.750 (0.005)$^{\triangledown}$ & 0.741 (0.003)$^{\blacktriangledown}$ & 0.751 (0.003)$^{\triangledown}$ & 0.547 (0.037)$^{\triangledown}$ & 0.545 (0.050)$^{\triangledown}$ & 0.487 (0.023)$^{\blacktriangledown}$ \\
+      & PB: CTR & 0.481 (0.002) & 0.472 (0.002) & 0.468 (0.010) & 0.782 (0.005) & 0.779 (0.006) & 0.774 (0.004) & 0.722 (0.006) & 0.759 (0.009) & 0.737 (0.024) \\
+      & PB: Global All Pairs & 0.486 (0.003) & 0.474 (0.009) & 0.471 (0.016) & 0.776 (0.003) & 0.774 (0.008) & 0.775 (0.003)$^{\triangledown}$ & 0.752 (0.010) & 0.762 (0.005) & 0.764 (0.007) \\
+      & PB: Pivot One & 0.396 (0.024)$^{\triangledown}$ & 0.400 (0.025)$^{\triangledown}$ & 0.365 (0.038)$^{\triangledown}$ & 0.776 (0.003) & 0.768 (0.005) & 0.775 (0.005) & 0.743 (0.005) & 0.754 (0.001) & 0.753 (0.004) \\
+      \midrule
+      \multirow{7}{*}{MLP}
+      & Real Targets & 0.500 (0.002) & 0.496 (0.006) & 0.499 (0.001) & 0.784 (0.002) & 0.784 (0.007) & 0.781 (0.003) & 0.749 (0.002) & 0.755 (0.004) & 0.758 (0.009) \\
+      & Add. Two-Tower Bias & 0.499 (0.003) & 0.503 (0.002) & 0.488 (0.014) & 0.786 (0.005) & 0.785 (0.001) & 0.781 (0.001) & 0.750 (0.009) & 0.757 (0.003) & 0.728 (0.033) \\
+      & Mul. Two-Tower Bias & 0.489 (0.014) & 0.502 (0.004) & 0.308 (0.017)$^{\blacktriangledown}$ & - & 0.797 (0.003) & 0.677 (0.006)$^{\blacktriangledown}$ & - & 0.640 (0.049) & 0.226 (0.156)$^{\triangledown}$ \\
+      & PB: Adjacent Chain & 0.487 (0.004)$^{\triangledown}$ & 0.480 (0.006)$^{\triangledown}$ & 0.447 (0.041) & 0.775 (0.000)$^{\blacktriangledown}$ & 0.765 (0.002) & 0.766 (0.003)$^{\triangledown}$ & 0.748 (0.007) & 0.756 (0.006) & 0.473 (0.182) \\
+      & PB: CTR & 0.501 (0.002) & 0.502 (0.003) & 0.478 (0.014)$^{\triangledown}$ & 0.789 (0.005) & 0.790 (0.002) & 0.781 (0.002) & 0.745 (0.002) & 0.762 (0.010) & 0.697 (0.042) \\
+      & PB: Global All Pairs & 0.499 (0.003) & 0.499 (0.003) & 0.496 (0.008) & 0.786 (0.004) & 0.784 (0.003) & 0.777 (0.002) & 0.746 (0.003)$^{\triangledown}$ & 0.749 (0.003)$^{\triangledown}$ & 0.761 (0.008) \\
+      & PB: Pivot One & 0.502 (0.001) & 0.505 (0.003) & 0.483 (0.022) & 0.784 (0.004) & 0.785 (0.002) & 0.778 (0.004) & 0.746 (0.002)$^{\blacktriangledown}$ & 0.749 (0.003)$^{\triangledown}$ & 0.760 (0.009) \\
+      \midrule
+      \multirow{7}{*}{Oracle Propensity}
+      & Real Targets & 0.496 (0.002) & 0.469 (0.013) & 0.463 (0.033) & 0.784 (0.002) & 0.780 (0.002) & 0.777 (0.004) & 0.751 (0.006) & 0.759 (0.005) & 0.762 (0.008) \\
+      & Add. Two-Tower Bias & 0.498 (0.006) & 0.476 (0.007) & 0.463 (0.022) & 0.784 (0.003) & 0.776 (0.002)$^{\triangledown}$ & 0.771 (0.004) & 0.749 (0.001) & 0.763 (0.002) & 0.722 (0.015) \\
+      & Mul. Two-Tower Bias & 0.445 (0.004)$^{\blacktriangledown}$ & 0.389 (0.061) & 0.352 (0.015) & - & 0.796 (0.002)$^{\blacktriangle}$ & 0.718 (0.005)$^{\blacktriangledown}$ & - & 0.375 (0.255) & 0.641 (0.010)$^{\blacktriangledown}$ \\
+      & PB: Adjacent Chain & 0.448 (0.008)$^{\triangledown}$ & 0.430 (0.005)$^{\triangledown}$ & 0.356 (0.012) & 0.768 (0.001)$^{\blacktriangledown}$ & 0.758 (0.003)$^{\blacktriangledown}$ & 0.759 (0.001)$^{\blacktriangledown}$ & 0.745 (0.014) & 0.749 (0.012) & 0.379 (0.086)$^{\triangledown}$ \\
+      & PB: CTR & 0.498 (0.006) & 0.476 (0.011) & 0.448 (0.025) & 0.789 (0.000) & 0.786 (0.004) & 0.770 (0.006) & 0.748 (0.001) & 0.767 (0.003) & 0.649 (0.021)$^{\triangledown}$ \\
+      & PB: Global All Pairs & 0.490 (0.006) & 0.474 (0.005) & 0.467 (0.020) & 0.785 (0.002) & 0.779 (0.003) & 0.775 (0.002) & 0.748 (0.001) & 0.760 (0.007) & 0.759 (0.010) \\
+      & PB: Pivot One & 0.487 (0.011) & 0.471 (0.019) & 0.433 (0.040) & 0.784 (0.002) & 0.780 (0.003) & 0.775 (0.002) & 0.747 (0.001) & 0.755 (0.006) & 0.749 (0.009) \\
+      \bottomrule
+  \end{tabular}}
+  \label{tab:two_tower_bias_all_datasets_100k}
+\end{table}

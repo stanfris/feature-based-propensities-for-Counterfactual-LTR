@@ -1,0 +1,22 @@
+\begin{table}[h!]
+  \caption{Comparison of the default regression estimator and the available two-tower regression estimators for DM and DR on \DatasetYahoo. Cells show mean (SD) NDCG. Bold marks the best non-oracle model within each comparison block. Significance markers compare each other model with this best model using a paired two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \setlength{\tabcolsep}{5pt}
+  \resizebox{0.95\textwidth}{!}{
+  \begin{tabular}{llccc}
+    \toprule
+    & & \textbf{Regular} & \textbf{Add. Two-Tower} & \textbf{Mul. Two-Tower} \\
+    \textbf{Sessions} & \textbf{Objective} & NDCG & NDCG & NDCG \\
+    \midrule
+    \multirow{2}{*}{10K}
+& DM & 0.768 (0.005) & 0.783 (0.002)$^{\triangle}$ & 0.779 (0.004)$^{\triangle}$ \\
+    & DR & 0.767 (0.002) & 0.770 (0.001) & 0.774 (0.003)$^{\triangle}$ \\
+    \midrule
+    \multirow{2}{*}{100K}
+& DM & 0.777 (0.002) & 0.774 (0.004) & 0.775 (0.003) \\
+    & DR & 0.780 (0.004) & 0.784 (0.004) & 0.779 (0.005) \\
+    \bottomrule
+  \end{tabular}
+  }
+  \label{tab:two_tower_dmdr_regression_comparison_yahoo}
+\end{table}

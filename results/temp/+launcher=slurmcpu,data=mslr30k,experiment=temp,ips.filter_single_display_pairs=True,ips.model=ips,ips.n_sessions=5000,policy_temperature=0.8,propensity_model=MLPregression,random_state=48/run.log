@@ -1,0 +1,33 @@
+[2026-03-05 17:21:04,450][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-03-05 17:21:07,914][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-03-05 17:21:07,920][two_tower_confounding.experiments.data_pipeline][INFO] - clicks_from_sessions active: using train_clicks=5000, val_clicks=1665 (was train_clicks=1000000, val_clicks=500000)
+[2026-03-05 17:21:13,038][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 5.12 seconds (train=5000, val=1665, test=500000)
+[2026-03-05 17:21:13,039][two_tower_confounding.experiments.data_pipeline][INFO] - Loading aggregated datasets from /home/sfris1/ltr_datasets/ips_datasets...
+[2026-03-05 17:21:18,274][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-03-05 17:21:18,274][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-03-05 17:21:18,339][two_tower_confounding.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=propensity_mlp_regression)...
+[2026-03-05 17:21:41,209][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity computed in 22.87 seconds
+[2026-03-05 17:21:41,229][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-03-05 17:21:41,229][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-03-05 17:21:41,953][two_tower_confounding.experiments.ips_pipeline][INFO] - Doc weights computed in 0.72 seconds
+[2026-03-05 17:21:42,782][two_tower_confounding.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-03-05 17:21:42,782][two_tower_confounding.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-03-05 17:21:42,782][two_tower_confounding.experiments.model_pipeline][INFO] - Training model...
+[2026-03-05 17:22:30,108][two_tower_confounding.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 1.5676329135894775,
+             'DCG': 4.0613861083984375,
+             'NCTR': 0.8663536906242371,
+             'NDCG': 0.9164530634880066,
+             'NRCTR': 0.8663536906242371,
+             'RCTR': 1.5676329135894775}}
+[2026-03-05 17:22:33,412][submitit][INFO] - Job completed successfully
+[2026-03-05 17:22:33,421][submitit][INFO] - Exiting after successful completion

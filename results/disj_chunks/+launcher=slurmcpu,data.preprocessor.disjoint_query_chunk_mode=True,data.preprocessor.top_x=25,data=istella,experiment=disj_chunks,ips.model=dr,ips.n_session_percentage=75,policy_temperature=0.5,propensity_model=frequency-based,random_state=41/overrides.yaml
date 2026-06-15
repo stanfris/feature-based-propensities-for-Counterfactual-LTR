@@ -1,0 +1,11 @@
+- experiment=disj_chunks
+- data=istella
+- random_state=41
+- policy_temperature=0.5
+- ips.model=dr
+- propensity_model=frequency-based
+- ips.n_session_percentage=75
+- data.preprocessor.top_x=25
+- ips.force_single_sample=True
+- data.preprocessor.disjoint_query_chunk_mode=True
+- +launcher=slurmcpu

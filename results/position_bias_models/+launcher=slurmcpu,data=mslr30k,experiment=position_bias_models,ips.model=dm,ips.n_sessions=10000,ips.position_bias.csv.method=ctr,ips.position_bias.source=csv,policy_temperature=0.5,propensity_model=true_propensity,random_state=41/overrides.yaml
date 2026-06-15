@@ -1,0 +1,11 @@
+- experiment=position_bias_models
+- data=mslr30k
+- random_state=41
+- policy_temperature=0.5
+- propensity_model=true_propensity
+- ips.model=dm
+- ips.n_sessions=10000
+- ips.position_bias.source=csv
+- ips.position_bias.csv.path=results/position_bias_csv_smoke.csv
+- ips.position_bias.csv.method=ctr
+- +launcher=slurmcpu

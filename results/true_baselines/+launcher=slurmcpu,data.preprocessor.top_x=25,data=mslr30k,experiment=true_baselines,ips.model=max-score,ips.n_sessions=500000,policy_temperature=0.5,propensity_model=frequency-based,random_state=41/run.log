@@ -1,0 +1,70 @@
+[2026-03-16 22:18:07,578][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-03-16 22:18:08,613][two_tower_confounding.experiments.ips_pipeline][WARNING] - wandb.init failed (Error uploading run: returned error 403: {"data":{"upsertBucket":null},"errors":[{"message":"permission denied","path":["upsertBucket"],"extensions":{"code":"PERMISSION_ERROR"}}]}). Continuing with local logging only.
+[2026-03-16 22:18:08,614][two_tower_confounding.experiments.ips_pipeline][WARNING] - Disabling wandb for trainer components because initialization failed.
+[2026-03-16 22:18:08,620][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-03-16 22:19:14,493][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-03-16 22:19:14,494][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14c60c229890>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-03-16 22:19:14,494][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-03-16 22:19:14,494][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14c40c24f380> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-03-16 22:19:14,495][absl][INFO] - [process=0] Started async saving checkpoint to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-16 22:19:14,497][absl][INFO] - [process=0] Specified `force`: removing existing directory.
+[2026-03-16 22:19:14,497][absl][INFO] - Using ThreadSafeKeyValueSignalingClient
+[2026-03-16 22:19:14,501][absl][INFO] - Transferring arrays to host memory with options: use_replica_parallel=True, min_slice_bytes_for_replica_parallel=None, max_replicas_for_replica_parallel=None, enable_pinned_host_transfer=False
+[2026-03-16 22:19:14,502][absl][INFO] - Creating tmp directory /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp
+[2026-03-16 22:19:14,502][absl][INFO] - [process=0][thread=MainThread] Initiated "orbax.checkpoint._src.serialization.type_handlers.ArrayHandler".serialize. Time taken: 0.001426s
+[2026-03-16 22:19:14,503][absl][INFO] - [process=0] /jax/checkpoint/write/blocking_gbytes_per_sec: 0 Bytes/s (total gbytes: 21.4 KiB) (time elapsed: 4 milliseconds) (per-host)
+[2026-03-16 22:19:14,503][absl][INFO] - [process=0][thread=MainThread] Initiated Pytree async_save. Time taken: 0.004842s (batch_requests_ready=0.001770s, total_serialization_initiated=0.002599s, others=0.000473s)
+[2026-03-16 22:19:14,505][absl][INFO] - Wrote Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1773695954504034254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}}, json={"item_handlers": null, "metrics": {}, "performance_metrics": {}, "init_timestamp_nsecs": 1773695954504034254, "commit_timestamp_nsecs": null, "custom_metadata": {}} to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-03-16 22:19:14,512][absl][INFO] - [process=0][thread=async_save] Background save thread started.
+[2026-03-16 22:19:14,514][absl][INFO] - Finished blocking save. Time taken: 0.019354s. Continuing background save to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-16 22:19:14,514][absl][INFO] - [process=0][thread=MainThread] Waiting for background save thread=async_save.
+[2026-03-16 22:19:14,516][absl][INFO] - [process=0][thread=array_type_handler] Wrote 6 array_metadata.ArrayMetadata to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/array_metadatas/process_0
+[2026-03-16 22:19:14,554][absl][INFO] - [process=0][thread=write_metadata_after_commits] Commit + Array metadata written. Time taken: 0.039755s (commit=0.037885s, array_metadata_write=0.001870s)
+[2026-03-16 22:19:14,555][absl][INFO] - [process=0] /jax/checkpoint/write/gbytes_per_sec: 0 Bytes/s (total gbytes: 21.4 KiB) (time elapsed: 56 milliseconds) (per-host)
+[2026-03-16 22:19:14,555][absl][INFO] - [process=0][thread=async_save] 2 Handler Commit operations completed. Time taken: 0.041480s.
+[2026-03-16 22:19:14,557][absl][INFO] - Read Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1773695954504034254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-03-16 22:19:14,558][absl][INFO] - Updated Metadata={'item_handlers': 'orbax.checkpoint._src.handlers.standard_checkpoint_handler.StandardCheckpointHandler', 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1773695954504034254, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-03-16 22:19:14,559][absl][INFO] - [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0.
+[2026-03-16 22:19:14,565][absl][INFO] - [process=0][thread=async_save] Pytree save finalize (merge_ocdbt + ArrayMetadata validation) completed. Time taken: 0.009114s. use_zarr3=False, enable_post_merge_validation=True, directory=/gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp
+[2026-03-16 22:19:14,566][absl][INFO] - Renaming /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp to /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-03-16 22:19:14,567][absl][INFO] - [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0`.
+[2026-03-16 22:19:14,568][absl][INFO] - Finished async_save (blocking + background). Time taken: 0.073138s. directory=/gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-03-16 22:19:14,568][absl][INFO] - [process=0][thread=async_save] Background save thread done. Time taken: 0.053807s.
+[2026-03-16 22:19:14,568][absl][INFO] - [process=0][thread=MainThread] Done with waiting for background save thread=async_save.
+[2026-03-16 22:19:14,568][absl][INFO] - [process=0][thread=MainThread] No errors found in background save thread=async_save.
+[2026-03-16 22:20:10,875][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 122.25 seconds (train=18919, val=6306, test=500000)
+[2026-03-16 22:20:10,875][two_tower_confounding.data.runtime.aggregation][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-03-16 22:20:11,010][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-03-16 22:20:11,011][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-03-16 22:20:16,851][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-03-16 22:20:21,066][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating test dataset...
+[2026-03-16 22:20:25,345][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregation done in 14.33 seconds
+[2026-03-16 22:20:25,345][two_tower_confounding.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=18919,val=6306), actual(train=18919,val=6306,test=500000)
+[2026-03-16 22:20:25,345][two_tower_confounding.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-03-16 22:20:25,417][two_tower_confounding.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-03-16 22:20:25,502][two_tower_confounding.experiments.diagnostics][INFO] - [Train] clicks=1570, displays=460184, ctr=0.0034, ctr_per_doc=0.0034
+[2026-03-16 22:20:25,574][two_tower_confounding.experiments.diagnostics][INFO] - [Validation] clicks=536, displays=154045, ctr=0.0035, ctr_per_doc=0.0035
+[2026-03-16 22:20:25,652][two_tower_confounding.experiments.diagnostics][INFO] - [Test] clicks=40799, displays=12170741, ctr=0.0034, ctr_per_doc=0.0034
+[2026-03-16 22:20:25,653][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='max-score'
+[2026-03-16 22:20:25,653][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-03-16 22:20:25,719][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing MaxScore doc weights...
+[2026-03-16 22:20:25,721][two_tower_confounding.experiments.ips_pipeline][INFO] - Doc weights computed in 0.00 seconds
+[2026-03-16 22:20:25,729][two_tower_confounding.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-03-16 22:20:25,731][two_tower_confounding.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-03-16 22:20:25,731][two_tower_confounding.experiments.model_pipeline][INFO] - Training model...
+[2026-03-16 23:55:31,141][submitit][INFO] - Job has timed out. Ran 97 minutes out of requested 100 minutes.
+[2026-03-16 23:55:31,142][submitit][WARNING] - Caught signal SIGUSR2 on tcn192.local.snellius.surf.nl: this job is timed-out.
+[2026-03-16 23:55:31,143][submitit][INFO] - Calling checkpoint method.
+[2026-03-16 23:55:31,179][submitit][INFO] - Job not requeued because: timed-out too many times.
+[2026-03-16 23:55:31,184][submitit][WARNING] - Bypassing signal SIGCONT
+[2026-03-16 23:55:31,184][submitit][INFO] - Job completed successfully
+[2026-03-16 23:55:31,189][submitit][INFO] - Exiting after successful completion

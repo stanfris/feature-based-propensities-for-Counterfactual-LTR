@@ -1,0 +1,38 @@
+\begin{table}[h!]
+  \caption{Comparison of the oracle-bias baseline, additive and multiplicative two-tower regression estimators, and CSV position-bias baselines for DM and DR on \DatasetMSLR, \DatasetYahoo, and \DatasetIstella. Rows are grouped by dataset. Cells show mean (SD) NDCG. Bold marks the best non-oracle model within each comparison block. Significance markers compare each other model with this best model using a paired two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \setlength{\tabcolsep}{5pt}
+  \resizebox{0.95\textwidth}{!}{
+    \begin{tabular}{llcc}
+      \toprule
+      & & \sampleNheader{4} & \sampleNheader{5} \\
+      \cmidrule(lr){3-3}\cmidrule(lr){4-4}
+      \textbf{Dataset} & \textbf{Model} & NDCG & NDCG \\
+      \midrule
+      \multirow{7}{*}{\DatasetMSLR} & True Bias$^{\mathrm{oracle}}$ & 0.446 (0.008) & 0.462 (0.010) \\
+      & Add. Two-Tower & 0.453 (0.006)$^{\triangle}$ & 0.496 (0.007)$^{\blacktriangle}$ \\
+      & Mul. Two-Tower & 0.419 (0.022) & 0.459 (0.014) \\
+      & Adjacent Chain & 0.408 (0.029) & 0.336 (0.006)$^{\blacktriangledown}$ \\
+      & CTR & 0.434 (0.014) & 0.468 (0.010) \\
+      & Global All Pairs & 0.346 (0.015)$^{\triangledown}$ & 0.471 (0.016) \\
+      & Pivot One & 0.411 (0.030) & 0.365 (0.038)$^{\triangledown}$ \\
+      \midrule
+      \multirow{7}{*}{\DatasetYahoo} & True Bias$^{\mathrm{oracle}}$ & 0.767 (0.002) & 0.780 (0.004) \\
+      & Add. Two-Tower & 0.770 (0.001) & 0.784 (0.004) \\
+      & Mul. Two-Tower & 0.774 (0.003)$^{\triangle}$ & 0.779 (0.005) \\
+      & Adjacent Chain & 0.729 (0.006)$^{\blacktriangledown}$ & 0.751 (0.003)$^{\triangledown}$ \\
+      & CTR & 0.764 (0.009) & 0.774 (0.004) \\
+      & Global All Pairs & 0.719 (0.007)$^{\blacktriangledown}$ & 0.775 (0.003)$^{\triangledown}$ \\
+      & Pivot One & 0.721 (0.008)$^{\blacktriangledown}$ & 0.775 (0.005) \\
+      \midrule
+      \multirow{7}{*}{\DatasetIstella} & True Bias$^{\mathrm{oracle}}$ & 0.728 (0.007) & 0.755 (0.016) \\
+      & Add. Two-Tower & 0.710 (0.008) & 0.744 (0.004) \\
+      & Mul. Two-Tower & 0.714 (0.005) & 0.744 (0.004) \\
+      & Adjacent Chain & 0.635 (0.024)$^{\triangledown}$ & 0.487 (0.023)$^{\blacktriangledown}$ \\
+      & CTR & 0.695 (0.027) & 0.737 (0.024) \\
+      & Global All Pairs & 0.379 (0.114)$^{\triangledown}$ & 0.764 (0.007) \\
+      & Pivot One & 0.631 (0.025)$^{\triangledown}$ & 0.753 (0.004) \\
+      \bottomrule
+  \end{tabular}}
+  \label{tab:two_tower_dmdr_regression_dr_all_datasets}
+\end{table}

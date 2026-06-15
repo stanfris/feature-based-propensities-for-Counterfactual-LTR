@@ -1,0 +1,84 @@
+model: ips
+output_path: "ips_results.json"
+save_subdir: "ips_datasets"
+n_sessions: 100_000
+n_session_percentage: null
+force_single_sample: false
+display_histogram_dir: "display_histograms"
+display_histogram_max: 100
+debug: false
+debug_max_samples: 25
+debug_feature_head: 5
+
+model_params:
+  eps: 1e-8
+  model_output_multiplier: 1.0
+  relevance_tower:
+    layers: 2
+    hidden_units: 32
+    dropout: 0.1
+
+regression:
+  method: regression
+  model:
+    layers: 3
+    hidden_units: 256
+    dropout: 0.1
+  trainer:
+    batch_size: 1024
+    inference_batch_size: 16384
+    max_epochs: 200
+    early_stop_diff: 0.001
+    early_stop_per_epochs: 3
+    learning_rate: 1.0e-3
+    eps: 1.0e-6
+    print_updates: true
+    rescale_to_target_mean: false
+    rescale_target_mean: 0.5
+
+trainer:
+  trainer_type: pl-rank # pl-rank | exposure
+  max_epochs: 100
+  early_stop_diff: 0.001
+  early_stop_per_epochs: 3
+  early_stop_min_epochs: 15
+  patience: 2
+  eval_first_epoch: false
+  eval_train_split: false
+  eval_max_queries: ${oc.select:data.data_eval_max_queries,null}
+  n_grad_samples_dynamic_fallback: 100
+  n_eval_samples: ${oc.select:data.data_n_eval_samples,100}
+  n_samples: 100  # MC samples for training (used by both pl-rank and exposure)
+  learning_rate: 1e-5
+  clip_multiplier: 1.0
+  clip_base: 10.0
+  clip_propensity: false
+  print_updates: true
+  use_wandb: false
+  log_freq: 100
+
+eval_label_scale: 0.25  # Scales label_vector to per-doc weights during evaluation
+
+click_prediction_eval:
+  enabled: false
+  output_path: "click_prediction_test.npz"
+
+position_bias:
+  source: oracle  # [oracle, csv]
+  base_epsilon: 0.001
+  csv:
+    path: null
+    method: null
+  export_path: "ultr_position_bias_estimates.csv"
+
+propensity:
+  method: ${propensity_model.type}
+  checkpoint_dir: "classifier_propensity_model_checkpoint"
+  max_train_samples: 50_000
+  inference_batch_size: 512
+  debug_compare_true: false
+  dataloader:
+    num_workers: 1
+    prefetch_factor: 2
+    persistent_workers: true
+    pin_memory: false

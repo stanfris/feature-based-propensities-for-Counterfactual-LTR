@@ -1,0 +1,104 @@
+defaults:
+  - _self_
+  - data: mslr30k
+  - logging_policy_ranker: deep
+  - logging_policy_sampler: e_greedy
+  - propensity_model: frequency-based
+  - ips: default
+
+dataset_dir: ${oc.env:LTR_DATASET_DIR,../ltr_datasets}
+
+experiment: default
+random_state: 42
+device: cpu
+
+# Configure dataset pre-processing:
+use_cross_validation: False # Use cross-validation splits
+features: all # Select query-document feature columns, e.g., 0-10.
+relevance: original # [original, linear, deep]
+relevance_noise: 0.0 # Add gaussian noise to synthetic relevance labels
+relevance_quantization: False # Converts continuous relevance scores to integers
+drop0rel: False # Drop queries whose max query-document relevance label is 0
+
+# Click simulation:
+train_clicks: 5_000_000
+val_clicks: 2_500_000
+test_set_mode: label_only # [label_only, clicks] default test evaluation uses labels, not simulated clicks
+test_clicks: 500_000 # Legacy setting, only used when test_set_mode=clicks
+persist_datasets: false # Save and load generated click and aggregated datasets
+policy_strength: 1.0
+policy_temperature: 0.0
+bias_strength: 1.0
+query_sampling_ratios: null
+simulation:
+  max_label: 10  
+deterministic_groups: False
+use_wandb: False
+
+hydra:
+  job:
+    chdir: True
+    config:
+      override_dirname:
+        exclude_keys:
+          - relevance
+          - num_groups
+          - D
+          - s_group
+          - label_type
+          - bias_type
+          - query_sampling_ratios
+          - propensity_classifier_layers
+          - propensity_classifier_hidden_units
+          - propensity_classifier_dropout
+          - cosine_threshold
+          - euclidean_threshold
+          - kmeans_iters
+          - min_cluster_size
+          - kmeans_iters
+          - query_sampling_ratios
+          - knn_k
+          - ips.output_path
+          - ips.save_subdir
+          - ips.position_bias.csv.path
+          - ips.position_bias.export_path
+          - ips.model_params.eps
+          - ips.model_params.model_output_multiplier
+          - ips.model_params.relevance_tower.layers
+          - ips.model_params.relevance_tower.hidden_units
+          - ips.model_params.relevance_tower.dropout
+          - ips.trainer.trainer_type
+          - ips.trainer.max_epochs
+          - ips.trainer.early_stop_diff
+          - ips.trainer.early_stop_per_epochs
+          - ips.trainer.n_eval_samples
+          - ips.trainer.n_samples
+          - ips.trainer.learning_rate
+          - ips.trainer.clip_multiplier
+          - ips.trainer.print_updates
+          - ips.propensity.checkpoint_dir
+          - ips.propensity.debug_compare_true
+          - ips.propensity.dataloader
+          - propensity_model.regression.layers
+          - propensity_model.regression.hidden_units
+          - propensity_model.regression.dropout
+          - propensity_model.classifier.layers
+          - propensity_model.classifier.hidden_units
+          - propensity_model.classifier.dropout
+          - ips.force_single_sample
+          - data.preprocessor.max_documents_per_query
+          - propensity_model.knn.knn_k
+          - propensity_model.cosine.cosine_threshold
+          - propensity_model.cosine.knn_k
+          - propensity_model.euclidean.euclidean_threshold
+          - propensity_model.euclidean.knn_k
+          - propensity_model.kmeans.num_groups
+          - propensity_model.kmeans.min_cluster_size
+          - propensity_model.kmeans.kmeans_iters
+
+  output_subdir: .
+  run:
+    dir: .
+  sweep:
+    dir: results/${experiment}
+    subdir: ${hydra.job.override_dirname}

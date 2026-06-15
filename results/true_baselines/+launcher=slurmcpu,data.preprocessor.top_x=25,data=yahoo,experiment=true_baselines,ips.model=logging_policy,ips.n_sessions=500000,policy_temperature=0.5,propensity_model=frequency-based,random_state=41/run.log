@@ -1,0 +1,63 @@
+[2026-03-16 22:18:07,457][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-03-16 22:18:08,461][two_tower_confounding.experiments.ips_pipeline][WARNING] - wandb.init failed (Error uploading run: returned error 403: {"data":{"upsertBucket":null},"errors":[{"message":"permission denied","path":["upsertBucket"],"extensions":{"code":"PERMISSION_ERROR"}}]}). Continuing with local logging only.
+[2026-03-16 22:18:08,462][two_tower_confounding.experiments.ips_pipeline][WARNING] - Disabling wandb for trainer components because initialization failed.
+[2026-03-16 22:18:08,469][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-03-16 22:18:55,496][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-03-16 22:18:55,496][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x1489c3116850>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-03-16 22:18:55,496][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-03-16 22:18:55,496][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x148808d482c0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-03-16 22:18:55,499][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-16 22:18:55,522][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 91.8 KiB) (time elapsed: 21 milliseconds) (per-host)
+[2026-03-16 22:18:55,522][absl][INFO] - Finished restoring checkpoint in 0.03 seconds from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-16 22:20:03,921][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 115.45 seconds (train=19944, val=2994, test=500000)
+[2026-03-16 22:20:03,922][two_tower_confounding.data.runtime.aggregation][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-03-16 22:20:04,053][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-03-16 22:20:04,054][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-03-16 22:20:23,821][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-03-16 22:20:28,521][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating test dataset...
+[2026-03-16 22:20:38,229][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregation done in 34.17 seconds
+[2026-03-16 22:20:38,230][two_tower_confounding.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=19944,val=2994), actual(train=19944,val=2994,test=500000)
+[2026-03-16 22:20:38,230][two_tower_confounding.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-03-16 22:20:38,258][two_tower_confounding.experiments.diagnostics][INFO] - [Data] train_docs=473134, val_docs=71083, test_docs=165660, cutoff=25
+[2026-03-16 22:20:38,331][two_tower_confounding.experiments.diagnostics][INFO] - [Train] clicks=3109, displays=339207, ctr=0.0092, ctr_per_doc=0.0092
+[2026-03-16 22:20:38,399][two_tower_confounding.experiments.diagnostics][INFO] - [Validation] clicks=466, displays=50920, ctr=0.0092, ctr_per_doc=0.0092
+[2026-03-16 22:20:38,471][two_tower_confounding.experiments.diagnostics][INFO] - [Test] clicks=78946, displays=8485470, ctr=0.0093, ctr_per_doc=0.0093
+[2026-03-16 22:20:38,471][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='logging-policy'
+[2026-03-16 22:20:38,471][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-03-16 22:20:38,534][two_tower_confounding.experiments.ips_pipeline][INFO] - Using logging-policy ranker with temperature-based randomization (policy_temperature=0.5000).
+[2026-03-16 22:20:38,534][two_tower_confounding.experiments.ips_pipeline][INFO] - Note: ips.n_sessions does not affect logging-policy evaluation (no IPS/DM/DR training).
+[2026-03-19 15:41:45,619][jax._src.xla_bridge][ERROR] - Jax plugin configuration error: Exception when calling jax_plugins.xla_cuda12.initialize()
+Traceback (most recent call last):
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax/_src/xla_bridge.py", line 485, in discover_pjrt_plugins
+    plugin_module.initialize()
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 328, in initialize
+    _check_cuda_versions(raise_on_first_error=True)
+  File "/gpfs/home5/sfris1/two-towers-confounding-project/.venv/lib/python3.11/site-packages/jax_plugins/xla_cuda12/__init__.py", line 285, in _check_cuda_versions
+    local_device_count = cuda_versions.cuda_device_count()
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: CUDA_ERROR_NO_DEVICE
+[2026-03-19 15:41:46,713][two_tower_confounding.experiments.ips_pipeline][WARNING] - wandb.init failed (Error uploading run: returned error 403: {"data":{"upsertBucket":null},"errors":[{"message":"permission denied","path":["upsertBucket"],"extensions":{"code":"PERMISSION_ERROR"}}]}). Continuing with local logging only.
+[2026-03-19 15:41:46,714][two_tower_confounding.experiments.ips_pipeline][WARNING] - Disabling wandb for trainer components because initialization failed.
+[2026-03-19 15:41:46,715][two_tower_confounding.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-03-19 15:41:46,724][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-03-19 15:42:13,087][absl][INFO] - orbax-checkpoint version: 0.11.25
+[2026-03-19 15:42:13,188][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x14dba0ea9310>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-03-19 15:42:13,188][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-03-19 15:42:13,188][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x14daf81874c0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-03-19 15:42:13,191][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs80_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-19 15:42:13,569][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 0 Bytes/s (total gbytes: 91.8 KiB) (time elapsed: 374 milliseconds) (per-host)
+[2026-03-19 15:42:13,570][absl][INFO] - Finished restoring checkpoint in 0.38 seconds from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c500000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs80_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-03-19 15:42:57,043][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 70.32 seconds (train=434737, val=65263, test=0)
+[2026-03-19 15:42:57,043][two_tower_confounding.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-03-19 15:42:57,044][two_tower_confounding.data.runtime.aggregation][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-03-19 15:42:57,175][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-03-19 15:42:57,176][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...

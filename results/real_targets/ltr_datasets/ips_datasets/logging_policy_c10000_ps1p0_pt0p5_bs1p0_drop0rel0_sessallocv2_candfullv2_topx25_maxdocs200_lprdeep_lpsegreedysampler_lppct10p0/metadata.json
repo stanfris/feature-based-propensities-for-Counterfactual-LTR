@@ -1,0 +1,8 @@
+{
+  "class": "NeuralRanker",
+  "model_type": "deep",
+  "n_logging_policy_features": null,
+  "policy_strength": 1.0,
+  "random_state": 42,
+  "training_data_percentage": 10.0
+}

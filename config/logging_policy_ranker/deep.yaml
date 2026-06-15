@@ -1,0 +1,5 @@
+_target_: feature_based_propensities_for_ULTR.simulation.simulator.NeuralRanker
+model_type: deep
+policy_strength: ${policy_strength}
+random_state: ${random_state}
+training_data_percentage: 10.0

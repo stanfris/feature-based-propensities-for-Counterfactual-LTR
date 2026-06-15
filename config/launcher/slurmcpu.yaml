@@ -1,0 +1,33 @@
+# @package _global_
+
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+dataset_dir: "~/ltr_datasets"
+
+# hydra:
+#   launcher:
+#     mem_gb: 28
+#     cpus_per_task: 16
+#     array_parallelism: 1000
+#     timeout_min: 400
+#     partition: rome
+#     setup:
+#       - module purge
+#       - module load 2023
+#       - module load CUDA/12.4.0
+#       - source .venv/bin/activate
+
+  
+hydra:
+  launcher:
+    mem_gb: 120
+    cpus_per_task: 16
+    array_parallelism: 1000
+    timeout_min: 400
+    partition: fat_rome
+    setup:
+      - module purge
+      - module load 2023
+      - module load CUDA/12.4.0
+      - source .venv/bin/activate

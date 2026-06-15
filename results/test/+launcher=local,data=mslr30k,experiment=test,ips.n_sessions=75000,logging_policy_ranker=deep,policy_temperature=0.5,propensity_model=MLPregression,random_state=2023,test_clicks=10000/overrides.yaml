@@ -1,0 +1,13 @@
+- experiment=test
+- data=mslr30k
+- logging_policy_ranker=deep
+- relevance_tower=deep
+- policy_temperature=0.5
+- random_state=2023
+- ips.n_sessions=75000
+- test_clicks=10000
+- propensity_model=MLPregression
+- propensity_model.regression.layers=3
+- propensity_model.regression.hidden_units=256
+- propensity_model.regression.dropout=0.1
+- +launcher=local

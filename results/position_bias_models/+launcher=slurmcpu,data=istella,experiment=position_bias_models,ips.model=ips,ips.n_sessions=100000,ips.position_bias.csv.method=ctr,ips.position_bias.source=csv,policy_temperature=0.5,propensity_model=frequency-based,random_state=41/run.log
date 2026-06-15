@@ -1,0 +1,64 @@
+[2026-05-03 14:54:25,553][two_tower_confounding.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-05-03 14:54:25,559][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-05-03 14:55:57,570][absl][INFO] - orbax-checkpoint version: 0.11.37
+[2026-05-03 14:55:57,573][absl][INFO] - save_device_host_concurrent_bytes=None
+[2026-05-03 14:55:57,573][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x154e9b8d79d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-05-03 14:55:57,573][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-05-03 14:55:57,573][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x154e145358a0> timeout: 1200 secs and primary_host=0 for async checkpoint writes
+[2026-05-03 14:55:57,574][absl][INFO] - [process=0] [sync] Started load checkpoint @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/istella_logging_policy_c100000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-05-03 14:55:57,577][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/istella_logging_policy_c100000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-05-03 14:55:57,577][absl][INFO] - [process=0] [sync] Finished blocking load in 0.00 seconds. Continuing load @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/istella_logging_policy_c100000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-05-03 14:55:57,611][absl][INFO] - [process=0] /jax/orbax/read/worker/io/requested throughput: 1.168 MiB/s (total gbytes: 31.6 KiB) (time elapsed: 0.02645134925842285 s) (per-host)
+[2026-05-03 14:55:57,612][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 953.321 KiB/s (total gbytes: 31.6 KiB) (time elapsed: 0.03317761421203613 s) (per-host)
+[2026-05-03 14:55:57,612][absl][INFO] - [process=0] [sync] Finished load in 0.04 seconds @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/istella_logging_policy_c100000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-05-03 14:56:10,349][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 104.79 seconds (train=72743, val=27257, test=0)
+[2026-05-03 14:56:10,349][two_tower_confounding.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-05-03 14:56:10,349][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-05-03 14:56:10,350][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-05-03 14:56:10,441][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-05-03 14:56:10,442][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-05-03 14:56:16,777][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-05-03 14:56:20,197][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-05-03 14:56:21,752][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregation done in 11.31 seconds
+[2026-05-03 14:56:21,753][two_tower_confounding.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=72743,val=27257), actual(train=72743,val=27257,test=0)
+[2026-05-03 14:56:21,753][two_tower_confounding.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-05-03 14:56:21,753][two_tower_confounding.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-05-03 14:56:21,806][two_tower_confounding.experiments.diagnostics][INFO] - [Data] train_docs=2043304, val_docs=684076, test_docs=681250, cutoff=25
+[2026-05-03 14:56:21,901][two_tower_confounding.experiments.diagnostics][INFO] - [Train] clicks=15996, displays=1810163, ctr=0.0088, ctr_per_doc=0.0088
+[2026-05-03 14:56:21,990][two_tower_confounding.experiments.diagnostics][INFO] - [Validation] clicks=5737, displays=677186, ctr=0.0085, ctr_per_doc=0.0085
+[2026-05-03 14:56:22,076][two_tower_confounding.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-05-03 14:56:22,076][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-05-03 14:56:22,076][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-05-03 14:56:22,083][two_tower_confounding.experiments.ips_pipeline][INFO] - Loaded CSV position bias from /gpfs/home5/sfris1/Doubly-Robust-Optimization-With-Two-Tower-Models/results/position_bias_csv_smoke.csv (method=ctr): [ 0.        -0.8813557 -1.3953991 -1.7496325 -2.050755  -2.3863463
+ -2.5230367 -2.825314  -2.9027607 -3.1692724 -3.330463  -3.518862
+ -3.659479  -3.7516418 -3.8477435 -4.153511  -4.0861464 -4.4011784
+ -4.5836005 -4.4070253 -4.4888563 -4.4296465 -4.7241507 -4.8255568
+ -5.1061234]
+[2026-05-03 14:56:22,084][two_tower_confounding.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=frequency_based)...
+[2026-05-03 15:00:31,383][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity computed in 249.30 seconds
+[2026-05-03 15:00:31,383][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.        -0.8813557 -1.3953991 -1.7496325 -2.050755  -2.3863463
+ -2.5230367 -2.825314  -2.9027607 -3.1692724 -3.330463  -3.518862
+ -3.659479  -3.7516418 -3.8477435 -4.153511  -4.0861464 -4.4011784
+ -4.5836005 -4.4070253 -4.4888563 -4.4296465 -4.7241507 -4.8255568
+ -5.1061234]
+[2026-05-03 15:00:31,385][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha: [0.5        0.29289693 0.19854721 0.14809355 0.11397611 0.08421981
+ 0.07425892 0.05597148 0.05201725 0.04033857 0.03454079 0.02878029
+ 0.02509971 0.02294054 0.02088243 0.01546621 0.01652616 0.01211432
+ 0.01011469 0.01204455 0.01110869 0.01177832 0.00880012 0.00795824
+ 0.00602303]
+[2026-05-03 15:00:31,386][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-05-03 15:00:31,386][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-05-03 15:00:31,883][two_tower_confounding.experiments.ips_pipeline][INFO] - Doc weights computed in 0.50 seconds
+[2026-05-03 15:00:31,894][two_tower_confounding.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-05-03 15:00:31,896][two_tower_confounding.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-05-03 15:00:31,896][two_tower_confounding.experiments.model_pipeline][INFO] - Training model...
+[2026-05-03 15:35:58,023][two_tower_confounding.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.7904039025306702,
+             'DCG': 2.498086929321289,
+             'NCTR': 0.6262253522872925,
+             'NDCG': 0.7255149483680725,
+             'NDCG@25': 0.7255149483680725,
+             'NRCTR': 0.6262253522872925,
+             'RCTR': 0.7904039025306702}}
+[2026-05-03 15:35:58,055][submitit][INFO] - Job completed successfully
+[2026-05-03 15:35:58,065][submitit][INFO] - Exiting after successful completion

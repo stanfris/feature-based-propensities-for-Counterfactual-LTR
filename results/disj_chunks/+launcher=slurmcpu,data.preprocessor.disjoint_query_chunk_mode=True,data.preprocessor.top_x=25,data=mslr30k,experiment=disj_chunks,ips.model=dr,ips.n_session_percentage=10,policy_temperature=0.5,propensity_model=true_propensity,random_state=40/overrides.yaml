@@ -1,0 +1,11 @@
+- experiment=disj_chunks
+- data=mslr30k
+- random_state=40
+- policy_temperature=0.5
+- ips.model=dr
+- propensity_model=true_propensity
+- ips.n_session_percentage=10
+- data.preprocessor.top_x=25
+- ips.force_single_sample=True
+- data.preprocessor.disjoint_query_chunk_mode=True
+- +launcher=slurmcpu

@@ -1,0 +1,9 @@
+- experiment=temp
+- data=mslr30k
+- random_state=43
+- policy_temperature=0.7
+- propensity_model=frequency-based
+- ips.model=ips
+- ips.filter_single_display_pairs=True
+- ips.n_sessions=5000
+- +launcher=slurmcpu

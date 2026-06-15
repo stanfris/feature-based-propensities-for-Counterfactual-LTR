@@ -1,0 +1,8 @@
+type: kmeans
+
+kmeans:
+  num_groups: 2
+  min_cluster_size: 1000
+  kmeans_iters: 10
+
+

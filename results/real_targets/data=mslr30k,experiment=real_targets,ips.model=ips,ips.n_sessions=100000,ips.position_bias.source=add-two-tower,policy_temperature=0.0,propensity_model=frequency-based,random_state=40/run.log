@@ -1,0 +1,78 @@
+[2026-04-16 14:59:14,193][two_tower_confounding.experiments.ips_pipeline][WARNING] - wandb.init failed (Error uploading run: returned error 403: {"data":{"upsertBucket":null},"errors":[{"message":"permission denied","path":["upsertBucket"],"extensions":{"code":"PERMISSION_ERROR"}}]}). Continuing with local logging only.
+[2026-04-16 14:59:14,193][two_tower_confounding.experiments.ips_pipeline][WARNING] - Disabling wandb for trainer components because initialization failed.
+[2026-04-16 14:59:14,193][two_tower_confounding.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-04-16 14:59:14,196][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-04-16 14:59:47,690][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2026-04-16 14:59:47,690][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-04-16 14:59:47,690][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x6740b43a0> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-04-16 14:59:47,691][absl][INFO] - [process=0] Started async saving checkpoint to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-04-16 14:59:47,691][absl][INFO] - [process=0] Specified `force`: removing existing directory.
+[2026-04-16 14:59:47,691][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_create_tmp_directory:pre.logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.1
+[2026-04-16 14:59:47,692][absl][INFO] - Creating tmp directory /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,692][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_create_tmp_directory:post.logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.2
+[2026-04-16 14:59:47,693][absl][INFO] - Wrote CheckpointMetadata=StepMetadata(init_timestamp_nsecs=1776344387692313000, commit_timestamp_nsecs=None), json={"init_timestamp_nsecs": 1776344387692313000, "commit_timestamp_nsecs": null} to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,698][absl][INFO] - [process=0] /jax/checkpoint/write/blocking_bytes_per_sec: 3.6 MiB/s (total bytes: 21.4 KiB) (time elapsed: 5 milliseconds) (per-host)
+[2026-04-16 14:59:47,698][absl][INFO] - [process=0][thread=async_save_1] Background save thread started.
+[2026-04-16 14:59:47,699][absl][INFO] - [process=0][thread=MainThread] Waiting for background save thread=async_save_1.
+[2026-04-16 14:59:47,713][absl][INFO] - ChainedFuture completed 2/2 futures in 0.01 seconds.
+[2026-04-16 14:59:47,713][absl][INFO] - [process=0] /jax/checkpoint/write/bytes_per_sec: 1.0 MiB/s (total bytes: 21.4 KiB) (time elapsed: 20 milliseconds) (per-host)
+[2026-04-16 14:59:47,713][absl][INFO] - [process=0][thread=async_save_1] 1 Handler Commit operations completed.
+[2026-04-16 14:59:47,713][absl][INFO] - [process=0][thread=async_save_1] Async Save Callback [1/3]: Finalizing Handler: <orbax.checkpoint._src.handlers.standard_checkpoint_handler.StandardCheckpointHandler object at 0x66dec05b0> on /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,718][absl][INFO] - [process=0][thread=async_save_1] Validating params in TensorStore KvStore.
+[2026-04-16 14:59:47,718][absl][INFO] - [process=0][thread=async_save_1] Async Save Callback [2/3]: Running post_finalization_callback: None on /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-04-16 14:59:47,719][absl][INFO] - [process=0][thread=async_save_1] Async Save Callback [3/3]: Finalizing checkpoint directory: /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,719][absl][INFO] - Renaming /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0 to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-04-16 14:59:47,719][absl][INFO] - Read CheckpointMetadata=StepMetadata(init_timestamp_nsecs=1776344387692313000, commit_timestamp_nsecs=None) from /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,719][absl][INFO] - Updated CheckpointMetadata=StepMetadata(init_timestamp_nsecs=1776344387692313000, commit_timestamp_nsecs=1776344387719097000) to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp-0
+[2026-04-16 14:59:47,719][absl][INFO] - [process=0][thread=async_save_1] Finished saving checkpoint (finalized tmp dir) to `/Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c100000_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0`.
+[2026-04-16 14:59:47,719][absl][INFO] - [process=0][thread=async_save_1] Background save thread done.
+[2026-04-16 14:59:47,719][absl][INFO] - [process=0][thread=MainThread] Done with waiting for background save thread=async_save_1.
+[2026-04-16 14:59:47,719][absl][INFO] - [process=0][thread=MainThread] No errors found in background save thread=async_save_1.
+[2026-04-16 14:59:53,065][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 38.87 seconds (train=75000, val=25000, test=0)
+[2026-04-16 14:59:53,065][two_tower_confounding.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-04-16 14:59:53,065][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-04-16 14:59:53,065][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-04-16 14:59:53,101][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-04-16 14:59:53,102][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-04-16 14:59:58,503][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-04-16 15:00:00,156][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-04-16 15:00:00,818][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregation done in 7.72 seconds
+[2026-04-16 15:00:00,819][two_tower_confounding.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=75000,val=25000), actual(train=75000,val=25000,test=0)
+[2026-04-16 15:00:00,819][two_tower_confounding.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-04-16 15:00:00,819][two_tower_confounding.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-04-16 15:00:00,873][two_tower_confounding.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-04-16 15:00:00,914][two_tower_confounding.experiments.diagnostics][INFO] - [Train] clicks=10554, displays=1820929, ctr=0.0058, ctr_per_doc=0.0058
+[2026-04-16 15:00:00,949][two_tower_confounding.experiments.diagnostics][INFO] - [Validation] clicks=3531, displays=608971, ctr=0.0058, ctr_per_doc=0.0058
+[2026-04-16 15:00:00,984][two_tower_confounding.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-04-16 15:00:00,984][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-04-16 15:00:00,984][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-04-16 15:00:00,984][two_tower_confounding.experiments.ips_pipeline][INFO] - Training add-two-tower two-tower model to supply global alpha logits.
+[2026-04-16 15:01:17,791][two_tower_confounding.experiments.model_pipeline][INFO] - Learned two-tower relative position bias: [ 0.         -1.05839252 -1.59773934 -2.04575074 -2.32933038 -2.7016319
+ -2.73306394 -2.82197402 -3.15840465 -3.39132321 -3.48273551 -3.33532757
+ -3.1307658  -2.74971894 -3.8957895  -4.0210427  -3.7646333  -4.02968729
+ -3.33913118 -3.73757392 -3.70376027 -4.14044106 -3.61043459 -3.52070957
+ -3.64116091]
+[2026-04-16 15:01:17,793][two_tower_confounding.experiments.model_pipeline][INFO] - Saved two-tower position bias CSV to /Users/stanf/Documents/Uni/MSc Thesis/doubly-robust-optim-with-Two-tower-Models/results/real_targets/data=mslr30k,experiment=real_targets,ips.model=ips,ips.n_sessions=100000,ips.position_bias.source=add-two-tower,policy_temperature=0.0,propensity_model=frequency-based,random_state=40/additive_position_bias.csv
+[2026-04-16 15:01:17,793][two_tower_confounding.experiments.ips_pipeline][INFO] - Using learned add-two-tower position bias as global alpha logits: [ 0.        -1.0583925 -1.5977393 -2.0457506 -2.3293304 -2.701632
+ -2.733064  -2.821974  -3.1584046 -3.391323  -3.4827356 -3.3353276
+ -3.130766  -2.749719  -3.8957896 -4.021043  -3.7646332 -4.0296874
+ -3.339131  -3.7375739 -3.7037601 -4.140441  -3.6104345 -3.5207095
+ -3.641161 ]
+[2026-04-16 15:01:17,819][two_tower_confounding.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=frequency_based)...
+[2026-04-16 15:02:25,198][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity computed in 67.38 seconds
+[2026-04-16 15:02:25,199][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.        -1.0583925 -1.5977393 -2.0457506 -2.3293304 -2.701632
+ -2.733064  -2.821974  -3.1584046 -3.391323  -3.4827356 -3.3353276
+ -3.130766  -2.749719  -3.8957896 -4.021043  -3.7646332 -4.0296874
+ -3.339131  -3.7375739 -3.7037601 -4.140441  -3.6104345 -3.5207095
+ -3.641161 ]
+[2026-04-16 15:02:25,199][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha: [0.5        0.25761676 0.16829781 0.11448246 0.08872279 0.06287713
+ 0.06105029 0.05614823 0.04076139 0.03256774 0.02980747 0.03437893
+ 0.04185588 0.06010253 0.01992235 0.01761828 0.02265115 0.01746929
+ 0.03425289 0.02325799 0.02403865 0.01566649 0.02632818 0.02872869
+ 0.02555186]
+[2026-04-16 15:02:25,200][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-04-16 15:02:25,201][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-04-16 15:02:25,461][two_tower_confounding.experiments.ips_pipeline][INFO] - Doc weights computed in 0.26 seconds
+[2026-04-16 15:02:25,466][two_tower_confounding.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-04-16 15:02:25,468][two_tower_confounding.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-04-16 15:02:25,468][two_tower_confounding.experiments.model_pipeline][INFO] - Training model...

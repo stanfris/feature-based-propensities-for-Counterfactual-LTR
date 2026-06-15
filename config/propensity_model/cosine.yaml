@@ -1,0 +1,5 @@
+type: cosine
+
+cosine:
+  cosine_threshold: 0.993
+  knn_k: 50

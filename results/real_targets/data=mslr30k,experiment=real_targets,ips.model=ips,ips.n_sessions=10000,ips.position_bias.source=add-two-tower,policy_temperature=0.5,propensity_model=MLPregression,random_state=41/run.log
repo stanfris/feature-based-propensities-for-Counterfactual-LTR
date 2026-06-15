@@ -1,0 +1,63 @@
+[2026-04-16 15:13:54,755][two_tower_confounding.experiments.ips_pipeline][WARNING] - wandb.init failed (Error uploading run: returned error 403: {"data":{"upsertBucket":null},"errors":[{"message":"permission denied","path":["upsertBucket"],"extensions":{"code":"PERMISSION_ERROR"}}]}). Continuing with local logging only.
+[2026-04-16 15:13:54,755][two_tower_confounding.experiments.ips_pipeline][WARNING] - Disabling wandb for trainer components because initialization failed.
+[2026-04-16 15:13:54,755][two_tower_confounding.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-04-16 15:13:54,759][two_tower_confounding.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-04-16 15:14:21,093][absl][INFO] - orbax-checkpoint version: 0.8.0
+[2026-04-16 15:14:21,094][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-04-16 15:14:21,094][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x6ac007370> timeout: 600 secs and primary_host=0 for async checkpoint writes
+[2026-04-16 15:14:21,094][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-04-16 15:14:21,108][absl][INFO] - [process=0] /jax/checkpoint/read/bytes_per_sec: 1.5 MiB/s (total bytes: 21.4 KiB) (time elapsed: 13 milliseconds) (per-host)
+[2026-04-16 15:14:21,109][absl][INFO] - Finished restoring checkpoint from /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-04-16 15:14:21,109][absl][INFO] - [process=0][thread=MainThread] Skipping global process sync, barrier name: 0_Checkpointer:restore.logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-04-16 15:14:24,179][two_tower_confounding.experiments.data_pipeline][INFO] - Loaded click datasets in 29.42 seconds (train=7500, val=2500, test=0)
+[2026-04-16 15:14:24,180][two_tower_confounding.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-04-16 15:14:24,180][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-04-16 15:14:24,180][two_tower_confounding.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-04-16 15:14:24,219][two_tower_confounding.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-04-16 15:14:24,219][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-04-16 15:14:29,855][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-04-16 15:14:31,962][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-04-16 15:14:32,663][two_tower_confounding.data.runtime.aggregation][INFO] - Aggregation done in 8.44 seconds
+[2026-04-16 15:14:32,664][two_tower_confounding.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=7500,val=2500), actual(train=7500,val=2500,test=0)
+[2026-04-16 15:14:32,664][two_tower_confounding.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-04-16 15:14:32,664][two_tower_confounding.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-04-16 15:14:32,719][two_tower_confounding.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-04-16 15:14:32,760][two_tower_confounding.experiments.diagnostics][INFO] - [Train] clicks=802, displays=182096, ctr=0.0044, ctr_per_doc=0.0044
+[2026-04-16 15:14:32,796][two_tower_confounding.experiments.diagnostics][INFO] - [Validation] clicks=272, displays=60831, ctr=0.0045, ctr_per_doc=0.0045
+[2026-04-16 15:14:32,830][two_tower_confounding.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-04-16 15:14:32,830][two_tower_confounding.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-04-16 15:14:32,830][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-04-16 15:14:32,830][two_tower_confounding.experiments.ips_pipeline][INFO] - Training add-two-tower two-tower model to supply global alpha logits.
+[2026-04-16 15:14:55,018][two_tower_confounding.experiments.model_pipeline][INFO] - Learned two-tower relative position bias: [ 0.         -0.83244735 -1.23335463 -1.84976478 -1.70646164 -0.06346107
+ -1.2086817  -0.93503225 -2.76483834 -0.74649483 -0.95351261 -2.00172305
+ -1.71719762 -2.7778784  -2.57202709 -2.83618128 -2.83449697 -1.84596628
+  0.20514607 -1.6346786  -1.96542031 -0.50003767 -1.37600729 -1.92574501
+ -2.16906258]
+[2026-04-16 15:14:55,019][two_tower_confounding.experiments.model_pipeline][INFO] - Saved two-tower position bias CSV to /Users/stanf/Documents/Uni/MSc Thesis/doubly-robust-optim-with-Two-tower-Models/results/real_targets/data=mslr30k,experiment=real_targets,ips.model=ips,ips.n_sessions=10000,ips.position_bias.source=add-two-tower,policy_temperature=0.5,propensity_model=MLPregression,random_state=41/additive_position_bias.csv
+[2026-04-16 15:14:55,019][two_tower_confounding.experiments.ips_pipeline][INFO] - Using learned add-two-tower position bias as global alpha logits: [ 0.         -0.83244735 -1.2333546  -1.8497648  -1.7064617  -0.06346107
+ -1.2086817  -0.93503225 -2.7648382  -0.7464948  -0.9535126  -2.001723
+ -1.7171977  -2.7778783  -2.5720272  -2.8361812  -2.834497   -1.8459663
+  0.20514607 -1.6346786  -1.9654202  -0.50003767 -1.3760073  -1.925745
+ -2.1690626 ]
+[2026-04-16 15:14:55,044][two_tower_confounding.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=propensity_mlp_regression)...
+[2026-04-16 15:15:32,177][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity computed in 37.13 seconds
+[2026-04-16 15:15:32,177][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.     -0.8324 -1.2334 -1.8498 -1.7065 -0.0635 -1.2087 -0.935  -2.7648
+ -0.7465 -0.9535 -2.0017 -1.7172 -2.7779 -2.572  -2.8362 -2.8345 -1.846
+  0.2051 -1.6347 -1.9654 -0.5    -1.376  -1.9257 -2.1691]
+[2026-04-16 15:15:32,177][two_tower_confounding.experiments.propensity_pipeline][INFO] - Alpha: [0.5    0.3031 0.2256 0.1359 0.1536 0.4841 0.2299 0.2819 0.0593 0.3216
+ 0.2782 0.119  0.1522 0.0585 0.071  0.0554 0.0555 0.1363 0.5511 0.1632
+ 0.1229 0.3775 0.2017 0.1272 0.1026]
+[2026-04-16 15:15:32,178][two_tower_confounding.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-04-16 15:15:32,178][two_tower_confounding.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-04-16 15:15:32,402][two_tower_confounding.experiments.ips_pipeline][INFO] - Doc weights computed in 0.22 seconds
+[2026-04-16 15:15:32,406][two_tower_confounding.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-04-16 15:15:32,408][two_tower_confounding.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-04-16 15:15:32,408][two_tower_confounding.experiments.model_pipeline][INFO] - Training model...
+[2026-04-16 15:16:52,017][two_tower_confounding.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 1.076707124710083,
+             'DCG': 1.7169835567474365,
+             'NCTR': 0.40733954310417175,
+             'NDCG': 0.4436867833137512,
+             'NDCG@25': 0.4436867833137512,
+             'NRCTR': 0.40733954310417175,
+             'RCTR': 1.076707124710083}}

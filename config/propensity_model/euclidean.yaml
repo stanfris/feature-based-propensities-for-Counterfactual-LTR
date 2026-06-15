@@ -1,0 +1,5 @@
+type: euclidean
+
+euclidean:
+  euclidean_threshold: 1.0
+  knn_k: 50

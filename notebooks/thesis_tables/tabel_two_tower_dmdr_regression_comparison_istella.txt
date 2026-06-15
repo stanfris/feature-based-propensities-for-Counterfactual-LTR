@@ -1,0 +1,22 @@
+\begin{table}[h!]
+  \caption{Comparison of the default regression estimator and the available two-tower regression estimators for DM and DR on \DatasetIstella. Cells show mean (SD) NDCG. Bold marks the best non-oracle model within each comparison block. Significance markers compare each other model with this best model using a paired two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \setlength{\tabcolsep}{5pt}
+  \resizebox{0.95\textwidth}{!}{
+  \begin{tabular}{llccc}
+    \toprule
+    & & \textbf{Regular} & \textbf{Add. Two-Tower} & \textbf{Mul. Two-Tower} \\
+    \textbf{Sessions} & \textbf{Objective} & NDCG & NDCG & NDCG \\
+    \midrule
+    \multirow{2}{*}{10K}
+& DM & 0.719 (0.013) & 0.630 (0.021)$^{\blacktriangledown}$ & 0.643 (0.015)$^{\triangledown}$ \\
+    & DR & 0.728 (0.007) & 0.710 (0.008) & 0.714 (0.005) \\
+    \midrule
+    \multirow{2}{*}{100K}
+& DM & 0.754 (0.005) & 0.677 (0.017)$^{\triangledown}$ & 0.673 (0.014)$^{\blacktriangledown}$ \\
+    & DR & 0.755 (0.016) & 0.744 (0.004) & 0.744 (0.004) \\
+    \bottomrule
+  \end{tabular}
+  }
+  \label{tab:two_tower_dmdr_regression_comparison_istella}
+\end{table}

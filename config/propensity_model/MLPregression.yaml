@@ -1,0 +1,11 @@
+type: propensity_mlp_regression
+
+regression:
+  layers: 2
+  hidden_units: 128
+  dropout: 0.0
+
+training:
+  learning_rate: 5.0e-3
+  min_delta: 1.0e-5
+  batch_size: 512

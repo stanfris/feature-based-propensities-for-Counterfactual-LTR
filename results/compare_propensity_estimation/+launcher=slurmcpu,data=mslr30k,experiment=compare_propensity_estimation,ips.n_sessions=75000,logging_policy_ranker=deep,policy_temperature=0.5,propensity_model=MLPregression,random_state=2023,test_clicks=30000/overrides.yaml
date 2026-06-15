@@ -1,0 +1,14 @@
+- experiment=compare_propensity_estimation
+- data=mslr30k
+- logging_policy_ranker=deep
+- relevance_tower=deep
+- policy_temperature=0.5
+- data.preprocessor.max_documents_per_query=25
+- random_state=2023
+- ips.n_sessions=75000
+- test_clicks=30000
+- propensity_model=MLPregression
+- propensity_model.regression.layers=5
+- propensity_model.regression.hidden_units=256
+- propensity_model.regression.dropout=0.0
+- +launcher=slurmcpu

@@ -1,0 +1,19 @@
+dataset:
+  _target_: feature_based_propensities_for_ULTR.data.datasets.mslr.MSLR10K
+  base_dir: "${dataset_dir}"
+
+preprocessor:
+  _target_: feature_based_propensities_for_ULTR.data.preprocessing.Preprocessor
+  normalize_features: True
+  generate_query_document_ids: True
+  store_separate_lp_query_doc_features: False
+  documents_per_chunk: 25
+  top_x: 25
+  max_documents_per_query: 200
+  disjoint_query_chunk_mode: False
+  drop0rel: ${drop0rel}
+  random_state: ${random_state}
+  relevance: ${relevance}
+  features: ${features}
+  relevance_noise: ${relevance_noise}
+  relevance_quantization: ${relevance_quantization}

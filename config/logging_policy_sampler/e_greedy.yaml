@@ -1,0 +1,3 @@
+_target_: feature_based_propensities_for_ULTR.simulation.simulator.EGreedySampler
+policy_temperature: ${policy_temperature}
+random_state: ${random_state}

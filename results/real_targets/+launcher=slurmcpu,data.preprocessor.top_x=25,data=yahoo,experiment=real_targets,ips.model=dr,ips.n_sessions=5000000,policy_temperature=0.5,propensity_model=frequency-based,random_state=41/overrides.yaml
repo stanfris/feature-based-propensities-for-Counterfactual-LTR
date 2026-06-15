@@ -1,0 +1,9 @@
+- experiment=real_targets
+- data=yahoo
+- random_state=41
+- policy_temperature=0.5
+- ips.model=dr
+- propensity_model=frequency-based
+- ips.n_sessions=5000000
+- data.preprocessor.top_x=25
+- +launcher=slurmcpu
