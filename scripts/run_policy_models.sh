@@ -3,7 +3,7 @@
 python run.py -m \
   experiment=real_targets \
   data=yahoo,mslr30k,istella \
-  random_state=46,47,48,49 \
+  random_state=50,51,52,53,54,55,56,57,58,59 \
   policy_temperature=0.5 \
   ips.model=ips,dm,dr \
   propensity_model=MLPregression,frequency-based,true_propensity  \

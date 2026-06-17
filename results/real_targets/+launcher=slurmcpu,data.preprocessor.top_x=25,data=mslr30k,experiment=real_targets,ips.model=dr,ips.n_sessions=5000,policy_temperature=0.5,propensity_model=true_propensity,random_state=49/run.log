@@ -55,3 +55,20 @@
  0.05       0.04761905 0.04545454 0.04347826 0.04166667 0.04
  0.03846154]
 [2026-06-17 17:03:18,298][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Training regression model for DM/DR...
+[2026-06-17 17:03:22,641][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 3: train_loss=0.140269 val_loss=0.149648
+[2026-06-17 17:03:25,955][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 6: train_loss=0.135928 val_loss=0.150800
+[2026-06-17 17:03:32,008][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing DR doc weights...
+[2026-06-17 17:03:32,036][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.03 seconds
+[2026-06-17 17:03:32,047][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-06-17 17:03:32,048][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-17 17:03:32,048][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-17 17:32:02,735][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.6254131197929382,
+             'DCG': 1.6872482299804688,
+             'NCTR': 0.4134596586227417,
+             'NDCG': 0.43883007764816284,
+             'NDCG@25': 0.43883007764816284,
+             'NRCTR': 0.4134596586227417,
+             'RCTR': 0.6254131197929382}}
+[2026-06-17 17:32:02,762][submitit][INFO] - Job completed successfully
+[2026-06-17 17:32:02,771][submitit][INFO] - Exiting after successful completion
