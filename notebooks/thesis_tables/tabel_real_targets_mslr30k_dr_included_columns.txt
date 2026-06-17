@@ -1,0 +1,17 @@
+\begin{table}[h!]
+  \caption{DR results for feature-based propensity estimation on MSLR-WEB30K across sample counts. Columns report sample counts. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each sample-count block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{0.8\textwidth}{!}{
+    \begin{tabular}{lcccc}
+      \toprule
+      \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
+      \midrule
+      Oracle Propensity & 0.414 (0.019)$^{\triangle}$ & 0.450 (0.021)$^{\triangle}$ & 0.465 (0.019) & 0.486 (0.009) \\
+      \cmidrule(lr){1-5}
+      Frequency-Based & 0.389 (0.032) & 0.437 (0.022) & 0.463 (0.007) & 0.493 (0.004) \\
+      MLP & \textbf{0.448 (0.021)}$^{\triangle}$ & \textbf{0.473 (0.011)}$^{\blacktriangle}$ & \textbf{0.500 (0.009)}$^{\blacktriangle}$ & \textbf{0.512 (0.003)}$^{\blacktriangle}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:dr_means_real_targets_mslr30k_included_columns}
+\end{table}

@@ -114,15 +114,16 @@ hydra:
     task:
     - experiment=real_targets
     - data=mslr30k
-    - random_state=42
+    - random_state=43
     - policy_temperature=0.5
     - propensity_model=frequency-based
     - ips.model=ips
     - ips.n_sessions=10000
+    - +launcher=local
   job:
     name: run
     chdir: true
-    override_dirname: data=mslr30k,experiment=real_targets,ips.model=ips,ips.n_sessions=10000,policy_temperature=0.5,propensity_model=frequency-based,random_state=42
+    override_dirname: +launcher=local,data=mslr30k,experiment=real_targets,ips.model=ips,ips.n_sessions=10000,policy_temperature=0.5,propensity_model=frequency-based,random_state=43
     id: ???
     num: ???
     config_name: config
@@ -203,6 +204,7 @@ hydra:
       provider: schema
     output_dir: ???
     choices:
+      launcher: local
       ips: default
       propensity_model: frequency-based
       logging_policy_sampler: e_greedy
@@ -218,9 +220,9 @@ hydra:
       hydra/launcher: basic
       hydra/output: default
   verbose: false
-dataset_dir: ${oc.env:LTR_DATASET_DIR,../ltr_datasets}
+dataset_dir: ~/Documents/Uni/MSc Thesis/ltr_datasets
 experiment: real_targets
-random_state: 42
+random_state: 43
 device: cpu
 use_cross_validation: false
 features: all

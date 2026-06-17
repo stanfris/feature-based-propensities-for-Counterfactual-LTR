@@ -1,0 +1,30 @@
+\begin{table}[h!]
+  \caption{DR results for feature-based propensity estimation across policy temperatures. Columns report policy temperatures. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each dataset-temperature block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{llccccc}
+      \toprule
+      \textbf{Dataset} & \textbf{Model} & \textbf{0} & \textbf{0.25} & \textbf{0.5} & \textbf{0.75} & \textbf{1.0} \\
+      \midrule
+      \multirow{3}{*}{\textbf{MSLR-WEB30K}}
+      & Oracle Propensity & 0.430 (0.006) & 0.452 (0.012)$^{\blacktriangle}$ & 0.450 (0.021)$^{\triangle}$ & 0.448 (0.012) & 0.431 (0.017) \\
+      \cmidrule(lr){2-7}
+      & Frequency-Based & 0.431 (0.007) & 0.445 (0.011) & 0.437 (0.022) & 0.445 (0.010) & \textbf{0.425 (0.014)} \\
+      & MLP & \textbf{0.485 (0.011)}$^{\triangle}$ & \textbf{0.482 (0.010)}$^{\blacktriangle}$ & \textbf{0.473 (0.011)}$^{\blacktriangle}$ & \textbf{0.464 (0.022)}$^{\triangle}$ & 0.408 (0.019)$^{\triangledown}$ \\
+      \midrule
+      \multirow{3}{*}{\textbf{Istella-S}}
+      & Oracle Propensity & 0.729 (0.009) & 0.733 (0.011) & 0.735 (0.011) & 0.728 (0.008)$^{\blacktriangle}$ & 0.693 (0.033) \\
+      \cmidrule(lr){2-7}
+      & Frequency-Based & 0.729 (0.013) & 0.729 (0.007) & 0.732 (0.009) & 0.707 (0.015) & \textbf{0.688 (0.016)} \\
+      & MLP & \textbf{0.742 (0.006)} & \textbf{0.739 (0.008)}$^{\blacktriangle}$ & \textbf{0.735 (0.007)} & \textbf{0.737 (0.007)}$^{\blacktriangle}$ & 0.680 (0.012) \\
+      \midrule
+      \multirow{3}{*}{\textbf{Yahoo!}}
+      & Oracle Propensity & 0.773 (0.005) & 0.775 (0.002)$^{\blacktriangle}$ & 0.777 (0.003)$^{\blacktriangle}$ & 0.771 (0.002)$^{\blacktriangle}$ & 0.767 (0.005) \\
+      \cmidrule(lr){2-7}
+      & Frequency-Based & 0.773 (0.005) & 0.769 (0.003) & 0.769 (0.005) & 0.763 (0.003) & \textbf{0.763 (0.003)} \\
+      & MLP & \textbf{0.783 (0.005)}$^{\blacktriangle}$ & \textbf{0.780 (0.003)}$^{\blacktriangle}$ & \textbf{0.777 (0.004)}$^{\triangle}$ & \textbf{0.775 (0.004)}$^{\blacktriangle}$ & 0.762 (0.007) \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:dr_temperature_means_real_targets_temperature_excluded_columns}
+\end{table}

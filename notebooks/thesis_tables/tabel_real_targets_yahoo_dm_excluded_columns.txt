@@ -1,0 +1,17 @@
+\begin{table}[h!]
+  \caption{DM results for feature-based propensity estimation on Yahoo! across sample counts. Columns report sample counts. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each sample-count block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{0.8\textwidth}{!}{
+    \begin{tabular}{lcccc}
+      \toprule
+      \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
+      \midrule
+      Oracle Propensity & 0.762 (0.007)$^{\blacktriangle}$ & 0.779 (0.005)$^{\blacktriangle}$ & 0.782 (0.003)$^{\triangle}$ & 0.782 (0.003) \\
+      \cmidrule(lr){1-5}
+      Frequency-Based & 0.756 (0.008) & 0.768 (0.008) & 0.778 (0.003) & 0.779 (0.004) \\
+      MLP & \textbf{0.767 (0.006)}$^{\triangle}$ & \textbf{0.782 (0.004)}$^{\blacktriangle}$ & \textbf{0.784 (0.004)}$^{\triangle}$ & \textbf{0.788 (0.002)}$^{\blacktriangle}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:dm_means_real_targets_yahoo_excluded_columns}
+\end{table}

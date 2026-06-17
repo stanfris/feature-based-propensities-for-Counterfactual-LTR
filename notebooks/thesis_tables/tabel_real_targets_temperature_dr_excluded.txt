@@ -1,5 +1,5 @@
 \begin{table}[h!]
-  \caption{DR results for feature-based propensity estimation under the \texttt{real\_targets\_temperature} experiment across policy temperatures. Columns are grouped by \textbf{temperature}, with NDCG and RCTR reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-temperature-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \caption{DR results for feature-based propensity estimation on \texttt{real\_targets} across policy temperatures. Columns are grouped by \textbf{temperature}, with two \textbf{metrics} (NDCG, RCTR) reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-temperature-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
   \centering
   \setlength{\tabcolsep}{4pt}
   \resizebox{\textwidth}{!}{
@@ -9,19 +9,19 @@
       \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}\cmidrule(lr){11-12}
       \textbf{Dataset} & \textbf{Model} & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR \\
       \midrule
-      \multirow{3}{*}{\textbf{\DatasetMSLR}}
+      \multirow{3}{*}{\textbf{MSLR-WEB30K}}
       & Oracle Propensity & 0.430 (0.006) & 0.613 (0.005) & 0.452 (0.012)$^{\blacktriangle}$ & 0.654 (0.015)$^{\blacktriangle}$ & 0.450 (0.021)$^{\triangle}$ & 0.650 (0.029)$^{\triangle}$ & 0.448 (0.012) & 0.644 (0.023) & 0.431 (0.017) & 0.609 (0.028) \\
       \cmidrule(lr){2-12}
       & Frequency-Based & 0.431 (0.007) & 0.615 (0.006) & 0.445 (0.011) & 0.640 (0.015) & 0.437 (0.022) & 0.627 (0.031) & 0.445 (0.010) & 0.637 (0.016) & \textbf{0.425 (0.014)} & \textbf{0.600 (0.025)} \\
       & MLP & \textbf{0.485 (0.011)}$^{\triangle}$ & \textbf{0.701 (0.016)}$^{\triangle}$ & \textbf{0.482 (0.010)}$^{\blacktriangle}$ & \textbf{0.699 (0.014)}$^{\blacktriangle}$ & \textbf{0.473 (0.011)}$^{\blacktriangle}$ & \textbf{0.685 (0.015)}$^{\blacktriangle}$ & \textbf{0.464 (0.022)}$^{\triangle}$ & \textbf{0.667 (0.045)}$^{\blacktriangle}$ & 0.408 (0.019)$^{\triangledown}$ & 0.575 (0.030)$^{\triangledown}$ \\
       \midrule
-      \multirow{3}{*}{\textbf{\DatasetIstella}}
+      \multirow{3}{*}{\textbf{Istella-S}}
       & Oracle Propensity & 0.729 (0.009) & 1.051 (0.015) & 0.733 (0.011) & 1.058 (0.018) & 0.735 (0.011) & 1.061 (0.018) & 0.728 (0.008)$^{\blacktriangle}$ & 1.049 (0.013)$^{\triangle}$ & 0.693 (0.033) & 0.989 (0.051) \\
       \cmidrule(lr){2-12}
       & Frequency-Based & 0.729 (0.013) & 1.051 (0.020) & 0.729 (0.007) & 1.050 (0.011) & 0.732 (0.009) & 1.057 (0.016) & 0.707 (0.015) & 1.013 (0.027) & \textbf{0.688 (0.016)} & \textbf{0.976 (0.024)} \\
       & MLP & \textbf{0.742 (0.006)} & \textbf{1.072 (0.011)} & \textbf{0.739 (0.008)}$^{\blacktriangle}$ & \textbf{1.067 (0.013)}$^{\blacktriangle}$ & \textbf{0.735 (0.007)} & \textbf{1.062 (0.010)} & \textbf{0.737 (0.007)}$^{\blacktriangle}$ & \textbf{1.065 (0.013)}$^{\triangle}$ & 0.680 (0.012) & 0.966 (0.019) \\
       \midrule
-      \multirow{3}{*}{\textbf{\DatasetYahoo}}
+      \multirow{3}{*}{\textbf{Yahoo!}}
       & Oracle Propensity & 0.773 (0.005) & 0.851 (0.008) & 0.775 (0.002)$^{\blacktriangle}$ & 0.854 (0.003)$^{\blacktriangle}$ & 0.777 (0.003)$^{\blacktriangle}$ & 0.859 (0.005)$^{\blacktriangle}$ & 0.771 (0.002)$^{\blacktriangle}$ & 0.848 (0.005)$^{\blacktriangle}$ & 0.767 (0.005) & 0.840 (0.009)$^{\triangle}$ \\
       \cmidrule(lr){2-12}
       & Frequency-Based & 0.773 (0.005) & 0.851 (0.009) & 0.769 (0.003) & 0.844 (0.006) & 0.769 (0.005) & 0.845 (0.009) & 0.763 (0.003) & 0.833 (0.005) & \textbf{0.763 (0.003)} & 0.832 (0.006) \\

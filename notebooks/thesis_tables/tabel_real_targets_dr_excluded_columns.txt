@@ -1,0 +1,30 @@
+\begin{table}[h!]
+  \caption{DR results for feature-based propensity estimation across sample counts. Columns report sample counts. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each dataset-sample block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{llcccc}
+      \toprule
+      \textbf{Dataset} & \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
+      \midrule
+      \multirow{3}{*}{\textbf{MSLR-WEB30K}}
+      & Oracle Propensity & 0.414 (0.019)$^{\triangle}$ & 0.450 (0.021)$^{\triangle}$ & 0.465 (0.019) & 0.486 (0.009) \\
+      \cmidrule(lr){2-6}
+      & Frequency-Based & 0.389 (0.032) & 0.437 (0.022) & 0.463 (0.007) & 0.493 (0.004) \\
+      & MLP & \textbf{0.448 (0.021)}$^{\triangle}$ & \textbf{0.473 (0.011)}$^{\blacktriangle}$ & \textbf{0.500 (0.009)}$^{\blacktriangle}$ & \textbf{0.512 (0.003)}$^{\blacktriangle}$ \\
+      \midrule
+      \multirow{3}{*}{\textbf{Istella-S}}
+      & Oracle Propensity & 0.670 (0.021)$^{\blacktriangle}$ & 0.735 (0.011) & 0.760 (0.008) & 0.781 (0.003)$^{\blacktriangledown}$ \\
+      \cmidrule(lr){2-6}
+      & Frequency-Based & 0.645 (0.023) & 0.732 (0.009) & 0.761 (0.013) & \textbf{0.790 (0.005)} \\
+      & MLP & \textbf{0.694 (0.010)}$^{\blacktriangle}$ & \textbf{0.735 (0.007)} & \textbf{0.762 (0.008)} & 0.787 (0.004) \\
+      \midrule
+      \multirow{3}{*}{\textbf{Yahoo!}}
+      & Oracle Propensity & 0.762 (0.007)$^{\blacktriangle}$ & 0.777 (0.004)$^{\blacktriangle}$ & 0.776 (0.005) & 0.779 (0.002)$^{\blacktriangledown}$ \\
+      \cmidrule(lr){2-6}
+      & Frequency-Based & 0.756 (0.008) & 0.768 (0.004) & 0.781 (0.003) & 0.785 (0.002) \\
+      & MLP & \textbf{0.767 (0.007)}$^{\blacktriangle}$ & \textbf{0.777 (0.004)}$^{\triangle}$ & \textbf{0.781 (0.002)} & \textbf{0.787 (0.002)}$^{\triangle}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:dr_means_real_targets_excluded_columns}
+\end{table}

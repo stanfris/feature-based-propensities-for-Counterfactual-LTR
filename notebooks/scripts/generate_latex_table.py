@@ -55,7 +55,7 @@ def parse_args():
     parser.add_argument("--experiment", default="mul-two-tower", help="Experiment folder under results/.")
     parser.add_argument(
         "--n-list",
-        default="1000,2500,5000,10000",
+        default="1000,10000,100000,1000000",
         help="Comma-separated session counts to include.",
     )
     parser.add_argument(
@@ -290,7 +290,6 @@ def render_combined_table(ips_model, include_distance, dataset_tables, datasets,
     else:
         prop_order = ["true_propensity", "frequency-based", "MLPregression"]
         toggle_str = "excluded"
-
     col_spec = "ll" + "cc" * len(n_list)
     cmidrules = "".join(
         f"\\cmidrule(lr){{{3 + 2 * idx}-{4 + 2 * idx}}}" for idx in range(len(n_list))
@@ -342,6 +341,135 @@ def render_combined_table(ips_model, include_distance, dataset_tables, datasets,
     lines.append(f"  \\label{{tab:{ips_model}_means_{output_prefix}_{toggle_str}}}")
     lines.append("\\end{table}")
     return "\n".join(lines), toggle_str
+
+
+def render_column_table(
+    ips_model,
+    include_distance,
+    dataset_key,
+    dataset_label,
+    dataset_table,
+    n_list,
+    output_prefix,
+):
+    if include_distance:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
+        toggle_str = "included"
+    else:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression"]
+        toggle_str = "excluded"
+    prop_order = [
+        prop
+        for prop in prop_order
+        if any(dataset_table["NDCG"][n_sessions].get(prop) for n_sessions in n_list)
+    ]
+
+    col_spec = "l" + "c" * len(n_list)
+    header = " & ".join(["\\textbf{Model}"] + [format_n_sessions_header(n) for n in n_list])
+
+    lines = []
+    lines.append("\\begin{table}[h!]")
+    lines.append(
+        f"  \\caption{{{ips_model.upper()} results for feature-based propensity estimation on "
+        f"{dataset_label} across sample counts. Columns report sample counts. Cells show mean (SD) "
+        "NDCG. The oracle propensity baseline is included, and bold "
+        "marks the best non-oracle value within each sample-count block. Significance markers compare "
+        "each non-frequency-based method with the frequency-based method using a two-sided Student "
+        "t-test: $p < 0.01$ ($\\,^\\blacktriangle \\text{ and } ^\\blacktriangledown$), "
+        "$p < 0.05$ ($\\,^\\triangle \\text{ and } ^\\triangledown$).}"
+    )
+    lines.append("  \\centering")
+    lines.append("  \\resizebox{0.8\\textwidth}{!}{")
+    lines.append(f"    \\begin{{tabular}}{{{col_spec}}}")
+    lines.append("      \\toprule")
+    lines.append(f"      {header} \\\\")
+    lines.append("      \\midrule")
+
+    for prop in prop_order:
+        row = f"      {PROP_NAMES[prop]}"
+        for n_sessions in n_list:
+            row += f" & {dataset_table['NDCG'][n_sessions].get(prop, '-')}"
+        row += " \\\\"
+        lines.append(row)
+        if prop == "true_propensity":
+            lines.append(f"      \\cmidrule(lr){{1-{1 + len(n_list)}}}")
+
+    lines.append("      \\bottomrule")
+    lines.append("    \\end{tabular}")
+    lines.append("  }")
+    lines.append(f"  \\label{{tab:{ips_model}_means_{output_prefix}_{dataset_key}_{toggle_str}_columns}}")
+    lines.append("\\end{table}")
+    return "\n".join(lines), toggle_str
+
+
+def render_all_datasets_column_table(
+    ips_model,
+    include_distance,
+    dataset_tables,
+    datasets,
+    n_list,
+    output_prefix,
+):
+    if include_distance:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
+        toggle_str = "included"
+    else:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression"]
+        toggle_str = "excluded"
+
+    available_datasets = [(ds_key, ds_label) for ds_key, ds_label in datasets if ds_key in dataset_tables]
+    prop_order = [
+        prop
+        for prop in prop_order
+        if any(
+            dataset_tables[ds_key]["NDCG"][n_sessions].get(prop)
+            for ds_key, _ in available_datasets
+            for n_sessions in n_list
+        )
+    ]
+
+    col_spec = "ll" + "c" * len(n_list)
+    header = " & ".join(["\\textbf{Dataset}", "\\textbf{Model}"] + [format_n_sessions_header(n) for n in n_list])
+
+    lines = []
+    lines.append("\\begin{table}[h!]")
+    lines.append(
+        f"  \\caption{{{ips_model.upper()} results for feature-based propensity estimation across sample counts. "
+        "Columns report sample counts. Cells show mean (SD) NDCG. The oracle propensity baseline is included, "
+        "and bold marks the best non-oracle value within each dataset-sample block. Significance markers compare "
+        "each non-frequency-based method with the frequency-based method using a two-sided Student "
+        "t-test: $p < 0.01$ ($\\,^\\blacktriangle \\text{ and } ^\\blacktriangledown$), "
+        "$p < 0.05$ ($\\,^\\triangle \\text{ and } ^\\triangledown$).}"
+    )
+    lines.append("  \\centering")
+    lines.append("  \\resizebox{\\textwidth}{!}{")
+    lines.append(f"    \\begin{{tabular}}{{{col_spec}}}")
+    lines.append("      \\toprule")
+    lines.append(f"      {header} \\\\")
+    lines.append("      \\midrule")
+
+    last_col = 2 + len(n_list)
+    for ds_idx, (ds_key, ds_label) in enumerate(available_datasets):
+        lines.append(f"      \\multirow{{{len(prop_order)}}}{{*}}{{\\textbf{{{ds_label}}}}}")
+        for prop in prop_order:
+            row = f"      & {PROP_NAMES[prop]}"
+            for n_sessions in n_list:
+                row += f" & {dataset_tables[ds_key]['NDCG'][n_sessions].get(prop, '-')}"
+            row += " \\\\"
+            lines.append(row)
+            if prop == "true_propensity":
+                lines.append(f"      \\cmidrule(lr){{2-{last_col}}}")
+        if ds_idx != len(available_datasets) - 1:
+            lines.append("      \\midrule")
+
+    lines.append("      \\bottomrule")
+    lines.append("    \\end{tabular}")
+    lines.append("  }")
+    lines.append(f"  \\label{{tab:{ips_model}_means_{output_prefix}_{toggle_str}_columns}}")
+    lines.append("\\end{table}")
+    return "\n".join(lines), toggle_str
+
+
 def print_diagnostics(table_name, diagnostics):
     if not diagnostics:
         print(f"{table_name}: all significance comparisons had at least two matched pairs.")
@@ -415,6 +543,51 @@ def main():
             thesis_filename.write_text(table_str)
             print(f"Wrote {filename}")
             print_diagnostics(filename.name, diagnostics)
+
+            column_table_str, _ = render_all_datasets_column_table(
+                ips_model=ips_model,
+                include_distance=include_distance,
+                dataset_tables=dataset_tables,
+                datasets=datasets,
+                n_list=n_list,
+                output_prefix=args.output_prefix,
+            )
+            column_filename = TABLES_DIR / f"tabel_{args.output_prefix}_{ips_model}_{toggle_str}_columns.txt"
+            column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
+            column_table_str = preserve_existing_numeric_cells(
+                column_table_str,
+                column_filename,
+                column_thesis_filename,
+            )
+            column_filename.write_text(column_table_str)
+            column_thesis_filename.write_text(column_table_str)
+            print(f"Wrote {column_filename}")
+
+            for dataset_key, dataset_label in datasets:
+                if dataset_key not in dataset_tables:
+                    continue
+                column_table_str, _ = render_column_table(
+                    ips_model=ips_model,
+                    include_distance=include_distance,
+                    dataset_key=dataset_key,
+                    dataset_label=dataset_label,
+                    dataset_table=dataset_tables[dataset_key],
+                    n_list=n_list,
+                    output_prefix=args.output_prefix,
+                )
+                column_filename = (
+                    TABLES_DIR
+                    / f"tabel_{args.output_prefix}_{dataset_key}_{ips_model}_{toggle_str}_columns.txt"
+                )
+                column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
+                column_table_str = preserve_existing_numeric_cells(
+                    column_table_str,
+                    column_filename,
+                    column_thesis_filename,
+                )
+                column_filename.write_text(column_table_str)
+                column_thesis_filename.write_text(column_table_str)
+                print(f"Wrote {column_filename}")
 
 
 if __name__ == "__main__":

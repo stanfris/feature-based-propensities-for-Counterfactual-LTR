@@ -1,0 +1,17 @@
+\begin{table}[h!]
+  \caption{IPS results for feature-based propensity estimation on Istella-S across sample counts. Columns report sample counts. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each sample-count block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{0.8\textwidth}{!}{
+    \begin{tabular}{lcccc}
+      \toprule
+      \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
+      \midrule
+      Oracle Propensity & 0.358 (0.034)$^{\blacktriangle}$ & 0.681 (0.012)$^{\blacktriangle}$ & 0.754 (0.007) & 0.791 (0.006) \\
+      \cmidrule(lr){1-5}
+      Frequency-Based & 0.317 (0.034) & 0.649 (0.020) & 0.748 (0.017) & \textbf{0.792 (0.003)} \\
+      MLP & \textbf{0.375 (0.038)}$^{\blacktriangle}$ & \textbf{0.688 (0.010)}$^{\blacktriangle}$ & \textbf{0.750 (0.004)} & 0.783 (0.007)$^{\triangledown}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:ips_means_real_targets_istella_excluded_columns}
+\end{table}

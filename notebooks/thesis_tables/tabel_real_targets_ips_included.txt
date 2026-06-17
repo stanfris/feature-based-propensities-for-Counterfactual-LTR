@@ -1,5 +1,5 @@
 \begin{table}[h!]
-  \caption{IPS results for feature-based propensity estimation under the \texttt{real\_targets} experiment across sample counts. Columns are grouped by \textbf{sample count}, with NDCG and RCTR reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-sample-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \caption{IPS results for feature-based propensity estimation across sample counts. Columns are grouped by \textbf{sample count}, with two \textbf{metrics} (NDCG, RCTR) reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-sample-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
   \centering
   \setlength{\tabcolsep}{4pt}
   \resizebox{\textwidth}{!}{
@@ -9,16 +9,16 @@
       \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
       \textbf{Dataset} & \textbf{Model} & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetMSLR}}
-      & Oracle Propensity & 0.337 (0.011) & 0.455 (0.015) & 0.417 (0.026)$^{\triangle}$ & 0.590 (0.049)$^{\triangle}$ & 0.490 (0.009)$^{\triangle}$ & 0.711 (0.013)$^{\triangle}$ & 0.505 (0.003)$^{\blacktriangle}$ & 0.734 (0.004)$^{\blacktriangle}$ \\
+      \multirow{6}{*}{\textbf{MSLR-WEB30K}}
+      & Oracle Propensity & 0.337 (0.011) & 0.455 (0.015) & 0.417 (0.026)$^{\triangle}$ & 0.590 (0.049)$^{\blacktriangle}$ & 0.490 (0.009)$^{\triangle}$ & 0.711 (0.013)$^{\triangle}$ & 0.505 (0.003)$^{\blacktriangle}$ & 0.734 (0.004)$^{\blacktriangle}$ \\
       \cmidrule(lr){2-10}
-      & Frequency-Based & 0.335 (0.009) & 0.453 (0.012) & 0.383 (0.022) & 0.620 (0.266) & 0.478 (0.012) & 0.693 (0.017) & 0.492 (0.001) & 0.714 (0.003) \\
+      & Frequency-Based & 0.335 (0.009) & 0.453 (0.012) & 0.385 (0.022) & 0.616 (0.256) & 0.478 (0.012) & 0.693 (0.017) & 0.492 (0.001) & 0.714 (0.003) \\
       & MLP & \textbf{0.338 (0.012)} & \textbf{0.457 (0.016)} & \textbf{0.440 (0.008)}$^{\blacktriangle}$ & \textbf{0.671 (0.128)}$^{\triangle}$ & \textbf{0.496 (0.007)}$^{\blacktriangle}$ & \textbf{0.719 (0.009)}$^{\blacktriangle}$ & \textbf{0.515 (0.001)}$^{\blacktriangle}$ & \textbf{0.746 (0.002)}$^{\blacktriangle}$ \\
       & Cosine-Sim & - & - & - & - & - & - & - & - \\
       & KNN & - & - & - & - & - & - & - & - \\
       & K-means & - & - & - & - & - & - & - & - \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetIstella}}
+      \multirow{6}{*}{\textbf{Istella-S}}
       & Oracle Propensity & 0.358 (0.034)$^{\blacktriangle}$ & 0.448 (0.047)$^{\blacktriangle}$ & 0.681 (0.012)$^{\blacktriangle}$ & 0.971 (0.020)$^{\blacktriangle}$ & 0.754 (0.007) & 1.094 (0.010) & 0.791 (0.006) & 1.151 (0.010) \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.317 (0.034) & 0.390 (0.045) & 0.649 (0.020) & 0.916 (0.033) & 0.748 (0.017) & 1.083 (0.026) & \textbf{0.792 (0.003)} & \textbf{1.152 (0.006)} \\
@@ -27,7 +27,7 @@
       & KNN & - & - & - & - & - & - & - & - \\
       & K-means & - & - & - & - & - & - & - & - \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetYahoo}}
+      \multirow{6}{*}{\textbf{Yahoo!}}
       & Oracle Propensity & 0.720 (0.001)$^{\blacktriangle}$ & 0.762 (0.002)$^{\blacktriangle}$ & 0.767 (0.004)$^{\blacktriangle}$ & 0.844 (0.006)$^{\blacktriangle}$ & 0.786 (0.004)$^{\blacktriangle}$ & 0.874 (0.005)$^{\blacktriangle}$ & 0.792 (0.003)$^{\blacktriangle}$ & 0.885 (0.005)$^{\blacktriangle}$ \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.718 (0.002) & 0.758 (0.004) & 0.752 (0.010) & 0.818 (0.017) & 0.779 (0.004) & 0.863 (0.006) & 0.785 (0.001) & 0.874 (0.002) \\

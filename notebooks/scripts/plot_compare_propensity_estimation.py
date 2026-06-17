@@ -17,6 +17,7 @@ os.environ.setdefault(
 import matplotlib
 
 matplotlib.use("Agg")
+from matplotlib.lines import Line2D
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FixedLocator, FuncFormatter, MaxNLocator
@@ -36,6 +37,9 @@ PROPENSITY_YTICKS = [0.03, 0.05, 0.1, 0.3, 0.5]
 THESIS_OUTPUT_ALIASES = {
     "propensity_estimation_Cosine_Sim.pdf": "propensity_estimation_Cosine_Sim.pdf",
     "propensity_estimation_Euclidean.pdf": "propensity_estimation_Euclidean_model_comp.pdf",
+    "propensity_estimation_Euclidean_no_3p5_with_MLP.pdf": "propensity_estimation_Euclidean_no_3p5_with_MLP.pdf",
+    "propensity_estimation_Euclidean_no_3p5_with_MLP_lines.pdf": "propensity_estimation_Euclidean_no_3p5_with_MLP_lines.pdf",
+    "propensity_estimation_Euclidean_no_3p5_with_MLP_mean_lines.pdf": "propensity_estimation_Euclidean_no_3p5_with_MLP_mean_lines.pdf",
     "propensity_estimation_FINAL_COMPARISON.pdf": "propensity_estimation_FINAL_COMPARISON.pdf",
     "propensity_estimation_KMeans.pdf": "propensity_estimation_KMeans.pdf",
     "propensity_estimation_KNN.pdf": "propensity_estimation_KNN.pdf",
@@ -465,6 +469,9 @@ def create_summary_table(runs: list[PropensityRun], obs_counts: list[int]) -> pd
                         "mean_abs_deviation_from_true": float(
                             np.mean(np.abs(mean_propensity - effective[valid]))
                         ),
+                        "abs_mean_deviation_from_true": float(
+                            np.abs(np.mean(mean_propensity) - np.mean(effective[valid]))
+                        ),
                     }
                 )
 
@@ -478,6 +485,7 @@ def plot_summary(
     output_path: Path,
     title: str | None = None,
     sort_by_mean_deviation: bool = False,
+    legend_ncol: int = 4,
 ) -> Path:
     summary_df = summary_df.drop_duplicates(subset=["obs_count", "method"])
     labels = summary_df.drop_duplicates("method").set_index("method")["label"].to_dict()
@@ -544,7 +552,86 @@ def plot_summary(
     fig.legend(
         handles=legend_handles,
         loc="lower center",
-        ncol=min(len(methods), 4),
+        ncol=min(len(methods), legend_ncol),
+        frameon=False,
+        bbox_to_anchor=(0.5, -0.04),
+    )
+    fig.tight_layout()
+    fig.subplots_adjust(bottom=0.25)
+    fig.savefig(output_path, bbox_inches="tight", pad_inches=0.1)
+    plt.close(fig)
+    return output_path
+
+
+def plot_summary_lines(
+    summary_df: pd.DataFrame,
+    output_path: Path,
+    title: str | None = None,
+    legend_ncol: int = 4,
+    deviation_column: str = "mean_abs_deviation_from_true",
+    deviation_ylabel: str = "Deviation from Oracle Propensity",
+) -> Path:
+    summary_df = summary_df.drop_duplicates(subset=["obs_count", "method"])
+    labels = summary_df.drop_duplicates("method").set_index("method")["label"].to_dict()
+    sort_keys = summary_df.drop_duplicates("method").set_index("method")["sort_key"].to_dict()
+
+    pivot_dev = summary_df.pivot(
+        index="obs_count",
+        columns="method",
+        values=deviation_column,
+    )
+    pivot_std = summary_df.pivot(index="obs_count", columns="method", values="avg_std")
+    methods = sorted(pivot_dev.columns.tolist(), key=lambda method: sort_keys[method])
+    pivot_dev = pivot_dev[methods]
+    pivot_std = pivot_std[methods]
+    pivot_dev = pivot_dev[pivot_dev.index <= 8]
+    pivot_std = pivot_std[pivot_std.index <= 8]
+    obs_counts = pivot_dev.index.tolist()
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.2), sharex=True)
+    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+
+    for idx, method in enumerate(methods):
+        color = colors[idx % len(colors)]
+        axes[0].plot(
+            obs_counts,
+            pivot_dev[method].values,
+            marker="o",
+            color=color,
+            label=labels[method],
+        )
+        axes[1].plot(
+            obs_counts,
+            pivot_std[method].values,
+            marker="o",
+            color=color,
+            label=labels[method],
+        )
+
+    for ax in axes:
+        ax.set_xlabel("Observation Count")
+        ax.set_xticks([x for x in [1, 3, 6, 8] if x in obs_counts])
+        ax.grid(True, linestyle="--", alpha=0.35)
+
+    axes[0].set_ylabel(deviation_ylabel)
+    axes[0].set_ylim(bottom=0)
+    axes[0].yaxis.set_major_locator(MaxNLocator(nbins=5, min_n_ticks=5))
+
+    axes[1].set_ylabel("Average Standard Deviation")
+    axes[1].set_ylim(bottom=0)
+    axes[1].yaxis.set_major_locator(MaxNLocator(nbins=5, min_n_ticks=5))
+
+    if title:
+        fig.suptitle(title)
+
+    legend_handles = [
+        Line2D([0], [0], color=colors[idx % len(colors)], marker="o", label=labels[method])
+        for idx, method in enumerate(methods)
+    ]
+    fig.legend(
+        handles=legend_handles,
+        loc="lower center",
+        ncol=min(len(methods), legend_ncol),
         frameon=False,
         bbox_to_anchor=(0.5, -0.04),
     )
@@ -593,6 +680,27 @@ def final_comparison_summary(summary_df: pd.DataFrame) -> pd.DataFrame:
     return final_df
 
 
+def euclidean_without_3p5_with_mlp_summary(summary_df: pd.DataFrame) -> pd.DataFrame:
+    selected_methods = {
+        "euclidean_t1p0_k50",
+        "euclidean_t3_k50",
+        "euclidean_t4_k50",
+        "euclidean_t10_k50",
+        "mlp_regression_l4_h128_d0p0",
+    }
+    keep = (
+        summary_df["family"].eq("frequency_based")
+        | summary_df["method"].isin(selected_methods)
+    )
+    sub = summary_df[keep].copy()
+    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "label"] = "Propensity MLP"
+    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "sort_key"] = pd.Series(
+        [(15, 3.5, 50)] * (sub["method"] == "mlp_regression_l4_h128_d0p0").sum(),
+        index=sub.index[sub["method"] == "mlp_regression_l4_h128_d0p0"],
+    )
+    return sub
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Generate thesis plots from compare_propensity_estimation CSV outputs."
@@ -628,6 +736,32 @@ def main() -> None:
             sort_by_mean_deviation=True,
         )
     )
+    output_paths.append(
+        plot_summary(
+            euclidean_without_3p5_with_mlp_summary(summary_df),
+            args.output_dir / "propensity_estimation_Euclidean_no_3p5_with_MLP.pdf",
+            title=None,
+            legend_ncol=3,
+        )
+    )
+    output_paths.append(
+        plot_summary_lines(
+            euclidean_without_3p5_with_mlp_summary(summary_df),
+            args.output_dir / "propensity_estimation_Euclidean_no_3p5_with_MLP_lines.pdf",
+            title=None,
+            legend_ncol=3,
+        )
+    )
+    output_paths.append(
+        plot_summary_lines(
+            euclidean_without_3p5_with_mlp_summary(summary_df),
+            args.output_dir / "propensity_estimation_Euclidean_no_3p5_with_MLP_mean_lines.pdf",
+            title=None,
+            legend_ncol=3,
+            deviation_column="abs_mean_deviation_from_true",
+            deviation_ylabel="Deviation of Mean Propensity",
+        )
+    )
 
     family_filenames = {
         "cosine": "propensity_estimation_Cosine_Sim.pdf",
@@ -637,8 +771,15 @@ def main() -> None:
         "mlp_classifier": "propensity_estimation_MLP_Classifier.pdf",
         "mlp_regression": "propensity_estimation_MLP_Regression.pdf",
     }
+    family_excluded_methods = {
+        "euclidean": {"euclidean_t2_k50", "euclidean_t5_k50"},
+    }
+    family_legend_columns = {
+        "euclidean": 3,
+    }
     for family, filename in family_filenames.items():
         family_methods = set(summary_df.loc[summary_df["family"] == family, "method"])
+        family_methods -= family_excluded_methods.get(family, set())
         if not family_methods:
             continue
         sub = summary_df[
@@ -650,6 +791,7 @@ def main() -> None:
                 sub,
                 args.output_dir / filename,
                 title=None,
+                legend_ncol=family_legend_columns.get(family, 4),
             )
         )
 

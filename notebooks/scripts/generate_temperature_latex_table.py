@@ -250,7 +250,6 @@ def render_combined_table(
     else:
         prop_order = ["true_propensity", "frequency-based", "MLPregression"]
         toggle_str = "excluded"
-
     col_spec = "ll" + "cc" * len(temperatures)
     cmidrules = "".join(
         f"\\cmidrule(lr){{{3 + 2 * idx}-{4 + 2 * idx}}}" for idx in range(len(temperatures))
@@ -302,6 +301,140 @@ def render_combined_table(
     lines.append("      \\bottomrule")
     lines.append("  \\end{tabular}}")
     lines.append(f"  \\label{{tab:{ips_model}_temperature_means_{output_prefix}_{toggle_str}}}")
+    lines.append("\\end{table}")
+    return "\n".join(lines), toggle_str
+
+
+def render_column_table(
+    ips_model,
+    include_distance,
+    dataset_key,
+    dataset_label,
+    dataset_table,
+    temperatures,
+    output_prefix,
+):
+    if include_distance:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
+        toggle_str = "included"
+    else:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression"]
+        toggle_str = "excluded"
+    prop_order = [
+        prop
+        for prop in prop_order
+        if any(dataset_table["NDCG"][temperature].get(prop) for temperature in temperatures)
+    ]
+
+    col_spec = "l" + "c" * len(temperatures)
+    header = " & ".join(
+        ["\\textbf{Model}"] + [f"\\textbf{{{format_temperature_label(temp)}}}" for temp in temperatures]
+    )
+
+    lines = []
+    lines.append("\\begin{table}[h!]")
+    lines.append(
+        f"  \\caption{{{ips_model.upper()} results for feature-based propensity estimation on "
+        f"{dataset_label} across policy temperatures. Columns report policy temperatures. Cells show "
+        "mean (SD) NDCG. The oracle propensity baseline is included, "
+        "and bold marks the best non-oracle value within each temperature block. Significance markers "
+        "compare each non-frequency-based method with the frequency-based method using a two-sided "
+        "Student t-test: $p < 0.01$ ($\\,^\\blacktriangle \\text{ and } ^\\blacktriangledown$), "
+        "$p < 0.05$ ($\\,^\\triangle \\text{ and } ^\\triangledown$).}"
+    )
+    lines.append("  \\centering")
+    lines.append("  \\resizebox{0.8\\textwidth}{!}{")
+    lines.append(f"    \\begin{{tabular}}{{{col_spec}}}")
+    lines.append("      \\toprule")
+    lines.append(f"      {header} \\\\")
+    lines.append("      \\midrule")
+
+    for prop in prop_order:
+        row = f"      {PROP_NAMES[prop]}"
+        for temperature in temperatures:
+            row += f" & {dataset_table['NDCG'][temperature].get(prop, '-')}"
+        row += " \\\\"
+        lines.append(row)
+        if prop == "true_propensity":
+            lines.append(f"      \\cmidrule(lr){{1-{1 + len(temperatures)}}}")
+
+    lines.append("      \\bottomrule")
+    lines.append("    \\end{tabular}")
+    lines.append("  }")
+    lines.append(
+        f"  \\label{{tab:{ips_model}_temperature_means_{output_prefix}_{dataset_key}_{toggle_str}_columns}}"
+    )
+    lines.append("\\end{table}")
+    return "\n".join(lines), toggle_str
+
+
+def render_all_datasets_column_table(
+    ips_model,
+    include_distance,
+    dataset_tables,
+    datasets,
+    temperatures,
+    output_prefix,
+):
+    if include_distance:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
+        toggle_str = "included"
+    else:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression"]
+        toggle_str = "excluded"
+
+    available_datasets = [(ds_key, ds_label) for ds_key, ds_label in datasets if ds_key in dataset_tables]
+    prop_order = [
+        prop
+        for prop in prop_order
+        if any(
+            dataset_tables[ds_key]["NDCG"][temperature].get(prop)
+            for ds_key, _ in available_datasets
+            for temperature in temperatures
+        )
+    ]
+
+    col_spec = "ll" + "c" * len(temperatures)
+    header = " & ".join(
+        ["\\textbf{Dataset}", "\\textbf{Model}"]
+        + [f"\\textbf{{{format_temperature_label(temp)}}}" for temp in temperatures]
+    )
+
+    lines = []
+    lines.append("\\begin{table}[h!]")
+    lines.append(
+        f"  \\caption{{{ips_model.upper()} results for feature-based propensity estimation across policy temperatures. "
+        "Columns report policy temperatures. Cells show mean (SD) NDCG. The oracle propensity baseline is included, "
+        "and bold marks the best non-oracle value within each dataset-temperature block. Significance markers compare "
+        "each non-frequency-based method with the frequency-based method using a two-sided Student "
+        "t-test: $p < 0.01$ ($\\,^\\blacktriangle \\text{ and } ^\\blacktriangledown$), "
+        "$p < 0.05$ ($\\,^\\triangle \\text{ and } ^\\triangledown$).}"
+    )
+    lines.append("  \\centering")
+    lines.append("  \\resizebox{\\textwidth}{!}{")
+    lines.append(f"    \\begin{{tabular}}{{{col_spec}}}")
+    lines.append("      \\toprule")
+    lines.append(f"      {header} \\\\")
+    lines.append("      \\midrule")
+
+    last_col = 2 + len(temperatures)
+    for ds_idx, (ds_key, ds_label) in enumerate(available_datasets):
+        lines.append(f"      \\multirow{{{len(prop_order)}}}{{*}}{{\\textbf{{{ds_label}}}}}")
+        for prop in prop_order:
+            row = f"      & {PROP_NAMES[prop]}"
+            for temperature in temperatures:
+                row += f" & {dataset_tables[ds_key]['NDCG'][temperature].get(prop, '-')}"
+            row += " \\\\"
+            lines.append(row)
+            if prop == "true_propensity":
+                lines.append(f"      \\cmidrule(lr){{2-{last_col}}}")
+        if ds_idx != len(available_datasets) - 1:
+            lines.append("      \\midrule")
+
+    lines.append("      \\bottomrule")
+    lines.append("    \\end{tabular}")
+    lines.append("  }")
+    lines.append(f"  \\label{{tab:{ips_model}_temperature_means_{output_prefix}_{toggle_str}_columns}}")
     lines.append("\\end{table}")
     return "\n".join(lines), toggle_str
 
@@ -382,6 +515,51 @@ def main():
             thesis_filename.write_text(table_str)
             print(f"Wrote {filename}")
             print_diagnostics(filename.name, diagnostics)
+
+            column_table_str, _ = render_all_datasets_column_table(
+                ips_model=ips_model,
+                include_distance=include_distance,
+                dataset_tables=dataset_tables,
+                datasets=datasets,
+                temperatures=temperatures,
+                output_prefix=args.output_prefix,
+            )
+            column_filename = TABLES_DIR / f"tabel_{args.output_prefix}_{ips_model}_{toggle_str}_columns.txt"
+            column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
+            column_table_str = preserve_existing_numeric_cells(
+                column_table_str,
+                column_filename,
+                column_thesis_filename,
+            )
+            column_filename.write_text(column_table_str)
+            column_thesis_filename.write_text(column_table_str)
+            print(f"Wrote {column_filename}")
+
+            for dataset_key, dataset_label in datasets:
+                if dataset_key not in dataset_tables:
+                    continue
+                column_table_str, _ = render_column_table(
+                    ips_model=ips_model,
+                    include_distance=include_distance,
+                    dataset_key=dataset_key,
+                    dataset_label=dataset_label,
+                    dataset_table=dataset_tables[dataset_key],
+                    temperatures=temperatures,
+                    output_prefix=args.output_prefix,
+                )
+                column_filename = (
+                    TABLES_DIR
+                    / f"tabel_{args.output_prefix}_{dataset_key}_{ips_model}_{toggle_str}_columns.txt"
+                )
+                column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
+                column_table_str = preserve_existing_numeric_cells(
+                    column_table_str,
+                    column_filename,
+                    column_thesis_filename,
+                )
+                column_filename.write_text(column_table_str)
+                column_thesis_filename.write_text(column_table_str)
+                print(f"Wrote {column_filename}")
 
 
 if __name__ == "__main__":

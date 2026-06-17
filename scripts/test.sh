@@ -3,8 +3,8 @@
 python run.py -m \
   experiment=real_targets \
   data=mslr30k \
-  random_state=42 \
-  policy_temperature=0.5\
+  random_state=43 \
+  policy_temperature=0.5 \
   propensity_model=frequency-based \
   ips.model=ips \
   ips.n_sessions=10000 \

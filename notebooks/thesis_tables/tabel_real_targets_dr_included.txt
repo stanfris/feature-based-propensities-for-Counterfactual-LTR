@@ -1,5 +1,5 @@
 \begin{table}[h!]
-  \caption{DR results for feature-based propensity estimation under the \texttt{real\_targets} experiment across sample counts. Columns are grouped by \textbf{sample count}, with NDCG and RCTR reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-sample-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \caption{DR results for feature-based propensity estimation across sample counts. Columns are grouped by \textbf{sample count}, with two \textbf{metrics} (NDCG, RCTR) reported for each. The oracle propensity baseline appears first for each dataset, and bold marks the best non-oracle value within each dataset-sample-metric block. Cells show mean (SD). Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
   \centering
   \setlength{\tabcolsep}{4pt}
   \resizebox{\textwidth}{!}{
@@ -9,7 +9,7 @@
       \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
       \textbf{Dataset} & \textbf{Model} & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetMSLR}}
+      \multirow{6}{*}{\textbf{MSLR-WEB30K}}
       & Oracle Propensity & 0.414 (0.019)$^{\triangle}$ & 0.589 (0.031)$^{\triangle}$ & 0.450 (0.021)$^{\triangle}$ & 0.650 (0.029)$^{\triangle}$ & 0.465 (0.019) & 0.669 (0.030) & 0.486 (0.009) & 0.697 (0.015)$^{\triangledown}$ \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.389 (0.032) & 0.539 (0.054) & 0.437 (0.022) & 0.627 (0.031) & 0.463 (0.007) & 0.670 (0.009) & 0.493 (0.004) & 0.715 (0.004) \\
@@ -18,7 +18,7 @@
       & KNN & - & - & - & - & - & - & - & - \\
       & K-means & - & - & - & - & - & - & - & - \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetIstella}}
+      \multirow{6}{*}{\textbf{Istella-S}}
       & Oracle Propensity & 0.670 (0.021)$^{\blacktriangle}$ & 0.949 (0.038)$^{\blacktriangle}$ & 0.735 (0.011) & 1.061 (0.018) & 0.760 (0.008) & 1.099 (0.013) & 0.781 (0.003)$^{\blacktriangledown}$ & 1.131 (0.007)$^{\blacktriangledown}$ \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.645 (0.023) & 0.907 (0.042) & 0.732 (0.009) & 1.057 (0.016) & 0.761 (0.013) & 1.103 (0.020) & \textbf{0.790 (0.005)} & \textbf{1.149 (0.007)} \\
@@ -27,7 +27,7 @@
       & KNN & - & - & - & - & - & - & - & - \\
       & K-means & - & - & - & - & - & - & - & - \\
       \midrule
-      \multirow{6}{*}{\textbf{\DatasetYahoo}}
+      \multirow{6}{*}{\textbf{Yahoo!}}
       & Oracle Propensity & 0.762 (0.007)$^{\blacktriangle}$ & 0.830 (0.012)$^{\blacktriangle}$ & 0.777 (0.004)$^{\blacktriangle}$ & 0.859 (0.005)$^{\blacktriangle}$ & 0.776 (0.005) & 0.857 (0.009) & 0.779 (0.002)$^{\blacktriangledown}$ & 0.860 (0.004)$^{\blacktriangledown}$ \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.756 (0.008) & 0.818 (0.014) & 0.768 (0.004) & 0.843 (0.008) & 0.781 (0.003) & 0.866 (0.005) & 0.785 (0.002) & 0.873 (0.002) \\
