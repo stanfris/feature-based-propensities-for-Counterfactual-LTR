@@ -1,9 +1,0 @@
-# Compatibility fallback only.
-# The canonical workflow for this repository is:
-#   uv python install 3.11
-#   uv sync
-#
-# This file keeps pip-style tooling aligned with pyproject.toml without
-# duplicating dependency constraints in two places.
-
--e .
