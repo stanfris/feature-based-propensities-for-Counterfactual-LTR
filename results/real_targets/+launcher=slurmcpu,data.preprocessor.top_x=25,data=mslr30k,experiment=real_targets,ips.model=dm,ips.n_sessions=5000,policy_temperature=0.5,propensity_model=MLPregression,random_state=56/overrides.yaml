@@ -1,0 +1,9 @@
+- experiment=real_targets
+- data=mslr30k
+- random_state=56
+- policy_temperature=0.5
+- ips.model=dm
+- propensity_model=MLPregression
+- ips.n_sessions=5000
+- data.preprocessor.top_x=25
+- +launcher=slurmcpu

@@ -104,3 +104,13 @@ RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: C
 [2026-06-17 23:06:54,240][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
 [2026-06-17 23:06:54,242][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
 [2026-06-17 23:06:54,242][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 00:12:00,537][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 1.126929759979248,
+             'DCG': 2.6755669116973877,
+             'NCTR': 0.7251508235931396,
+             'NDCG': 0.7811505794525146,
+             'NDCG@25': 0.7811505794525146,
+             'NRCTR': 0.7251508235931396,
+             'RCTR': 1.126929759979248}}
+[2026-06-18 00:12:00,609][submitit][INFO] - Job completed successfully
+[2026-06-18 00:12:00,618][submitit][INFO] - Exiting after successful completion

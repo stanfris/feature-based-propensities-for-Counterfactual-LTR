@@ -32,3 +32,26 @@
 [2026-06-17 23:14:18,649][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=propensity_mlp_regression)...
 [2026-06-17 23:14:19,129][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Subsampling propensity classifier training data: 50000/434737 samples
 [2026-06-17 23:14:19,129][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Subsampling propensity classifier training data: 50000/65263 samples
+[2026-06-17 23:20:10,575][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 351.93 seconds
+[2026-06-17 23:20:10,576][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [-0.     -0.6931 -1.0986 -1.3863 -1.6094 -1.7918 -1.9459 -2.0794 -2.1972
+ -2.3026 -2.3979 -2.4849 -2.5649 -2.6391 -2.7081 -2.7726 -2.8332 -2.8904
+ -2.9444 -2.9957 -3.0445 -3.091  -3.1355 -3.1781 -3.2189]
+[2026-06-17 23:20:10,577][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5    0.3333 0.25   0.2    0.1667 0.1429 0.125  0.1111 0.1    0.0909
+ 0.0833 0.0769 0.0714 0.0667 0.0625 0.0588 0.0556 0.0526 0.05   0.0476
+ 0.0455 0.0435 0.0417 0.04   0.0385]
+[2026-06-17 23:20:10,578][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-06-17 23:20:10,578][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-06-17 23:20:11,027][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.45 seconds
+[2026-06-17 23:20:11,034][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-06-17 23:20:11,036][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-17 23:20:11,036][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-17 23:28:51,038][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.8827815055847168,
+             'DCG': 2.204272985458374,
+             'NCTR': 0.7522554993629456,
+             'NDCG': 0.7918341755867004,
+             'NDCG@25': 0.7918341755867004,
+             'NRCTR': 0.7522554993629456,
+             'RCTR': 0.8827815055847168}}
+[2026-06-17 23:28:51,062][submitit][INFO] - Job completed successfully
+[2026-06-17 23:28:51,072][submitit][INFO] - Exiting after successful completion
