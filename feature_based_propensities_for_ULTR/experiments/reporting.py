@@ -13,6 +13,8 @@ class ExperimentReport:
     position_bias_source: str
     position_bias_csv_path: str | None
     position_bias_csv_method: str | None
+    position_bias_json_path: str | None
+    position_bias_estimator: str | None
     alpha_clip: float | None
     propensity_method: str | None
     propensity_checkpoint_dir: str | None
@@ -28,6 +30,8 @@ def build_report(
     position_bias_source: str,
     position_bias_csv_path: str | None,
     position_bias_csv_method: str | None,
+    position_bias_json_path: str | None,
+    position_bias_estimator: str | None,
     alpha_clip: float | None,
     propensity_method: str | None,
     propensity_checkpoint_dir: str | None,
@@ -45,6 +49,8 @@ def build_report(
         position_bias_source=position_bias_source,
         position_bias_csv_path=position_bias_csv_path,
         position_bias_csv_method=position_bias_csv_method,
+        position_bias_json_path=position_bias_json_path,
+        position_bias_estimator=position_bias_estimator,
         alpha_clip=alpha_clip,
         propensity_method=propensity_method,
         propensity_checkpoint_dir=propensity_checkpoint_dir,
@@ -61,6 +67,8 @@ def report_to_dict(report: ExperimentReport) -> dict[str, Any]:
         "position_bias_source": report.position_bias_source,
         "position_bias_csv_path": report.position_bias_csv_path,
         "position_bias_csv_method": report.position_bias_csv_method,
+        "position_bias_json_path": report.position_bias_json_path,
+        "position_bias_estimator": report.position_bias_estimator,
         "alpha_clip": None if report.alpha_clip is None else float(report.alpha_clip),
         "propensity_method": report.propensity_method,
         "propensity_checkpoint_dir": report.propensity_checkpoint_dir,

@@ -45,7 +45,11 @@ from .model_pipeline import (
     evaluate_model,
     train_policy_model,
 )
-from .position_bias_pipeline import load_position_bias_from_csv
+from .position_bias_pipeline import (
+    estimate_position_bias_values,
+    load_position_bias_from_csv,
+    write_estimated_position_bias_json,
+)
 from .propensity_pipeline import PropensityBundle, compute_propensity_clipping, predict_propensity
 from .regression_pipeline import RegressionBundle, train_regression_bundle
 from .reporting import build_report, write_results
@@ -79,6 +83,8 @@ class IPSContext:
     mean_alpha_logit: float | None = None
     position_bias_csv_path: str | None = None
     position_bias_csv_method: str | None = None
+    position_bias_json_path: str | None = None
+    position_bias_estimator: str | None = None
     propensity_bundle: PropensityBundle | None = None
     dr_frequency_propensity_bundle: PropensityBundle | None = None
     propensity_clipping: float | None = None
@@ -171,6 +177,8 @@ def compute_position_bias(context: IPSContext) -> IPSContext:
         )
         context.position_bias_csv_path = None
         context.position_bias_csv_method = None
+        context.position_bias_json_path = None
+        context.position_bias_estimator = None
     elif position_bias_source == "csv":
         alpha_logits_np, alpha_np, csv_path, csv_method = load_position_bias_from_csv(
             config=context.config,
@@ -182,16 +190,51 @@ def compute_position_bias(context: IPSContext) -> IPSContext:
         alpha = jnp.asarray(alpha_np)
         context.position_bias_csv_path = str(csv_path)
         context.position_bias_csv_method = csv_method
+        context.position_bias_json_path = None
+        context.position_bias_estimator = csv_method
         logger.info(
             "Loaded CSV position bias from %s (method=%s): %s",
             csv_path,
             csv_method,
             np.asarray(alpha_logits),
         )
+    elif position_bias_source == "estimate":
+        data_bundle = _require_data_bundle(context)
+        if data_bundle.clicks is None:
+            raise RuntimeError(
+                "In-run position-bias estimation requires click datasets. "
+                "Ensure click data is generated or loaded before compute_position_bias."
+            )
+        alpha_logits_np, alpha_np, position_bias_df, examination_np, estimator_name = (
+            estimate_position_bias_values(
+                config=context.config,
+                click_bundle=data_bundle.clicks,
+                cutoff=int(aggregated.cutoff),
+                dataset_label=context.dataset_label,
+            )
+        )
+        alpha_logits = jnp.asarray(alpha_logits_np)
+        alpha = jnp.asarray(alpha_np)
+        context.position_bias_csv_path = None
+        context.position_bias_csv_method = None
+        context.position_bias_estimator = estimator_name
+        json_path = write_estimated_position_bias_json(
+            output_path=context.output_path.parent / "position_bias.json",
+            position_bias_df=position_bias_df,
+            alpha_logits=np.asarray(alpha_logits_np),
+            alpha=np.asarray(alpha_np),
+            examination=np.asarray(examination_np),
+        )
+        context.position_bias_json_path = str(json_path)
+        logger.info(
+            "Estimated position bias in-run (estimator=%s): %s",
+            estimator_name,
+            np.asarray(alpha_logits),
+        )
     else:
         raise ValueError(
             f"Unknown position_bias_source '{position_bias_source}'. "
-            "Expected 'oracle' or 'csv'."
+            "Expected 'oracle', 'csv', or 'estimate'."
         )
     if position_bias_source == "oracle":
         alpha = jax.nn.sigmoid(alpha_logits)
@@ -484,6 +527,8 @@ def evaluate_and_report(context: IPSContext) -> dict[str, Any]:
         position_bias_source=context.resolved.position_bias_source,
         position_bias_csv_path=context.position_bias_csv_path,
         position_bias_csv_method=context.position_bias_csv_method,
+        position_bias_json_path=context.position_bias_json_path,
+        position_bias_estimator=context.position_bias_estimator,
         alpha_clip=None if context.propensity_clipping is None else float(context.propensity_clipping),
         propensity_method=context.resolved.propensity_method if needs_propensity else None,
         propensity_checkpoint_dir=None,

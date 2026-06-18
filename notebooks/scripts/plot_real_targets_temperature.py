@@ -30,7 +30,7 @@ THESIS_IMAGES_DIR = REPO_ROOT.parent / "Thesis" / "images"
 
 TEMPERATURES = (0.0, 0.25, 0.5, 0.75, 1.0)
 TEMPERATURE_TICK_LABELS = ("0.0", "0.25", "0.5", "0.75", "1.0")
-RANDOM_STATES = tuple(range(40, 50))
+RANDOM_STATES = tuple(range(40, 60))
 
 
 def copy_to_thesis_images(*filenames: str) -> None:

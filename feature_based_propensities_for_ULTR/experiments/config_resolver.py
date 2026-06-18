@@ -200,9 +200,11 @@ def normalize_position_bias_source(value) -> str:
         return "oracle"
     if norm == "csv":
         return "csv"
+    if norm == "estimate":
+        return "estimate"
     raise ValueError(
         f"Unknown ips.position_bias.source '{value}'. "
-        "Expected 'oracle' or 'csv'."
+        "Expected 'oracle', 'csv', or 'estimate'."
     )
 
 

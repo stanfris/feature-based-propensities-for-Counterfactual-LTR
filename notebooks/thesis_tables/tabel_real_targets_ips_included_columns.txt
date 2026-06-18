@@ -7,22 +7,22 @@
       \textbf{Dataset} & \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
       \midrule
       \multirow{3}{*}{\textbf{MSLR-WEB30K}}
-      & Oracle Propensity & 0.337 (0.011) & 0.417 (0.026)$^{\triangle}$ & 0.490 (0.009)$^{\triangle}$ & 0.505 (0.003)$^{\blacktriangle}$ \\
+      & Oracle Propensity & 0.337 (0.012)$^{\triangle}$ & 0.423 (0.021)$^{\blacktriangle}$ & 0.492 (0.007)$^{\blacktriangle}$ & 0.507 (0.003)$^{\blacktriangle}$ \\
       \cmidrule(lr){2-6}
-      & Frequency-Based & 0.335 (0.009) & 0.385 (0.022) & 0.478 (0.012) & 0.492 (0.001) \\
-      & MLP & \textbf{0.338 (0.012)} & \textbf{0.440 (0.008)}$^{\blacktriangle}$ & \textbf{0.496 (0.007)}$^{\blacktriangle}$ & \textbf{0.515 (0.001)}$^{\blacktriangle}$ \\
+      & Frequency-Based & 0.336 (0.011) & 0.387 (0.021) & 0.480 (0.009) & 0.492 (0.004) \\
+      & MLP & \textbf{0.338 (0.011)}$^{\triangle}$ & \textbf{0.440 (0.010)}$^{\blacktriangle}$ & \textbf{0.497 (0.007)}$^{\blacktriangle}$ & \textbf{0.515 (0.001)}$^{\blacktriangle}$ \\
       \midrule
       \multirow{3}{*}{\textbf{Istella-S}}
-      & Oracle Propensity & 0.358 (0.034)$^{\blacktriangle}$ & 0.681 (0.012)$^{\blacktriangle}$ & 0.754 (0.007) & 0.791 (0.006) \\
+      & Oracle Propensity & 0.361 (0.039)$^{\blacktriangle}$ & 0.678 (0.011)$^{\blacktriangle}$ & 0.755 (0.008) & 0.793 (0.005) \\
       \cmidrule(lr){2-6}
-      & Frequency-Based & 0.317 (0.034) & 0.649 (0.020) & 0.748 (0.017) & \textbf{0.792 (0.003)} \\
-      & MLP & \textbf{0.375 (0.038)}$^{\blacktriangle}$ & \textbf{0.688 (0.010)}$^{\blacktriangle}$ & \textbf{0.750 (0.004)} & 0.783 (0.007)$^{\triangledown}$ \\
+      & Frequency-Based & 0.317 (0.035) & 0.651 (0.017) & 0.753 (0.014) & \textbf{0.792 (0.004)} \\
+      & MLP & \textbf{0.385 (0.049)}$^{\blacktriangle}$ & \textbf{0.688 (0.009)}$^{\blacktriangle}$ & \textbf{0.754 (0.006)} & 0.786 (0.004)$^{\blacktriangledown}$ \\
       \midrule
       \multirow{3}{*}{\textbf{Yahoo!}}
-      & Oracle Propensity & 0.720 (0.001)$^{\blacktriangle}$ & 0.767 (0.004)$^{\blacktriangle}$ & 0.786 (0.004)$^{\blacktriangle}$ & 0.792 (0.003)$^{\blacktriangle}$ \\
+      & Oracle Propensity & 0.720 (0.002)$^{\blacktriangle}$ & 0.765 (0.005)$^{\blacktriangle}$ & 0.787 (0.003)$^{\blacktriangle}$ & 0.792 (0.003)$^{\blacktriangle}$ \\
       \cmidrule(lr){2-6}
-      & Frequency-Based & 0.718 (0.002) & 0.752 (0.010) & 0.779 (0.004) & 0.785 (0.001) \\
-      & MLP & \textbf{0.720 (0.001)}$^{\triangle}$ & \textbf{0.765 (0.005)}$^{\triangle}$ & \textbf{0.787 (0.005)}$^{\blacktriangle}$ & \textbf{0.795 (0.002)}$^{\blacktriangle}$ \\
+      & Frequency-Based & 0.718 (0.002) & 0.750 (0.008) & 0.780 (0.003) & 0.786 (0.002) \\
+      & MLP & \textbf{0.720 (0.003)}$^{\blacktriangle}$ & \textbf{0.767 (0.006)}$^{\blacktriangle}$ & \textbf{0.787 (0.003)}$^{\blacktriangle}$ & \textbf{0.795 (0.002)}$^{\blacktriangle}$ \\
       \bottomrule
     \end{tabular}
   }

@@ -1,0 +1,87 @@
+[2026-06-18 14:34:28,054][feature_based_propensities_for_ULTR.experiments.config_resolver][WARNING] - test_clicks=10 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-06-18 14:34:28,056][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-06-18 14:36:41,845][feature_based_propensities_for_ULTR.experiments.config_resolver][WARNING] - test_clicks=10 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-06-18 14:36:41,847][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-06-18 14:37:16,446][absl][INFO] - orbax-checkpoint version: 0.11.40
+[2026-06-18 14:37:16,447][absl][INFO] - save_device_host_concurrent_bytes=None
+[2026-06-18 14:37:16,447][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x1261e77d0>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-06-18 14:37:16,447][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-06-18 14:37:16,447][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x4392e7ce0> timeout: 1200 secs and primary_host=0 for async checkpoint writes
+[2026-06-18 14:37:16,448][absl][INFO] - [process=0] [async] Started save checkpoint @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 14:37:16,449][absl][INFO] - [process=0] Specified `force`: removing existing directory.
+[2026-06-18 14:37:16,449][absl][INFO] - Using ThreadSafeKeyValueSignalingClient
+[2026-06-18 14:37:16,451][absl][INFO] - Scheduling D2H of 6 prioritized jax.Array.
+[2026-06-18 14:37:16,451][absl][INFO] - Transferring arrays to host memory with options: use_replica_parallel=True, min_slice_bytes_for_replica_parallel=None, max_replicas_for_replica_parallel=None, enable_pinned_host_transfer=False
+[2026-06-18 14:37:16,451][absl][INFO] - [process=0][thread=MainThread] Initiated "orbax.checkpoint._src.serialization.jax_array_handlers.ArrayHandler".serialize. Time taken: 0.000636s
+[2026-06-18 14:37:16,451][absl][INFO] - Creating tmp directory /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp
+[2026-06-18 14:37:16,451][absl][INFO] - MemoryRegulated: Peak usage: 0.000000 GiB
+[2026-06-18 14:37:16,452][absl][INFO] - [process=0] /jax/orbax/write/blocking_gbytes_per_sec: 9.871 MiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.002115011215209961 s) (per-host)
+[2026-06-18 14:37:16,452][absl][INFO] - [process=0][thread=MainThread] Initiated Pytree async_save. Time taken: 0.002158s (batch_requests_ready=0.000554s, total_serialization_initiated=0.001479s, others=0.000125s)
+[2026-06-18 14:37:16,452][absl][INFO] - [process=0] [async] Finished blocking save in 0.00 seconds. Continuing save @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 14:37:16,453][absl][INFO] - [process=0][thread=async_save] Background save thread started. Deadline for this save operation is 2026-06-18 14:57:16.453063
+[2026-06-18 14:37:16,453][absl][INFO] - [process=0][thread=MainThread] Waiting for background save thread=async_save.
+[2026-06-18 14:37:16,453][absl][INFO] - Wrote Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1781786236452474000, 'commit_timestamp_nsecs': None, 'custom_metadata': {}}, json={"item_handlers": null, "metrics": {}, "performance_metrics": {}, "init_timestamp_nsecs": 1781786236452474000, "commit_timestamp_nsecs": null, "custom_metadata": {}} to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-06-18 14:37:16,463][absl][INFO] - [process=0][thread=array_type_handler] Wrote 6 array_metadata.ArrayMetadata to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/array_metadatas/process_0
+[2026-06-18 14:37:16,472][absl][INFO] - [process=0][thread=write_metadata_after_commits] Commit + Array metadata written. Time taken: 0.018708s (commit=0.018082s, array_metadata_write=0.000626s)
+[2026-06-18 14:37:16,472][absl][INFO] - [process=0] /jax/orbax/write/gbytes_per_sec: 944.298 KiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.022639989852905273 s) (per-host)
+[2026-06-18 14:37:16,472][absl][INFO] - [process=0][thread=async_save] 2 Handler Commit operations completed. Time taken: 0.019456s.
+[2026-06-18 14:37:16,472][absl][INFO] - Read Metadata={'item_handlers': None, 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1781786236452474000, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} from /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-06-18 14:37:16,473][absl][INFO] - Updated Metadata={'item_handlers': 'orbax.checkpoint._src.handlers.standard_checkpoint_handler.StandardCheckpointHandler', 'metrics': {}, 'performance_metrics': {}, 'init_timestamp_nsecs': 1781786236452474000, 'commit_timestamp_nsecs': None, 'custom_metadata': {}} to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp/_CHECKPOINT_METADATA
+[2026-06-18 14:37:16,473][absl][INFO] - [process=0][thread=async_save] Skipped cross-host ArrayMetadata validation because only one process is found: process_index=0.
+[2026-06-18 14:37:16,475][absl][INFO] - [process=0][thread=async_save] Pytree save finalize (merge_ocdbt + ArrayMetadata validation) completed. Time taken: 0.002895s. use_zarr3=False, enable_post_merge_validation=True, directory=/Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp
+[2026-06-18 14:37:16,476][absl][INFO] - Renaming /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.orbax-checkpoint-tmp to /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-06-18 14:37:16,476][absl][INFO] - [process=0][thread=async_save] Finished saving checkpoint (finalized tmp dir) to `/Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0`.
+[2026-06-18 14:37:16,476][absl][INFO] - [process=0] [async] Finished save (blocking + background) in 0.03 seconds @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c50_ps1p0_pt0p0_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-06-18 14:37:16,476][absl][INFO] - [process=0][thread=async_save] Background save thread done. Time taken: 0.023596s.
+[2026-06-18 14:37:16,476][absl][INFO] - [process=0][thread=MainThread] Done with waiting for background save thread=async_save.
+[2026-06-18 14:37:16,476][absl][INFO] - [process=0][thread=MainThread] No errors found in background save thread=async_save.
+[2026-06-18 14:37:19,503][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loaded click datasets in 37.66 seconds (train=37, val=13, test=0)
+[2026-06-18 14:37:19,504][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-06-18 14:37:19,504][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 14:37:19,504][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 14:37:19,537][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-06-18 14:37:19,537][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-06-18 14:37:25,491][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-06-18 14:37:27,200][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-06-18 14:37:27,920][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregation done in 8.38 seconds
+[2026-06-18 14:37:27,920][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=37,val=13), actual(train=37,val=13,test=0)
+[2026-06-18 14:37:27,920][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-06-18 14:37:27,920][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-06-18 14:37:27,970][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-06-18 14:37:28,014][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Train] clicks=7, displays=925, ctr=0.0076, ctr_per_doc=0.0076
+[2026-06-18 14:37:28,048][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Validation] clicks=0, displays=313, ctr=0.0000, ctr_per_doc=0.0000
+[2026-06-18 14:37:28,094][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-06-18 14:37:28,094][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-06-18 14:37:28,094][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-06-18 14:37:28,119][ultr_bias_toolkit.bias.intervention_harvesting.pivot][INFO] - Position bias between rank k and pivot rank: 1
+[2026-06-18 14:37:28,138][feature_based_propensities_for_ULTR.experiments.position_bias_pipeline][INFO] - Saved estimated position-bias curve to position_bias.json
+[2026-06-18 14:37:28,138][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Estimated position bias in-run (estimator=pivot_one): [ 0.        -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554]
+[2026-06-18 14:37:28,138][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=frequency_based)...
+[2026-06-18 14:37:30,614][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 2.48 seconds
+[2026-06-18 14:37:30,614][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.        -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554 -6.9077554
+ -6.9077554]
+[2026-06-18 14:37:30,615][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5      0.000999 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999
+ 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999
+ 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999 0.000999
+ 0.000999]
+[2026-06-18 14:37:30,616][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-06-18 14:37:30,616][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-06-18 14:37:30,841][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.23 seconds
+[2026-06-18 14:37:30,847][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=2)...
+[2026-06-18 14:37:30,848][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-18 14:37:30,848][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 14:37:33,249][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.08371959626674652,
+             'DCG': 1.2841200828552246,
+             'NCTR': 0.22242730855941772,
+             'NDCG': 0.33503198623657227,
+             'NDCG@25': 0.33503198623657227,
+             'NRCTR': 0.22242730855941772,
+             'RCTR': 0.08371959626674652}}

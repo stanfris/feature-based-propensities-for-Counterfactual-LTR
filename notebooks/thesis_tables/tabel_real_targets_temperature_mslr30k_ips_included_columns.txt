@@ -1,0 +1,17 @@
+\begin{table}[h!]
+  \caption{IPS results for feature-based propensity estimation on MSLR-WEB30K across policy temperatures. Columns report policy temperatures. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each temperature block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{0.8\textwidth}{!}{
+    \begin{tabular}{lccccc}
+      \toprule
+      \textbf{Model} & \textbf{0} & \textbf{0.25} & \textbf{0.5} & \textbf{0.75} & \textbf{1.0} \\
+      \midrule
+      Oracle Propensity & 0.434 (0.010) & 0.426 (0.028)$^{\triangle}$ & 0.423 (0.021)$^{\blacktriangle}$ & 0.374 (0.027) & 0.338 (0.013) \\
+      \cmidrule(lr){1-6}
+      Frequency-Based & 0.435 (0.008) & 0.419 (0.028) & 0.387 (0.021) & 0.355 (0.010) & 0.332 (0.008) \\
+      MLP & \textbf{0.449 (0.001)} & \textbf{0.454 (0.009)}$^{\blacktriangle}$ & \textbf{0.440 (0.010)}$^{\blacktriangle}$ & \textbf{0.392 (0.020)}$^{\triangle}$ & \textbf{0.338 (0.014)} \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:ips_temperature_means_real_targets_temperature_mslr30k_included_columns}
+\end{table}

@@ -45,8 +45,8 @@ def parse_args():
     )
     parser.add_argument(
         "--random-states",
-        default="",
-        help="Comma-separated random states to include. Defaults to all seeds present in the matching results.",
+        default="40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59",
+        help="Comma-separated random states to include.",
     )
     parser.add_argument(
         "--temperatures",

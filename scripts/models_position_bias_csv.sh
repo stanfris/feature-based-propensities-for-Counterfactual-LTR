@@ -18,10 +18,9 @@ python run.py -m \
   random_state=40,41,42 \
   policy_temperature=0.5 \
   propensity_model=frequency-based,MLPregression,true_propensity \
-  ips.model=dm,dr \
-  ips.n_sessions=10000,100000 \
-  ips.position_bias.source=csv \
-  ips.position_bias.csv.path="${CSV_PATH}" \
-  ips.position_bias.csv.method=pivot_one,adjacent_chain,ctr,global_all_pairs \
+  ips.model=ips \
+  ips.n_sessions=10000 \
+  ips.position_bias.source=estimate \
+  ips.position_bias.estimator=global_all_pairs \
   "$@"
 

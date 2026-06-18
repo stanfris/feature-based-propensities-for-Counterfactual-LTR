@@ -27,6 +27,7 @@ from notebooks.analysis import (
 REPO_ROOT = Path(__file__).resolve().parents[2]
 PLOTS_DIR = REPO_ROOT / "notebooks" / "thesis_plots"
 THESIS_IMAGES_DIR = REPO_ROOT.parent / "Thesis" / "images"
+RANDOM_STATES = tuple(range(40, 60))
 
 
 def copy_to_thesis_images(*filenames: str) -> None:
@@ -56,7 +57,7 @@ def main():
             propensity_models=("frequency-based", "true_propensity", "MLPregression"),
             n_sessions_list=(500, 1000, 2500, 5000, 10000, 50000, 100000, 500000, 1000000),
             temperatures=(0.5,),
-            random_states=(40, 41, 42, 43, 44, 45, 46, 47, 48, 49),
+            random_states=RANDOM_STATES,
             filter_single_display_pairs_values=(False, True),
         )
 

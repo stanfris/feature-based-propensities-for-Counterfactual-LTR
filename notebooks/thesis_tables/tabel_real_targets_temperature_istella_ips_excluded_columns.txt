@@ -1,0 +1,17 @@
+\begin{table}[h!]
+  \caption{IPS results for feature-based propensity estimation on Istella-S across policy temperatures. Columns report policy temperatures. Cells show mean (SD) NDCG. The oracle propensity baseline is included, and bold marks the best non-oracle value within each temperature block. Significance markers compare each non-frequency-based method with the frequency-based method using a two-sided Student t-test: $p < 0.01$ ($\,^\blacktriangle \text{ and } ^\blacktriangledown$), $p < 0.05$ ($\,^\triangle \text{ and } ^\triangledown$).}
+  \centering
+  \resizebox{0.8\textwidth}{!}{
+    \begin{tabular}{lccccc}
+      \toprule
+      \textbf{Model} & \textbf{0} & \textbf{0.25} & \textbf{0.5} & \textbf{0.75} & \textbf{1.0} \\
+      \midrule
+      Oracle Propensity & 0.681 (0.008) & 0.677 (0.015)$^{\triangle}$ & 0.678 (0.011)$^{\blacktriangle}$ & 0.651 (0.019)$^{\blacktriangle}$ & 0.524 (0.031)$^{\blacktriangle}$ \\
+      \cmidrule(lr){1-6}
+      Frequency-Based & 0.683 (0.007) & 0.668 (0.021) & 0.651 (0.017) & 0.609 (0.015) & 0.472 (0.026) \\
+      MLP & \textbf{0.711 (0.011)}$^{\blacktriangle}$ & \textbf{0.698 (0.010)}$^{\triangle}$ & \textbf{0.688 (0.009)}$^{\blacktriangle}$ & \textbf{0.665 (0.010)}$^{\blacktriangle}$ & \textbf{0.514 (0.031)}$^{\triangle}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:ips_temperature_means_real_targets_temperature_istella_excluded_columns}
+\end{table}

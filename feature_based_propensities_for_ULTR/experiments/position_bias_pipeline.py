@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import importlib
+import json
 import logging
 import sys
 from pathlib import Path
@@ -285,20 +286,25 @@ def _estimate_single_method(
     return full_df[POSITION_BIAS_CSV_COLUMNS]
 
 
-def estimate_position_bias(config: DictConfig) -> Path:
-    resolved = resolve_ips_config(config)
-    dataset_label = resolve_dataset_label(config)
-    base_epsilon = _position_bias_base_epsilon(config)
-    data_bundle = prepare_data_bundle(config, resolved, force_click_datasets=True)
-    click_bundle = data_bundle.clicks
-    if click_bundle is None:
-        raise RuntimeError("Position-bias estimation requires loaded click datasets.")
-
-    cutoff = int(
-        data_bundle.aggregated.cutoff
-        if data_bundle.aggregated is not None
-        else resolve_click_bundle_cutoff(config, click_bundle)
+def _position_bias_estimator_name(config: DictConfig) -> str:
+    position_bias_cfg = getattr(getattr(config, "ips", None), "position_bias", None)
+    raw_value = (
+        getattr(position_bias_cfg, "estimator", "pivot_one")
+        if position_bias_cfg is not None
+        else "pivot_one"
     )
+    estimator_name = str(raw_value).strip()
+    if not estimator_name:
+        raise ValueError("ips.position_bias.estimator must be non-empty when source='estimate'.")
+    return estimator_name
+
+
+def _sample_position_bias_click_log(
+    *,
+    config: DictConfig,
+    resolved,
+    click_bundle,
+) -> tuple[pd.DataFrame, int, int]:
     _, n_train, n_val, total_requested = _resolve_session_budget(
         config,
         train_len=len(click_bundle.train),
@@ -332,6 +338,141 @@ def estimate_position_bias(config: DictConfig) -> Path:
     )
     if click_log_df.empty:
         raise ValueError("No sampled click rows were available for position-bias estimation.")
+
+    return click_log_df, n_sessions_used, int(total_requested)
+
+
+def _position_bias_frame_to_values(
+    position_bias_df: pd.DataFrame,
+    *,
+    base_epsilon: float,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    probabilities = pd.to_numeric(
+        position_bias_df["examination"],
+        errors="coerce",
+    ).to_numpy(dtype=np.float64)
+    probabilities, n_invalid, n_below_floor = _sanitize_position_bias_probabilities(
+        probabilities,
+        base_epsilon=base_epsilon,
+    )
+    if n_invalid > 0 or n_below_floor > 0:
+        logger.warning(
+            "Applying base epsilon=%s to %d estimated position-bias values "
+            "(invalid=%d, below_floor=%d).",
+            base_epsilon,
+            n_invalid + n_below_floor,
+            n_invalid,
+            n_below_floor,
+        )
+
+    alpha_logits = np.log(probabilities)
+    alpha_logits -= float(alpha_logits[0])
+    alpha = 1.0 / (1.0 + np.exp(-alpha_logits))
+    return alpha_logits, alpha, probabilities
+
+
+def _json_safe_float_list(values: np.ndarray) -> list[float]:
+    return [float(value) for value in np.asarray(values, dtype=np.float64).reshape(-1)]
+
+
+def write_estimated_position_bias_json(
+    *,
+    output_path: Path,
+    position_bias_df: pd.DataFrame,
+    alpha_logits: np.ndarray,
+    alpha: np.ndarray,
+    examination: np.ndarray,
+    source: str = "estimate",
+) -> Path:
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    df = position_bias_df.sort_values("position").reset_index(drop=True)
+    if df.empty:
+        raise ValueError("Cannot write empty estimated position-bias curve.")
+
+    first_row = df.iloc[0]
+    output = {
+        "source": source,
+        "dataset": str(first_row["dataset"]),
+        "top_x": int(first_row["top_x"]),
+        "n_sessions_requested": int(first_row["n_sessions_requested"]),
+        "n_sessions_used": int(first_row["n_sessions_used"]),
+        "policy_temperature": float(first_row["policy_temperature"]),
+        "estimator": str(first_row["estimator"]),
+        "position": [int(value) for value in df["position"].to_numpy(dtype=np.int64)],
+        "examination": _json_safe_float_list(examination),
+        "relative_position_bias_logit": _json_safe_float_list(alpha_logits),
+        "alpha": _json_safe_float_list(alpha),
+    }
+    with output_path.open("w") as f:
+        json.dump(output, f)
+    logger.info("Saved estimated position-bias curve to %s", output_path)
+    return output_path
+
+
+def estimate_position_bias_values(
+    *,
+    config: DictConfig,
+    click_bundle,
+    cutoff: int,
+    dataset_label: str,
+) -> tuple[np.ndarray, np.ndarray, pd.DataFrame, np.ndarray, str]:
+    resolved = resolve_ips_config(config)
+    base_epsilon = _position_bias_base_epsilon(config)
+    estimator_name = _position_bias_estimator_name(config)
+    estimators = build_ultr_estimator_registry()
+    if estimator_name not in estimators:
+        raise ValueError(
+            "Unknown ips.position_bias.estimator "
+            f"'{estimator_name}'. Expected one of: {', '.join(sorted(estimators))}."
+        )
+
+    click_log_df, n_sessions_used, total_requested = _sample_position_bias_click_log(
+        config=config,
+        resolved=resolved,
+        click_bundle=click_bundle,
+    )
+    metadata = {
+        "dataset": dataset_label,
+        "top_x": int(cutoff),
+        "n_sessions_requested": int(total_requested),
+        "n_sessions_used": int(n_sessions_used),
+        "policy_temperature": float(getattr(config, "policy_temperature", 0.0)),
+    }
+    position_bias_df = _estimate_single_method(
+        click_log_df=click_log_df,
+        estimator_name=estimator_name,
+        estimator=estimators[estimator_name],
+        cutoff=int(cutoff),
+        metadata=metadata,
+        base_epsilon=base_epsilon,
+    )
+    alpha_logits, alpha, examination = _position_bias_frame_to_values(
+        position_bias_df,
+        base_epsilon=base_epsilon,
+    )
+    return alpha_logits, alpha, position_bias_df, examination, estimator_name
+
+
+def estimate_position_bias(config: DictConfig) -> Path:
+    resolved = resolve_ips_config(config)
+    dataset_label = resolve_dataset_label(config)
+    base_epsilon = _position_bias_base_epsilon(config)
+    data_bundle = prepare_data_bundle(config, resolved, force_click_datasets=True)
+    click_bundle = data_bundle.clicks
+    if click_bundle is None:
+        raise RuntimeError("Position-bias estimation requires loaded click datasets.")
+
+    cutoff = int(
+        data_bundle.aggregated.cutoff
+        if data_bundle.aggregated is not None
+        else resolve_click_bundle_cutoff(config, click_bundle)
+    )
+    click_log_df, n_sessions_used, total_requested = _sample_position_bias_click_log(
+        config=config,
+        resolved=resolved,
+        click_bundle=click_bundle,
+    )
 
     metadata = {
         "dataset": dataset_label,
@@ -461,5 +602,7 @@ __all__ = [
     "POSITION_BIAS_CSV_COLUMNS",
     "build_ultr_estimator_registry",
     "estimate_position_bias",
+    "estimate_position_bias_values",
     "load_position_bias_from_csv",
+    "write_estimated_position_bias_json",
 ]

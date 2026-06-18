@@ -115,6 +115,19 @@ Position-bias export entry point:
 uv run two-tower-estimate-position-bias data=mslr30k ips.n_sessions=1000
 ```
 
+IPS/DM/DR runs can also estimate a position-bias curve directly in each run:
+
+```bash
+uv run two-tower-run \
+  data=mslr30k \
+  ips.position_bias.source=estimate \
+  ips.position_bias.estimator=pivot_one
+```
+
+When `source=estimate`, the run writes the selected curve to `position_bias.json`
+next to `ips_results.json`. Supported estimators are `ctr`, `pivot_one`,
+`adjacent_chain`, and `global_all_pairs`.
+
 Important: `estimate_position_bias.py` depends on `ultr_bias_toolkit`, which is not vendored in this repository. The current code looks for either:
 
 - an installed `ultr_bias_toolkit` package, or

@@ -6,10 +6,10 @@
       \toprule
       \textbf{Model} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
       \midrule
-      Oracle Propensity & 0.670 (0.021)$^{\blacktriangle}$ & 0.735 (0.011) & 0.760 (0.008) & 0.781 (0.003)$^{\blacktriangledown}$ \\
+      Oracle Propensity & 0.671 (0.020)$^{\blacktriangle}$ & 0.736 (0.010)$^{\blacktriangle}$ & 0.757 (0.008)$^{\blacktriangledown}$ & 0.778 (0.006)$^{\blacktriangledown}$ \\
       \cmidrule(lr){1-5}
-      Frequency-Based & 0.645 (0.023) & 0.732 (0.009) & 0.761 (0.013) & \textbf{0.790 (0.005)} \\
-      MLP & \textbf{0.694 (0.010)}$^{\blacktriangle}$ & \textbf{0.735 (0.007)} & \textbf{0.762 (0.008)} & 0.787 (0.004) \\
+      Frequency-Based & 0.645 (0.029) & 0.728 (0.011) & \textbf{0.764 (0.008)} & \textbf{0.793 (0.004)} \\
+      MLP & \textbf{0.694 (0.012)}$^{\blacktriangle}$ & \textbf{0.731 (0.009)} & 0.764 (0.008) & 0.788 (0.004)$^{\blacktriangledown}$ \\
       \bottomrule
     \end{tabular}
   }
