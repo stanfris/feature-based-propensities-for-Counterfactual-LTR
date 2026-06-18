@@ -81,3 +81,5 @@ RuntimeError: jaxlib/cuda/versions_helpers.cc:113: operation cuInit(0) failed: C
              'RCTR': 0.6456996202468872}}
 [2026-04-16 15:17:12,668][submitit][INFO] - Job completed successfully
 [2026-04-16 15:17:12,679][submitit][INFO] - Exiting after successful completion
+[2026-06-18 15:03:36,519][feature_based_propensities_for_ULTR.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-06-18 15:03:36,528][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loading or generating click datasets...

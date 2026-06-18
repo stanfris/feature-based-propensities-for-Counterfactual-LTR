@@ -142,9 +142,9 @@ hydra:
     - hydra.mode=MULTIRUN
     task:
     - experiment=real_targets
-    - data=istella,mslr30k,yahoo
-    - random_state=46,47,48,49,50,51,52,53,54,55,56,57,58,59
-    - policy_temperature=0.0,0.25,0.75,1.0
+    - data=mslr30k
+    - random_state=43,44,45
+    - policy_temperature=0.0,0.75
     - propensity_model=frequency-based,MLPregression,true_propensity
     - ips.model=ips,dr,dm
     - ips.n_sessions=10000
@@ -152,7 +152,7 @@ hydra:
   job:
     name: run
     chdir: true
-    override_dirname: +launcher=slurmcpu,data=istella,mslr30k,yahoo,experiment=real_targets,ips.model=ips,dr,dm,ips.n_sessions=10000,policy_temperature=0.0,0.25,0.75,1.0,propensity_model=frequency-based,MLPregression,true_propensity,random_state=46,47,48,49,50,51,52,53,54,55,56,57,58,59
+    override_dirname: +launcher=slurmcpu,data=mslr30k,experiment=real_targets,ips.model=ips,dr,dm,ips.n_sessions=10000,policy_temperature=0.0,0.75,propensity_model=frequency-based,MLPregression,true_propensity,random_state=43,44,45
     id: ???
     num: ???
     config_name: config
@@ -365,6 +365,7 @@ ips:
     output_path: click_prediction_test.npz
   position_bias:
     source: oracle
+    estimator: pivot_one
     base_epsilon: 0.001
     csv:
       path: null

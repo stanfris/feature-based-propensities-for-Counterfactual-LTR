@@ -2,9 +2,9 @@
 
 python run.py -m \
   experiment=real_targets \
-  data=istella,mslr30k,yahoo \
-  random_state=46,47,48,49,50,51,52,53,54,55,56,57,58,59 \
-  policy_temperature=0.0,0.25,0.75,1.0 \
+  data=mslr30k \
+  random_state=43,44,45 \
+  policy_temperature=0.0,0.75 \
   propensity_model=frequency-based,MLPregression,true_propensity \
   ips.model=ips,dr,dm \
   ips.n_sessions=10000 \

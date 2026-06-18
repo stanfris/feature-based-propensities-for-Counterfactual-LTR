@@ -20,14 +20,13 @@ query_sampling_ratios: null
 simulation:
   max_label: 10
 deterministic_groups: false
-use_wandb: true
-use_propensity_weighting: false
+use_wandb: false
 data:
   dataset:
-    _target_: two_tower_confounding.data.datasets.mslr.MSLR30K
+    _target_: feature_based_propensities_for_ULTR.data.datasets.mslr.MSLR30K
     base_dir: ${dataset_dir}
   preprocessor:
-    _target_: two_tower_confounding.data.preprocessing.Preprocessor
+    _target_: feature_based_propensities_for_ULTR.data.preprocessing.Preprocessor
     normalize_features: true
     generate_query_document_ids: true
     store_separate_lp_query_doc_features: false
@@ -42,28 +41,15 @@ data:
     relevance_noise: ${relevance_noise}
     relevance_quantization: ${relevance_quantization}
 logging_policy_ranker:
-  _target_: two_tower_confounding.simulation.simulator.NeuralRanker
+  _target_: feature_based_propensities_for_ULTR.simulation.simulator.NeuralRanker
   model_type: deep
   policy_strength: ${policy_strength}
   random_state: ${random_state}
   training_data_percentage: 10.0
 logging_policy_sampler:
-  _target_: two_tower_confounding.simulation.simulator.EGreedySampler
+  _target_: feature_based_propensities_for_ULTR.simulation.simulator.EGreedySampler
   policy_temperature: ${policy_temperature}
   random_state: ${random_state}
-bias_tower:
-  _target_: two_tower_confounding.models.towers.EmbeddingBiasTower
-  _partial_: true
-  positions: ???
-  rngs: ???
-relevance_tower:
-  _target_: two_tower_confounding.models.towers.DeepRelevanceTower
-  _partial_: true
-  features: ???
-  layers: 2
-  hidden_units: 32
-  dropout: 0
-  rngs: ???
 propensity_model:
   type: true_propensity
 ips:
@@ -76,6 +62,8 @@ ips:
   display_histogram_dir: display_histograms
   display_histogram_max: 100
   debug: false
+  debug_max_samples: 25
+  debug_feature_head: 5
   model_params:
     eps: 1.0e-08
     model_output_multiplier: 1.0
@@ -98,16 +86,8 @@ ips:
       learning_rate: 0.001
       eps: 1.0e-06
       print_updates: true
+      rescale_to_target_mean: false
       rescale_target_mean: 0.5
-      rescale_max_iter: 60
-    two_tower:
-      checkpoint_dir: checkpoint
-      save_checkpoint: false
-  two_tower_trainer:
-    learning_rate: 0.003
-    epochs: 500
-    batch_size: 512
-    min_delta: 1.0e-05
   trainer:
     trainer_type: pl-rank
     max_epochs: 100
@@ -126,21 +106,25 @@ ips:
     clip_base: 10.0
     clip_propensity: false
     print_updates: true
-    use_wandb: true
+    use_wandb: false
     log_freq: 100
   eval_label_scale: 0.25
   click_prediction_eval:
     enabled: false
     output_path: click_prediction_test.npz
+  position_bias:
+    source: oracle
+    estimator: pivot_one
+    base_epsilon: 0.001
+    csv:
+      path: null
+      method: null
+    export_path: ultr_position_bias_estimates.csv
   propensity:
     method: ${propensity_model.type}
     checkpoint_dir: classifier_propensity_model_checkpoint
     max_train_samples: 50000
     inference_batch_size: 512
-    bias_source: oracle
-    two_tower_combination: multiplicative
-    two_tower_checkpoint_dir: propensity_bias_tower_checkpoint
-    two_tower_save_checkpoint: false
     debug_compare_true: false
     dataloader:
       num_workers: 1

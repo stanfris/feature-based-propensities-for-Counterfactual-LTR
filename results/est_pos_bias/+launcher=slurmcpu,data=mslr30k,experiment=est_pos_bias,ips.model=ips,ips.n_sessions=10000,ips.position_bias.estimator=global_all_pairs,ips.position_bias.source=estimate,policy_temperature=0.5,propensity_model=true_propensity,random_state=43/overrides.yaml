@@ -1,0 +1,10 @@
+- experiment=est_pos_bias
+- data=mslr30k
+- random_state=43
+- policy_temperature=0.5
+- ips.model=ips
+- propensity_model=true_propensity
+- ips.n_sessions=10000
+- ips.position_bias.source=estimate
+- ips.position_bias.estimator=global_all_pairs
+- +launcher=slurmcpu
