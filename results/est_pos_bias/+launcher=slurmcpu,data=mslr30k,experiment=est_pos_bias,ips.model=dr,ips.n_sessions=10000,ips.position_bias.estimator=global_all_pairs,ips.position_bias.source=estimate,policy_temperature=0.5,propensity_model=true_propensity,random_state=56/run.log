@@ -1,0 +1,82 @@
+[2026-06-18 16:54:29,791][feature_based_propensities_for_ULTR.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-06-18 16:54:29,797][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-06-18 16:55:30,954][absl][INFO] - orbax-checkpoint version: 0.11.40
+[2026-06-18 16:55:30,954][absl][INFO] - save_device_host_concurrent_bytes=None
+[2026-06-18 16:55:30,954][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x152f14f0af50>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-06-18 16:55:30,954][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-06-18 16:55:30,955][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x152e65f5f9c0> timeout: 1200 secs and primary_host=0 for async checkpoint writes
+[2026-06-18 16:55:30,955][absl][INFO] - [process=0] [sync] Started load checkpoint @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 16:55:30,957][absl][INFO] - Restoring checkpoint from /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 16:55:30,958][absl][INFO] - [process=0] [sync] Finished blocking load in 0.00 seconds. Continuing load @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 16:55:30,973][absl][INFO] - [process=0] /jax/orbax/read/worker/io/requested throughput: 1.887 MiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.011064767837524414 s) (per-host)
+[2026-06-18 16:55:30,975][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 1.268 MiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.016461610794067383 s) (per-host)
+[2026-06-18 16:55:30,975][absl][INFO] - [process=0] [sync] Finished load in 0.02 seconds @ /gpfs/home5/sfris1/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-06-18 16:55:35,100][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loaded click datasets in 65.30 seconds (train=7500, val=2500, test=0)
+[2026-06-18 16:55:35,100][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-06-18 16:55:35,100][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 16:55:35,100][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 16:55:35,193][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-06-18 16:55:35,194][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-06-18 16:55:40,364][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-06-18 16:55:43,375][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-06-18 16:55:44,216][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregation done in 9.02 seconds
+[2026-06-18 16:55:44,217][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=7500,val=2500), actual(train=7500,val=2500,test=0)
+[2026-06-18 16:55:44,217][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-06-18 16:55:44,217][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-06-18 16:55:44,270][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-06-18 16:55:44,373][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Train] clicks=806, displays=182421, ctr=0.0044, ctr_per_doc=0.0044
+[2026-06-18 16:55:44,464][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Validation] clicks=279, displays=60868, ctr=0.0046, ctr_per_doc=0.0046
+[2026-06-18 16:55:44,555][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-06-18 16:55:44,555][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='dr'
+[2026-06-18 16:55:44,555][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-06-18 16:55:44,581][ultr_bias_toolkit.bias.intervention_harvesting.all_pairs][INFO] - Position bias estimation using global all pairs estimator
+[2026-06-18 16:56:34,270][feature_based_propensities_for_ULTR.experiments.position_bias_pipeline][INFO] - Saved estimated position-bias curve to position_bias.json
+[2026-06-18 16:56:34,270][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Estimated position bias in-run (estimator=global_all_pairs): [ 0.         -0.7404774  -1.6367749  -1.7211272  -0.99775624 -0.88476735
+ -1.5935913  -1.2853948  -6.9077554  -2.1656508  -1.2568632  -2.1360595
+ -4.0662236  -2.1154475  -0.4116994  -2.9932792  -6.568863   -6.213135
+ -1.5602125  -1.4715396  -5.9475555  -5.8094726  -1.2835435  -1.6544926
+ -6.9077554 ]
+[2026-06-18 16:56:34,272][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=true_propensity)...
+[2026-06-18 16:57:03,630][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 29.36 seconds
+[2026-06-18 16:57:03,631][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.         -0.7404774  -1.6367749  -1.7211272  -0.99775624 -0.88476735
+ -1.5935913  -1.2853948  -6.9077554  -2.1656508  -1.2568632  -2.1360595
+ -4.0662236  -2.1154475  -0.4116994  -2.9932792  -6.568863   -6.213135
+ -1.5602125  -1.4715396  -5.9475555  -5.8094726  -1.2835435  -1.6544926
+ -6.9077554 ]
+[2026-06-18 16:57:03,632][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5        0.32289976 0.16290437 0.15172604 0.2693828  0.29219085
+ 0.16887923 0.2166333  0.000999   0.10287775 0.22151434 0.10564112
+ 0.0168531  0.10760444 0.3985047  0.04773042 0.00140143 0.00199894
+ 0.17361616 0.18670872 0.00260541 0.00299004 0.21694766 0.16050269
+ 0.000999  ]
+[2026-06-18 16:57:03,632][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-06-18 16:57:03,632][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=frequency_based)...
+[2026-06-18 16:57:31,005][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 27.37 seconds
+[2026-06-18 16:57:31,005][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.         -0.7404774  -1.6367749  -1.7211272  -0.99775624 -0.88476735
+ -1.5935913  -1.2853948  -6.9077554  -2.1656508  -1.2568632  -2.1360595
+ -4.0662236  -2.1154475  -0.4116994  -2.9932792  -6.568863   -6.213135
+ -1.5602125  -1.4715396  -5.9475555  -5.8094726  -1.2835435  -1.6544926
+ -6.9077554 ]
+[2026-06-18 16:57:31,006][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5        0.32289976 0.16290437 0.15172604 0.2693828  0.29219085
+ 0.16887923 0.2166333  0.000999   0.10287775 0.22151434 0.10564112
+ 0.0168531  0.10760444 0.3985047  0.04773042 0.00140143 0.00199894
+ 0.17361616 0.18670872 0.00260541 0.00299004 0.21694766 0.16050269
+ 0.000999  ]
+[2026-06-18 16:57:32,178][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Training regression model for DM/DR...
+[2026-06-18 16:57:39,651][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 3: train_loss=0.256491 val_loss=0.287464
+[2026-06-18 16:57:46,068][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 6: train_loss=0.245537 val_loss=0.267120
+[2026-06-18 16:57:52,522][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 9: train_loss=0.238937 val_loss=0.286706
+[2026-06-18 16:57:58,681][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing DR doc weights...
+[2026-06-18 16:57:58,709][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.03 seconds
+[2026-06-18 16:57:58,719][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-06-18 16:57:58,721][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-18 16:57:58,721][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 17:30:04,794][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.7359270453453064,
+             'DCG': 1.5546398162841797,
+             'NCTR': 0.3698062300682068,
+             'NDCG': 0.4061775803565979,
+             'NDCG@25': 0.4061775803565979,
+             'NRCTR': 0.3698062300682068,
+             'RCTR': 0.7359270453453064}}
+[2026-06-18 17:30:04,839][submitit][INFO] - Job completed successfully
+[2026-06-18 17:30:04,847][submitit][INFO] - Exiting after successful completion

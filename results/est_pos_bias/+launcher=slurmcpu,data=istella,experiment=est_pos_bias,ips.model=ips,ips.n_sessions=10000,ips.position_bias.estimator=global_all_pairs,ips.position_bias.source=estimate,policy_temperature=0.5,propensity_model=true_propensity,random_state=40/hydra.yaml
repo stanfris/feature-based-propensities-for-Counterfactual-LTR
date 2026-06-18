@@ -155,7 +155,7 @@ hydra:
     name: run
     chdir: true
     override_dirname: +launcher=slurmcpu,data=istella,experiment=est_pos_bias,ips.model=ips,ips.n_sessions=10000,ips.position_bias.estimator=global_all_pairs,ips.position_bias.source=estimate,policy_temperature=0.5,propensity_model=true_propensity,random_state=40
-    id: '24000951_180'
+    id: '24002152_180'
     num: 180
     config_name: config
     env_set: {}

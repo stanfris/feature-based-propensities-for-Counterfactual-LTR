@@ -1,10 +1,9 @@
 #!/bin/bash
 
-
 python run.py -m \
   experiment=est_pos_bias \
   data=mslr30k,yahoo,istella \
-  random_state=40,41,42,43,44,45,46,47,48,49 \
+  random_state=50,51,52,53,54,55,56,57,58,59 \
   policy_temperature=0.5 \
   ips.model=ips,dm,dr \
   propensity_model=true_propensity,frequency-based,MLPregression \
