@@ -1,0 +1,65 @@
+[2026-06-18 15:09:29,783][feature_based_propensities_for_ULTR.experiments.config_resolver][WARNING] - test_clicks=500000 is ignored because test_set_mode='label_only'. Set test_set_mode='clicks' to enable legacy click-based test behavior.
+[2026-06-18 15:09:29,785][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loading or generating click datasets...
+[2026-06-18 15:09:55,120][absl][INFO] - orbax-checkpoint version: 0.11.40
+[2026-06-18 15:09:55,121][absl][INFO] - save_device_host_concurrent_bytes=None
+[2026-06-18 15:09:55,121][absl][INFO] - Created BasePyTreeCheckpointHandler: use_ocdbt=True, use_zarr3=False, pytree_metadata_options=PyTreeMetadataOptions(support_rich_types=False), array_metadata_store=<orbax.checkpoint._src.metadata.array_metadata_store.Store object at 0x13a8da510>, enable_pinned_host_transfer=False, save_concurrent_bytes: 96000000000 (89.4 GiB), restore_concurrent_bytes: 96000000000 (89.4 GiB)
+[2026-06-18 15:09:55,121][absl][INFO] - [thread=MainThread] Failed to get flag value for EXPERIMENTAL_ORBAX_USE_DISTRIBUTED_PROCESS_ID.
+[2026-06-18 15:09:55,122][absl][INFO] - [process=0][thread=MainThread] Using barrier_sync_fn: <function get_barrier_sync_fn.<locals>.<lambda> at 0x1595f0ea0> timeout: 1200 secs and primary_host=0 for async checkpoint writes
+[2026-06-18 15:09:55,122][absl][INFO] - [process=0] [sync] Started load checkpoint @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 15:09:55,124][absl][INFO] - Restoring checkpoint from /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 15:09:55,124][absl][INFO] - [process=0] [sync] Finished blocking load in 0.00 seconds. Continuing load @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0.
+[2026-06-18 15:09:55,139][absl][INFO] - [process=0][thread=MainThread] No metadata found for any process_index, checkpoint_dir=/Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0. Time taken: 0.000174s. If the checkpoint does not contain jax.Array then it is expected. If checkpoint contains jax.Array then it should lead to an error eventually; if no error is raised then it is a bug.
+[2026-06-18 15:09:55,151][absl][INFO] - [process=0] /jax/orbax/read/worker/io/requested throughput: 1.025 MiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.020370960235595703 s) (per-host)
+[2026-06-18 15:09:55,152][absl][INFO] - [process=0] /jax/checkpoint/read/gbytes_per_sec: 787.522 KiB/s (total gbytes: 21.4 KiB) (time elapsed: 0.02714705467224121 s) (per-host)
+[2026-06-18 15:09:55,152][absl][INFO] - [process=0] [sync] Finished load in 0.03 seconds @ /Users/stanf/Documents/Uni/MSc Thesis/ltr_datasets/ips_datasets/logging_policy_c10000_ps1p0_pt0p5_bs1p0_drop0rel0_sessallocv2_candfullv2_topx25_maxdocs200_lprdeep_lpsegreedysampler_lppct10p0
+[2026-06-18 15:09:58,342][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Loaded click datasets in 28.56 seconds (train=7500, val=2500, test=0)
+[2026-06-18 15:09:58,342][feature_based_propensities_for_ULTR.experiments.data_pipeline][INFO] - Test split is label-only by design; no test click dataset was loaded.
+[2026-06-18 15:09:58,342][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 15:09:58,342][feature_based_propensities_for_ULTR.data.runtime.alignment][INFO] - Applying data cutoff override: configured=25, natural=25, effective=25
+[2026-06-18 15:09:58,376][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Initializing simulator...
+[2026-06-18 15:09:58,376][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating train dataset...
+[2026-06-18 15:10:03,475][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating validation dataset...
+[2026-06-18 15:10:05,019][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregating test dataset from labels only...
+[2026-06-18 15:10:05,701][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Aggregation done in 7.32 seconds
+[2026-06-18 15:10:05,702][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Session usage after aggregation: requested(train=7500,val=2500), actual(train=7500,val=2500,test=0)
+[2026-06-18 15:10:05,702][feature_based_propensities_for_ULTR.data.runtime.aggregation][INFO] - Dataset persistence disabled; skipping aggregated dataset cache save.
+[2026-06-18 15:10:05,702][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Test split uses label-only evaluation; raw test click diagnostics are skipped.
+[2026-06-18 15:10:05,752][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Data] train_docs=2132810, val_docs=707814, test_docs=708921, cutoff=25
+[2026-06-18 15:10:05,793][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Train] clicks=741, displays=181777, ctr=0.0041, ctr_per_doc=0.0041
+[2026-06-18 15:10:05,829][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Validation] clicks=295, displays=60606, ctr=0.0049, ctr_per_doc=0.0049
+[2026-06-18 15:10:05,864][feature_based_propensities_for_ULTR.experiments.diagnostics][INFO] - [Test] clicks=0, displays=0, ctr=0.0000, ctr_per_doc=0.0000
+[2026-06-18 15:10:05,864][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='ips'
+[2026-06-18 15:10:05,864][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
+[2026-06-18 15:10:05,882][ultr_bias_toolkit.bias.intervention_harvesting.all_pairs][INFO] - Position bias estimation using global all pairs estimator
+[2026-06-18 15:10:17,166][feature_based_propensities_for_ULTR.experiments.position_bias_pipeline][INFO] - Saved estimated position-bias curve to position_bias.json
+[2026-06-18 15:10:17,166][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Estimated position bias in-run (estimator=global_all_pairs): [ 0.         -0.06634399 -0.42892987 -1.7129998  -2.6283617  -1.9066939
+ -1.3072441  -1.3984666  -2.804653   -6.3112526  -5.5547705  -2.3951826
+ -1.0822625  -0.790633   -0.12045183 -1.6640356  -1.5563228  -1.523761
+ -5.8734713  -1.1772722  -5.4277534  -0.9041675  -1.9225888  -5.8565173
+ -5.406049  ]
+[2026-06-18 15:10:17,167][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=true_propensity)...
+[2026-06-18 15:10:24,907][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 7.74 seconds
+[2026-06-18 15:10:24,908][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [ 0.         -0.06634399 -0.42892987 -1.7129998  -2.6283617  -1.9066939
+ -1.3072441  -1.3984666  -2.804653   -6.3112526  -5.5547705  -2.3951826
+ -1.0822625  -0.790633   -0.12045183 -1.6640356  -1.5563228  -1.523761
+ -5.8734713  -1.1772722  -5.4277534  -0.9041675  -1.9225888  -5.8565173
+ -5.406049  ]
+[2026-06-18 15:10:24,908][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5        0.48342007 0.3943819  0.15277502 0.06733526 0.12935273
+ 0.21294838 0.19805954 0.05707326 0.00181247 0.00385405 0.08354078
+ 0.2530781  0.31203276 0.4699234  0.15922101 0.17417493 0.17890836
+ 0.0028052  0.23554301 0.00437374 0.28819484 0.12757316 0.00285303
+ 0.00446928]
+[2026-06-18 15:10:24,909][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-06-18 15:10:24,909][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing IPS doc weights...
+[2026-06-18 15:10:25,108][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.20 seconds
+[2026-06-18 15:10:25,127][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-06-18 15:10:25,128][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-18 15:10:25,128][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 15:10:53,446][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.7900943756103516,
+             'DCG': 1.4297473430633545,
+             'NCTR': 0.33764150738716125,
+             'NDCG': 0.37130433320999146,
+             'NDCG@25': 0.37130433320999146,
+             'NRCTR': 0.33764150738716125,
+             'RCTR': 0.7900943756103516}}
