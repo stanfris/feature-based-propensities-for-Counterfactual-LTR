@@ -1,0 +1,8 @@
+- experiment=real_targets
+- data=mslr30k
+- random_state=53
+- policy_temperature=0.0
+- propensity_model=frequency-based
+- ips.model=dr
+- ips.n_sessions=10000
+- +launcher=slurmcpu

@@ -2,12 +2,12 @@
 
 python run.py -m \
   experiment=real_targets \
-  data=yahoo,mslr30k,istella \
-  random_state=50,51,52,53,54,55,56,57,58,59 \
+  data=mslr30k \
+  random_state=40 \
   policy_temperature=0.5 \
-  ips.model=ips,dm,dr \
-  propensity_model=MLPregression,frequency-based,true_propensity  \
-  ips.n_sessions=500,1000,5000,10000,50000,100000,500000,1000000 \
+  ips.model=dr \
+  propensity_model=true_propensity  \
+  ips.n_sessions=1000000 \
   data.preprocessor.top_x=25 \
   $@
 

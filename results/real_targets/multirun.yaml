@@ -142,18 +142,17 @@ hydra:
     - hydra.mode=MULTIRUN
     task:
     - experiment=real_targets
-    - data=yahoo,mslr30k,istella
-    - random_state=50,51,52,53,54,55,56,57,58,59
-    - policy_temperature=0.5
-    - ips.model=ips,dm,dr
-    - propensity_model=MLPregression,frequency-based,true_propensity
-    - ips.n_sessions=500,1000,5000,10000,50000,100000,500000,1000000
-    - data.preprocessor.top_x=25
+    - data=istella,mslr30k,yahoo
+    - random_state=46,47,48,49,50,51,52,53,54,55,56,57,58,59
+    - policy_temperature=0.0,0.25,0.75,1.0
+    - propensity_model=frequency-based,MLPregression,true_propensity
+    - ips.model=ips,dr,dm
+    - ips.n_sessions=10000
     - +launcher=slurmcpu
   job:
     name: run
     chdir: true
-    override_dirname: +launcher=slurmcpu,data.preprocessor.top_x=25,data=yahoo,mslr30k,istella,experiment=real_targets,ips.model=ips,dm,dr,ips.n_sessions=500,1000,5000,10000,50000,100000,500000,1000000,policy_temperature=0.5,propensity_model=MLPregression,frequency-based,true_propensity,random_state=50,51,52,53,54,55,56,57,58,59
+    override_dirname: +launcher=slurmcpu,data=istella,mslr30k,yahoo,experiment=real_targets,ips.model=ips,dr,dm,ips.n_sessions=10000,policy_temperature=0.0,0.25,0.75,1.0,propensity_model=frequency-based,MLPregression,true_propensity,random_state=46,47,48,49,50,51,52,53,54,55,56,57,58,59
     id: ???
     num: ???
     config_name: config
@@ -266,7 +265,7 @@ test_set_mode: label_only
 test_clicks: 500000
 persist_datasets: false
 policy_strength: 1.0
-policy_temperature: 0.5
+policy_temperature: 0.0
 bias_strength: 1.0
 query_sampling_ratios: null
 simulation:
@@ -308,7 +307,7 @@ ips:
   model: ips
   output_path: ips_results.json
   save_subdir: ips_datasets
-  n_sessions: 100000
+  n_sessions: 10000
   n_session_percentage: null
   force_single_sample: false
   display_histogram_dir: display_histograms
