@@ -63,3 +63,13 @@
 [2026-06-18 11:56:27,401][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
 [2026-06-18 11:56:27,403][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
 [2026-06-18 11:56:27,403][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 12:24:32,917][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.5762249231338501,
+             'DCG': 1.582531452178955,
+             'NCTR': 0.38524240255355835,
+             'NDCG': 0.41528522968292236,
+             'NDCG@25': 0.41528522968292236,
+             'NRCTR': 0.38524240255355835,
+             'RCTR': 0.5762249231338501}}
+[2026-06-18 12:24:32,945][submitit][INFO] - Job completed successfully
+[2026-06-18 12:24:32,955][submitit][INFO] - Exiting after successful completion

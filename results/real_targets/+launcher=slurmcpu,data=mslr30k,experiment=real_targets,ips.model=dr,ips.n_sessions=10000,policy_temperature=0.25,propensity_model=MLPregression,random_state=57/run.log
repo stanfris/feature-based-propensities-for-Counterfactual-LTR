@@ -30,3 +30,37 @@
 [2026-06-18 12:09:36,639][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Running estimator pipeline with model='dr'
 [2026-06-18 12:09:36,639][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing position bias (alpha)...
 [2026-06-18 12:09:36,690][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=propensity_mlp_regression)...
+[2026-06-18 12:10:25,159][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 48.47 seconds
+[2026-06-18 12:10:25,160][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [-0.     -0.6931 -1.0986 -1.3863 -1.6094 -1.7918 -1.9459 -2.0794 -2.1972
+ -2.3026 -2.3979 -2.4849 -2.5649 -2.6391 -2.7081 -2.7726 -2.8332 -2.8904
+ -2.9444 -2.9957 -3.0445 -3.091  -3.1355 -3.1781 -3.2189]
+[2026-06-18 12:10:25,161][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5    0.3333 0.25   0.2    0.1667 0.1429 0.125  0.1111 0.1    0.0909
+ 0.0833 0.0769 0.0714 0.0667 0.0625 0.0588 0.0556 0.0526 0.05   0.0476
+ 0.0455 0.0435 0.0417 0.04   0.0385]
+[2026-06-18 12:10:25,161][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity clipping disabled.
+[2026-06-18 12:10:25,161][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Computing propensity per doc (method=frequency_based)...
+[2026-06-18 12:10:52,318][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Propensity computed in 27.16 seconds
+[2026-06-18 12:10:52,320][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha logits: [-0.     -0.6931 -1.0986 -1.3863 -1.6094 -1.7918 -1.9459 -2.0794 -2.1972
+ -2.3026 -2.3979 -2.4849 -2.5649 -2.6391 -2.7081 -2.7726 -2.8332 -2.8904
+ -2.9444 -2.9957 -3.0445 -3.091  -3.1355 -3.1781 -3.2189]
+[2026-06-18 12:10:52,320][feature_based_propensities_for_ULTR.experiments.propensity_pipeline][INFO] - Alpha: [0.5    0.3333 0.25   0.2    0.1667 0.1429 0.125  0.1111 0.1    0.0909
+ 0.0833 0.0769 0.0714 0.0667 0.0625 0.0588 0.0556 0.0526 0.05   0.0476
+ 0.0455 0.0435 0.0417 0.04   0.0385]
+[2026-06-18 12:10:53,598][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Training regression model for DM/DR...
+[2026-06-18 12:11:21,692][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 3: train_loss=0.046903 val_loss=0.056793
+[2026-06-18 12:11:48,549][feature_based_propensities_for_ULTR.experiments.regression_pipeline][INFO] - Regression epoch 6: train_loss=0.045463 val_loss=0.064408
+[2026-06-18 12:11:54,721][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Computing DR doc weights...
+[2026-06-18 12:11:54,752][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Doc weights computed in 0.03 seconds
+[2026-06-18 12:11:54,763][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Loading trainer (trainer_type='pl-rank', n_samples=100)...
+[2026-06-18 12:11:54,765][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Trainer loaded in 0.00 seconds
+[2026-06-18 12:11:54,765][feature_based_propensities_for_ULTR.experiments.model_pipeline][INFO] - Training model...
+[2026-06-18 12:39:58,787][feature_based_propensities_for_ULTR.experiments.ips_pipeline][INFO] - Final evaluation results:
+{'metrics': {'CTR': 0.6761791110038757,
+             'DCG': 1.793168544769287,
+             'NCTR': 0.4479242265224457,
+             'NDCG': 0.4670008420944214,
+             'NDCG@25': 0.4670008420944214,
+             'NRCTR': 0.4479242265224457,
+             'RCTR': 0.6761791110038757}}
+[2026-06-18 12:39:58,815][submitit][INFO] - Job completed successfully
+[2026-06-18 12:39:58,825][submitit][INFO] - Exiting after successful completion
