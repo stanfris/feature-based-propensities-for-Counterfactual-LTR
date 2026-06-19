@@ -143,16 +143,17 @@ hydra:
     task:
     - experiment=real_targets
     - data=mslr30k
-    - random_state=43,44,45
-    - policy_temperature=0.0,0.75
-    - propensity_model=frequency-based,MLPregression,true_propensity
-    - ips.model=ips,dr,dm
-    - ips.n_sessions=10000
+    - random_state=40
+    - policy_temperature=0.5
+    - ips.model=dr
+    - propensity_model=true_propensity
+    - ips.n_sessions=100000
+    - data.preprocessor.top_x=25
     - +launcher=slurmcpu
   job:
     name: run
     chdir: true
-    override_dirname: +launcher=slurmcpu,data=mslr30k,experiment=real_targets,ips.model=ips,dr,dm,ips.n_sessions=10000,policy_temperature=0.0,0.75,propensity_model=frequency-based,MLPregression,true_propensity,random_state=43,44,45
+    override_dirname: +launcher=slurmcpu,data.preprocessor.top_x=25,data=mslr30k,experiment=real_targets,ips.model=dr,ips.n_sessions=100000,policy_temperature=0.5,propensity_model=true_propensity,random_state=40
     id: ???
     num: ???
     config_name: config
@@ -235,7 +236,7 @@ hydra:
     choices:
       launcher: slurmcpu
       ips: default
-      propensity_model: frequency-based
+      propensity_model: true_propensity
       logging_policy_sampler: e_greedy
       logging_policy_ranker: deep
       data: mslr30k
@@ -251,7 +252,7 @@ hydra:
   verbose: false
 dataset_dir: ~/ltr_datasets
 experiment: real_targets
-random_state: 42
+random_state: 40
 device: cpu
 use_cross_validation: false
 features: all
@@ -265,7 +266,7 @@ test_set_mode: label_only
 test_clicks: 500000
 persist_datasets: false
 policy_strength: 1.0
-policy_temperature: 0.0
+policy_temperature: 0.5
 bias_strength: 1.0
 query_sampling_ratios: null
 simulation:
@@ -302,12 +303,12 @@ logging_policy_sampler:
   policy_temperature: ${policy_temperature}
   random_state: ${random_state}
 propensity_model:
-  type: frequency-based
+  type: true_propensity
 ips:
-  model: ips
+  model: dr
   output_path: ips_results.json
   save_subdir: ips_datasets
-  n_sessions: 10000
+  n_sessions: 100000
   n_session_percentage: null
   force_single_sample: false
   display_histogram_dir: display_histograms
