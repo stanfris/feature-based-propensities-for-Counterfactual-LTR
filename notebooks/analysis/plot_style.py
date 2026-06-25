@@ -1,19 +1,27 @@
 THESIS_FONT_SIZES = {
-    "font.size": 13,
-    "axes.titlesize": 14,
-    "axes.labelsize": 13,
-    "legend.fontsize": 12,
-    "xtick.labelsize": 12,
-    "ytick.labelsize": 12,
-}
-
-RESULT_COMPARISON_FONT_SIZES = {
+    "font.family": "serif",
+    "font.serif": ["Linux Libertine O", "Linux Libertine", "Libertinus Serif"],
+    "text.usetex": True,
+    "text.latex.preamble": r"\usepackage{libertine}\usepackage[libertine]{newtxmath}",
     "font.size": 15,
     "axes.titlesize": 16,
     "axes.labelsize": 15,
     "legend.fontsize": 14,
     "xtick.labelsize": 14,
     "ytick.labelsize": 14,
+}
+
+RESULT_COMPARISON_FONT_SIZES = {
+    "font.family": "serif",
+    "font.serif": ["Linux Libertine O", "Linux Libertine", "Libertinus Serif"],
+    "text.usetex": True,
+    "text.latex.preamble": r"\usepackage{libertine}\usepackage[libertine]{newtxmath}",
+    "font.size": 17,
+    "axes.titlesize": 18,
+    "axes.labelsize": 17,
+    "legend.fontsize": 16,
+    "xtick.labelsize": 16,
+    "ytick.labelsize": 16,
 }
 
 DENSE_TICK_LABEL_SIZE = 8

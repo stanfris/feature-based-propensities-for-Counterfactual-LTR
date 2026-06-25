@@ -6,6 +6,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.ticker import FuncFormatter
 from matplotlib.lines import Line2D
 from notebooks.analysis.plot_style import apply_result_comparison_plot_style
 
@@ -69,6 +70,38 @@ def slugify_plot_part(value: str) -> str:
     return slug or "plot"
 
 
+def latex_bold(text: str) -> str:
+    escaped = (
+        str(text)
+        .replace("\\", r"\textbackslash{}")
+        .replace("&", r"\&")
+        .replace("%", r"\%")
+        .replace("$", r"\$")
+        .replace("#", r"\#")
+        .replace("_", r"\_")
+        .replace("{", r"\{")
+        .replace("}", r"\}")
+    )
+    return rf"\textbf{{{escaped}}}"
+
+
+def format_max_two_decimals(value, _position=None) -> str:
+    if not np.isfinite(value):
+        return ""
+    if np.isclose(value, round(value), atol=1e-10):
+        return str(int(round(value)))
+    return f"{value:.2f}".rstrip("0").rstrip(".")
+
+
+def format_fixed_decimals(decimals: int):
+    def formatter(value, _position=None) -> str:
+        if not np.isfinite(value):
+            return ""
+        return f"{value:.{decimals}f}"
+
+    return formatter
+
+
 def build_plot_filename(
     *,
     filename_namespace: Optional[str],
@@ -103,6 +136,36 @@ def build_plot_filename(
     if plot_kind == "methods":
         return f"{legacy_prefix}Method_Comparison_filter_{filter_val}{legacy_suffix}.pdf"
     raise ValueError(f"Unsupported plot_kind: {plot_kind}")
+
+
+DATASET_TITLE_MAP = {
+    "istella": "Istella-S",
+    "mslr30k": "MSLR-WEB30K",
+    "yahoo": "Yahoo!",
+}
+
+PROPENSITY_DISPLAY_ALIASES = {
+    "MLPregression": "Propensity MLP",
+    "frequency-based": "Frequency-Based",
+    "true_propensity": "Oracle Propensity",
+    "max-score": "Label-Trained (Skyline)",
+    "logging-policy": "Logging Policy (Baseline)",
+    "cosine": "Cosine",
+    "knn": "KNN",
+    "kmeans": "K-Means",
+}
+
+IPS_MODEL_DISPLAY_ALIASES = {
+    "ips": "IPS",
+    "dm": "DM",
+    "dr": "DR",
+}
+
+DATASET_Y_DECIMALS = {
+    "istella": 1,
+    "mslr30k": 2,
+    "yahoo": 2,
+}
 
 
 def plot_grid(
@@ -168,17 +231,6 @@ def plot_grid(
     }
     band_alpha = {"max-score": 0.25, "logging-policy": 0.15}
 
-    display_aliases = {
-        "MLPregression": "Propensity MLP",
-        "frequency-based": "Frequency-Based",
-        "true_propensity": "Oracle Propensity",
-        "max-score": "Max-Score",
-        "logging-policy": "Logging Policy",
-        "cosine": "Cosine",
-        "knn": "KNN",
-        "kmeans": "K-Means",
-    }
-
     def plot_axis(ax, df_metric: pd.DataFrame, metric: str, prop_models, dataset_value=None):
         # curves (only those present in this figure)
         for i, pm in enumerate(prop_models):
@@ -235,7 +287,7 @@ def plot_grid(
 
             print(
                 f"IPS model: {ips_model} | filter_single_display_pairs={filt} | "
-                "Mean with standard-deviation band over random_state"
+                f"Mean with {interval_mode} band over random_state"
             )
             
             fig, axes = plt.subplots(
@@ -283,11 +335,7 @@ def plot_grid(
                                     c = d_idx * cols_per_dataset + t_idx * len(metrics_to_plot) + m_idx
                                     ax = axes[r, c]
                                     if r == 0:
-                                        dataset_title = {
-                                            "istella": "Istella-S",
-                                            "mslr30k": "MSLR-WEB30K",
-                                            "yahoo": "Yahoo!",
-                                        }.get(str(dataset_value), str(dataset_value))
+                                        dataset_title = DATASET_TITLE_MAP.get(str(dataset_value), str(dataset_value))
                                         ax.set_title(dataset_title)
                                     if t_df.empty:
                                         ax.text(
@@ -310,11 +358,7 @@ def plot_grid(
                                 c = d_idx * cols_per_dataset + m_idx
                                 ax = axes[r, c]
                                 if r == 0:
-                                    dataset_title = {
-                                        "istella": "Istella-S",
-                                        "mslr30k": "MSLR-WEB30K",
-                                        "yahoo": "Yahoo!",
-                                    }.get(str(dataset_value), str(dataset_value))
+                                    dataset_title = DATASET_TITLE_MAP.get(str(dataset_value), str(dataset_value))
                                     ax.set_title(dataset_title)
                                 if s_df.empty:
                                     ax.text(
@@ -336,7 +380,7 @@ def plot_grid(
             # build legend dynamically: only what is plotted for this figure
             handles = []
             for i, label in enumerate(prop_models):
-                display_label = display_aliases.get(label, label)
+                display_label = PROPENSITY_DISPLAY_ALIASES.get(label, label)
                 handles.append(
                     Line2D(
                         [0], [0],
@@ -353,16 +397,21 @@ def plot_grid(
                 else set()
             )
             if "max-score" in baseline_models_present:
-                handles.append(Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Max-Score"))
+                handles.append(
+                    Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Label-Trained (Skyline)")
+                )
             if "logging-policy" in baseline_models_present:
-                handles.append(Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy"))
+                handles.append(
+                    Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy (Baseline)")
+                )
 
             fig.legend(
                 handles=handles,
                 labels=[h.get_label() for h in handles],
                 loc="lower center",
                 ncol=min(len(handles), 15),
-                bbox_to_anchor=(0.5, -0.05),
+                bbox_to_anchor=(0.5, -0.07),
+                frameon=False,
             )
 
             plt.tight_layout()
@@ -628,18 +677,21 @@ def plot_dm_dr_ips_naiveho_frequency_based(
         else set()
     )
     if "max-score" in baseline_models_present and "max-score" not in labels:
-        handles.append(Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="max-score"))
-        labels.append("max-score")
+        handles.append(Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Label-Trained (Skyline)"))
+        labels.append("Label-Trained (Skyline)")
     if "logging-policy" in baseline_models_present and "logging-policy" not in labels:
-        handles.append(Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="logging-policy"))
-        labels.append("logging-policy")
+        handles.append(
+            Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy (Baseline)")
+        )
+        labels.append("Logging Policy (Baseline)")
 
     fig.legend(
         handles=handles,
         labels=labels,
         loc="lower center",
         ncol=min(len(labels), 6),
-        bbox_to_anchor=(0.5, -0.05),
+        bbox_to_anchor=(0.5, -0.07),
+        frameon=False,
     )
     plt.tight_layout()
     output_name = build_plot_filename(
@@ -653,6 +705,228 @@ def plot_dm_dr_ips_naiveho_frequency_based(
         os.path.join(PLOTS_DIR, output_name),
         bbox_inches='tight'
     )
+    plt.close(fig)
+
+
+def plot_ips_dm_dr_stacked_propensity_grid(
+    agg: pd.DataFrame,
+    baselines: pd.DataFrame,
+    *,
+    metric: str = "NDCG",
+    figsize_per_cell=(5.8, 3.1),
+    float_tol=1e-12,
+    include_distance_models=False,
+    filename_namespace: Optional[str] = None,
+    output_name: Optional[str] = None,
+    dataset_col: Optional[str] = None,
+    dataset_order=None,
+    x_col: str = "n_sessions",
+    x_label: str = "Number of Sessions",
+    x_scale: str = "log",
+    x_ticks=None,
+    x_ticklabels=None,
+    x_limits=None,
+    sharex: bool = True,
+    interval_mode: str = "std",
+    filter_val: bool = False,
+    wspace: float = 0.12,
+):
+    """Plot IPS, DM, and DR as vertically stacked rows with shared x-axis."""
+    if dataset_col is not None and dataset_col not in agg.columns:
+        raise ValueError(f"dataset_col '{dataset_col}' not found in aggregated dataframe.")
+    if x_col not in agg.columns:
+        raise ValueError(f"x_col '{x_col}' not found in aggregated dataframe.")
+
+    row_models = ("ips", "dm", "dr")
+    sub = agg[agg["ips_model"].isin(row_models) & (agg["metric"] == metric)].copy()
+    sub = sub[
+        ((sub["ips_model"] == "ips") & (sub["plot_filter"] == "merged"))
+        | (sub["ips_model"].isin({"dm", "dr"}) & (sub["plot_filter"] == filter_val))
+    ].copy()
+
+    if sub.empty:
+        raise ValueError("No rows found for stacked IPS/DM/DR propensity plot.")
+
+    if dataset_col is None:
+        datasets = [None]
+    else:
+        available = set(sub[dataset_col].dropna().unique())
+        datasets = sorted(available) if dataset_order is None else list(dataset_order)
+        if not datasets:
+            datasets = sorted(available)
+
+    strengths = sorted(sub["policy_strength"].unique())
+    if len(strengths) != 1:
+        raise ValueError(
+            "Stacked IPS/DM/DR plot expects exactly one policy_strength; "
+            f"found {strengths}."
+        )
+    strength = strengths[0]
+    sub = sub[np.isclose(sub["policy_strength"], strength, atol=float_tol)]
+
+    n_rows = len(row_models)
+    n_cols = len(datasets)
+    colors = plt.cm.tab10.colors
+
+    prop_models = sorted(sub["propensity_model"].dropna().unique())
+    if not include_distance_models:
+        prop_models = [pm for pm in prop_models if pm not in {"cosine", "knn", "kmeans"}]
+    if not prop_models:
+        raise ValueError("No propensity models available for stacked IPS/DM/DR plot.")
+
+    style_map = {
+        "max-score": dict(color="black", linestyle="--", linewidth=2),
+        "logging-policy": dict(color="black", linestyle=":", linewidth=2),
+    }
+    band_alpha = {"max-score": 0.25, "logging-policy": 0.15}
+
+    fig, axes = plt.subplots(
+        n_rows,
+        n_cols,
+        figsize=(figsize_per_cell[0] * n_cols, figsize_per_cell[1] * n_rows),
+        sharex=sharex,
+        sharey=False,
+    )
+    axes = ensure_2d_axes(axes, n_rows, n_cols)
+
+    for r, ips_model in enumerate(row_models):
+        for c, dataset_value in enumerate(datasets):
+            ax = axes[r, c]
+            df = sub[sub["ips_model"] == ips_model]
+            if dataset_col is not None and dataset_value is not None:
+                df = df[df[dataset_col] == dataset_value]
+
+            if r == 0 and dataset_col is not None:
+                ax.set_title(latex_bold(DATASET_TITLE_MAP.get(str(dataset_value), str(dataset_value))))
+
+            if c == 0:
+                ax.text(
+                    -0.22,
+                    0.5,
+                    latex_bold(IPS_MODEL_DISPLAY_ALIASES.get(ips_model, ips_model.upper())),
+                    transform=ax.transAxes,
+                    rotation=90,
+                    ha="center",
+                    va="center",
+                    fontsize=plt.rcParams["axes.titlesize"],
+                )
+                ax.set_ylabel(metric)
+
+            if df.empty:
+                ax.text(
+                    0.5,
+                    0.5,
+                    "No data",
+                    transform=ax.transAxes,
+                    ha="center",
+                    va="center",
+                    color="gray",
+                )
+            else:
+                for i, pm in enumerate(prop_models):
+                    s = df[df["propensity_model"] == pm].sort_values(x_col)
+                    if s.empty:
+                        continue
+                    x = s[x_col].to_numpy()
+                    y = s["mean_value"].to_numpy()
+                    low, high = get_interval_bounds(s, interval_mode=interval_mode)
+                    color = colors[i % len(colors)]
+                    linestyle = "-." if pm == "true_propensity" else "-"
+                    ax.plot(x, y, marker="o", color=color, linestyle=linestyle, zorder=2)
+                    ax.fill_between(x, low, high, color=color, alpha=0.2, zorder=1)
+
+                if baselines is not None and not baselines.empty:
+                    b = baselines[baselines["metric"] == metric]
+                    if dataset_col is not None and dataset_col in baselines.columns and dataset_value is not None:
+                        b = b[b[dataset_col] == dataset_value]
+                    for _, row in b.iterrows():
+                        name = row["baseline_name"]
+                        mu = float(row["mean_value"])
+                        low, high = get_baseline_interval(row, interval_mode=interval_mode)
+                        ax.axhline(mu, zorder=4, **style_map.get(name, {}))
+                        ax.axhspan(low, high, color="grey", alpha=band_alpha.get(name, 0.2), zorder=3)
+
+            if x_scale:
+                ax.set_xscale(x_scale)
+            if x_ticks is not None:
+                ax.set_xticks(x_ticks)
+            if x_ticklabels is not None:
+                ax.set_xticklabels(x_ticklabels)
+            if x_limits is not None:
+                ax.set_xlim(*x_limits)
+            if r == n_rows - 1:
+                ax.set_xlabel(x_label)
+            else:
+                ax.set_xlabel("")
+            if x_ticklabels is None and x_scale != "log":
+                ax.xaxis.set_major_formatter(FuncFormatter(format_max_two_decimals))
+            y_decimals = DATASET_Y_DECIMALS.get(str(dataset_value), 2)
+            ax.yaxis.set_major_formatter(FuncFormatter(format_fixed_decimals(y_decimals)))
+            ax.grid(True, which="both", linestyle="--", alpha=0.5)
+
+    handles = []
+    for i, label in enumerate(prop_models):
+        handles.append(
+            Line2D(
+                [0],
+                [0],
+                color=colors[i % len(colors)],
+                marker="o",
+                linestyle="-." if label == "true_propensity" else "-",
+                label=PROPENSITY_DISPLAY_ALIASES.get(label, label),
+            )
+        )
+
+    baseline_models_present = (
+        set(baselines["baseline_name"].unique())
+        if baselines is not None and not baselines.empty
+        else set()
+    )
+    if "max-score" in baseline_models_present:
+        handles.append(Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Label-Trained (Skyline)"))
+    if "logging-policy" in baseline_models_present:
+        handles.append(
+            Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy (Baseline)")
+        )
+
+    fig.legend(
+        handles=handles,
+        labels=[h.get_label() for h in handles],
+        loc="lower center",
+        ncol=min(len(handles), 5),
+        bbox_to_anchor=(0.5, -0.04),
+        frameon=False,
+    )
+    fig.align_ylabels()
+    plt.tight_layout()
+    fig.subplots_adjust(wspace=wspace)
+    for upper_row in range(n_rows - 1):
+        upper_axes = axes[upper_row, :]
+        lower_axes = axes[upper_row + 1, :]
+        first_pos = axes[upper_row, 0].get_position()
+        x0 = max(0.0, first_pos.x0 - 0.30 * first_pos.width)
+        x1 = max(ax.get_position().x1 for ax in upper_axes)
+        y = (
+            min(ax.get_position().y0 for ax in upper_axes)
+            + max(ax.get_position().y1 for ax in lower_axes)
+        ) / 2
+        fig.add_artist(
+            Line2D(
+                [x0, x1],
+                [y, y],
+                transform=fig.transFigure,
+                color="black",
+                linewidth=0.8,
+                alpha=0.75,
+            )
+        )
+
+    if output_name is None:
+        if not filename_namespace:
+            raise ValueError("Either output_name or filename_namespace must be provided.")
+        output_name = f"{slugify_plot_part(filename_namespace)}-prop-stacked.pdf"
+
+    plt.savefig(os.path.join(PLOTS_DIR, output_name), bbox_inches="tight")
     plt.close(fig)
 
 def plot_policy_models_train_histograms_ps1p0(
@@ -846,8 +1120,8 @@ def plot_temperature_analysis(
         "MLPregression": "Propensity MLP",
         "frequency-based": "Frequency-Based",
         "true_propensity": "Oracle Propensity",
-        "max-score": "Max-Score",
-        "logging-policy": "Logging Policy",
+        "max-score": "Label-Trained (Skyline)",
+        "logging-policy": "Logging Policy (Baseline)",
         "cosine": "Cosine",
         "knn": "KNN",
         "kmeans": "K-Means",
@@ -930,9 +1204,13 @@ def plot_temperature_analysis(
         if baselines is not None and not baselines.empty:
             baseline_models_present = set(baselines["baseline_name"].unique())
             if "max-score" in baseline_models_present:
-                legend_handles.append(Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Max-Score"))
+                legend_handles.append(
+                    Line2D([0], [0], color="black", linestyle="--", linewidth=2, label="Label-Trained (Skyline)")
+                )
             if "logging-policy" in baseline_models_present:
-                legend_handles.append(Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy"))
+                legend_handles.append(
+                    Line2D([0], [0], color="black", linestyle=":", linewidth=2, label="Logging Policy (Baseline)")
+                )
 
         fig.legend(handles=legend_handles, loc="lower center",
                    ncol=min(len(legend_handles), 6), bbox_to_anchor=(0.5, -0.05))

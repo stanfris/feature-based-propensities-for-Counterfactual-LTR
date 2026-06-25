@@ -10,7 +10,7 @@
       \textbf{Dataset} & \textbf{Model} & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR & NDCG & RCTR \\
       \midrule
       \multirow{3}{*}{\textbf{MSLR-WEB30K}}
-      & Oracle Propensity & 0.410 (0.024)$^{\blacktriangle}$ & 0.583 (0.038)$^{\blacktriangle}$ & 0.449 (0.016)$^{\blacktriangle}$ & 0.650 (0.021)$^{\blacktriangle}$ & 0.470 (0.016) & 0.677 (0.028) & 0.489 (0.009) & 0.704 (0.015)$^{\blacktriangledown}$ \\
+      & Oracle Propensity & 0.410 (0.024)$^{\blacktriangle}$ & 0.583 (0.038)$^{\blacktriangle}$ & 0.449 (0.016)$^{\blacktriangle}$ & 0.650 (0.021)$^{\blacktriangle}$ & 0.471 (0.016) & 0.679 (0.029) & 0.489 (0.009) & 0.705 (0.015)$^{\blacktriangledown}$ \\
       \cmidrule(lr){2-10}
       & Frequency-Based & 0.388 (0.032) & 0.535 (0.050) & 0.432 (0.018) & 0.620 (0.025) & 0.468 (0.013) & 0.677 (0.019) & 0.491 (0.004) & 0.714 (0.006) \\
       & MLP & \textbf{0.447 (0.017)}$^{\blacktriangle}$ & \textbf{0.644 (0.027)}$^{\blacktriangle}$ & \textbf{0.473 (0.009)}$^{\blacktriangle}$ & \textbf{0.686 (0.013)}$^{\blacktriangle}$ & \textbf{0.498 (0.007)}$^{\blacktriangle}$ & \textbf{0.721 (0.009)}$^{\blacktriangle}$ & \textbf{0.512 (0.004)}$^{\blacktriangle}$ & \textbf{0.740 (0.009)}$^{\blacktriangle}$ \\

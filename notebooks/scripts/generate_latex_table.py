@@ -24,6 +24,11 @@ PROP_NAMES = {
     "kmeans": "K-means",
     "true_propensity": "Oracle Propensity",
 }
+OBJECTIVE_NAMES = {
+    "ips": r"\ac{IPS}",
+    "dm": r"\ac{DM}",
+    "dr": r"\ac{DR}",
+}
 
 
 def format_n_sessions(n_sessions):
@@ -110,6 +115,12 @@ def safe_load_json(path):
         return None
 
 
+def get_sig_symbol_p001(val, base_val, p):
+    if p is None or p >= 0.01:
+        return ""
+    return r"$^{\blacktriangle}$" if val > base_val else r"$^{\blacktriangledown}$"
+
+
 def load_records(experiment, datasets, n_list, random_states, temperatures):
     base_dir = Path("results") / experiment
     if not base_dir.exists():
@@ -179,7 +190,15 @@ def load_records(experiment, datasets, n_list, random_states, temperatures):
     return records
 
 
-def build_table_data(records, ips_model, prop_order, n_list, temperatures, random_states):
+def build_table_data(
+    records,
+    ips_model,
+    prop_order,
+    n_list,
+    temperatures,
+    random_states,
+    sig_symbol_fn=get_sig_symbol,
+):
     values = defaultdict(list)
     paired = defaultdict(dict)
 
@@ -263,7 +282,7 @@ def build_table_data(records, ips_model, prop_order, n_list, temperatures, rando
                     [y for _, y in valid_pairs],
                 )
                 base_mean = sum(base_values) / len(base_values) if base_values else mean_value
-                symbol = get_sig_symbol(mean_value, base_mean, p_value)
+                symbol = sig_symbol_fn(mean_value, base_mean, p_value)
                 matched_count = len(valid_pairs)
                 cell = format_summary_cell(mean_value, std_value, symbol, bold=is_best_non_oracle)
                 if base_values and matched_count < 2:
@@ -470,6 +489,107 @@ def render_all_datasets_column_table(
     return "\n".join(lines), toggle_str
 
 
+def render_objective_comparison_column_table(
+    objective_tables,
+    include_distance,
+    datasets,
+    n_list,
+    output_prefix,
+):
+    if include_distance:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
+        toggle_str = "included"
+    else:
+        prop_order = ["true_propensity", "frequency-based", "MLPregression"]
+        toggle_str = "excluded"
+
+    objective_order = ("ips", "dm", "dr")
+    available_datasets = [
+        (ds_key, ds_label)
+        for ds_key, ds_label in datasets
+        if any(ds_key in objective_tables.get(ips_model, {}) for ips_model in objective_order)
+    ]
+    prop_order = [
+        prop
+        for prop in prop_order
+        if any(
+            objective_tables.get(ips_model, {})
+            .get(ds_key, {})
+            .get("NDCG", {})
+            .get(n_sessions, {})
+            .get(prop)
+            for ips_model in objective_order
+            for ds_key, _ in available_datasets
+            for n_sessions in n_list
+        )
+    ]
+
+    col_spec = "ll|" + "|".join("c" * len(n_list) for _ in objective_order)
+    header_groups = " & ".join(
+        [r"\textbf{Dataset}", r"\textbf{Model}"]
+        + [
+            rf"\multicolumn{{{len(n_list)}}}{{{'|c|' if idx == 0 else 'c|' if idx < len(objective_order) - 1 else 'c'}}}{{\textbf{{{OBJECTIVE_NAMES[ips_model]}}}}}"
+            for idx, ips_model in enumerate(objective_order)
+        ]
+    )
+    session_header = " & ".join(
+        ["", ""]
+        + [
+            format_n_sessions_header(n_sessions)
+            for _ in objective_order
+            for n_sessions in n_list
+        ]
+    )
+    cmidrules = " ".join(
+        rf"\cmidrule(lr){{{3 + idx * len(n_list)}-{2 + (idx + 1) * len(n_list)}}}"
+        for idx in range(len(objective_order))
+    )
+
+    lines = []
+    lines.append("\\begin{table}[h!]")
+    lines.append(
+        "  \\caption{NDCG results for propensity estimation methods across sample counts for "
+        "\\ac{IPS}, \\ac{DM} and \\ac{DR}. Cells show mean (SD); best non-oracle value is bold. "
+        "Markers indicate two-sided t-test significance versus the frequency-based method: "
+        "$p<0.01$ ($^\\blacktriangle$, $^\\blacktriangledown$).}"
+    )
+    lines.append("  \\centering")
+    lines.append("  \\setlength{\\tabcolsep}{3pt}")
+    lines.append("  \\resizebox{\\textwidth}{!}{")
+    lines.append(f"    \\begin{{tabular}}{{{col_spec}}}")
+    lines.append("      \\toprule")
+    lines.append(f"      {header_groups} \\\\")
+    lines.append(f"      {cmidrules}")
+    lines.append(f"      {session_header} \\\\")
+    lines.append("      \\midrule")
+
+    last_col = 2 + len(objective_order) * len(n_list)
+    for ds_idx, (ds_key, ds_label) in enumerate(available_datasets):
+        lines.append(f"      \\multirow{{{len(prop_order)}}}{{*}}{{\\textbf{{{ds_label}}}}}")
+        for prop in prop_order:
+            row = f"      & {PROP_NAMES[prop]}"
+            for ips_model in objective_order:
+                dataset_table = objective_tables.get(ips_model, {}).get(ds_key)
+                for n_sessions in n_list:
+                    cell = "-"
+                    if dataset_table is not None:
+                        cell = dataset_table["NDCG"][n_sessions].get(prop, "-")
+                    row += f" & {cell}"
+            row += " \\\\"
+            lines.append(row)
+            if prop == "true_propensity":
+                lines.append(f"      \\cmidrule(lr){{2-{last_col}}}")
+        if ds_idx != len(available_datasets) - 1:
+            lines.append("      \\midrule")
+
+    lines.append("      \\bottomrule")
+    lines.append("    \\end{tabular}")
+    lines.append("  }")
+    lines.append(f"  \\label{{tab:ips_dm_dr_means_{output_prefix}_{toggle_str}_columns}}")
+    lines.append("\\end{table}")
+    return "\n".join(lines), toggle_str
+
+
 def print_diagnostics(table_name, diagnostics):
     if not diagnostics:
         print(f"{table_name}: all significance comparisons had at least two matched pairs.")
@@ -512,8 +632,10 @@ def main():
     TABLES_DIR.mkdir(parents=True, exist_ok=True)
     THESIS_TABLES_DIR.mkdir(parents=True, exist_ok=True)
 
+    objective_tables = {}
+    comparison_diagnostics = []
     for ips_model in ("ips", "dr", "dm"):
-        for include_distance in (False, True):
+        for include_distance in (False,):
             prop_order = (
                 ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
                 if include_distance
@@ -527,6 +649,17 @@ def main():
                 temperatures=temperatures,
                 random_states=random_states,
             )
+            if not include_distance:
+                objective_tables[ips_model], objective_diagnostics = build_table_data(
+                    records=records,
+                    ips_model=ips_model,
+                    prop_order=prop_order,
+                    n_list=n_list,
+                    temperatures=temperatures,
+                    random_states=random_states,
+                    sig_symbol_fn=get_sig_symbol_p001,
+                )
+                comparison_diagnostics.extend(objective_diagnostics)
             table_str, toggle_str = render_combined_table(
                 ips_model=ips_model,
                 include_distance=include_distance,
@@ -563,31 +696,25 @@ def main():
             column_thesis_filename.write_text(column_table_str)
             print(f"Wrote {column_filename}")
 
-            for dataset_key, dataset_label in datasets:
-                if dataset_key not in dataset_tables:
-                    continue
-                column_table_str, _ = render_column_table(
-                    ips_model=ips_model,
-                    include_distance=include_distance,
-                    dataset_key=dataset_key,
-                    dataset_label=dataset_label,
-                    dataset_table=dataset_tables[dataset_key],
-                    n_list=n_list,
-                    output_prefix=args.output_prefix,
-                )
-                column_filename = (
-                    TABLES_DIR
-                    / f"tabel_{args.output_prefix}_{dataset_key}_{ips_model}_{toggle_str}_columns.txt"
-                )
-                column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
-                column_table_str = preserve_existing_numeric_cells(
-                    column_table_str,
-                    column_filename,
-                    column_thesis_filename,
-                )
-                column_filename.write_text(column_table_str)
-                column_thesis_filename.write_text(column_table_str)
-                print(f"Wrote {column_filename}")
+    if objective_tables:
+        comparison_table_str, toggle_str = render_objective_comparison_column_table(
+            objective_tables=objective_tables,
+            include_distance=False,
+            datasets=datasets,
+            n_list=n_list,
+            output_prefix=args.output_prefix,
+        )
+        comparison_filename = TABLES_DIR / f"tabel_{args.output_prefix}_ips_dm_dr_{toggle_str}_columns.txt"
+        comparison_thesis_filename = THESIS_TABLES_DIR / comparison_filename.name
+        comparison_table_str = preserve_existing_numeric_cells(
+            comparison_table_str,
+            comparison_filename,
+            comparison_thesis_filename,
+        )
+        comparison_filename.write_text(comparison_table_str)
+        comparison_thesis_filename.write_text(comparison_table_str)
+        print(f"Wrote {comparison_filename}")
+        print_diagnostics(comparison_filename.name, comparison_diagnostics)
 
 
 if __name__ == "__main__":

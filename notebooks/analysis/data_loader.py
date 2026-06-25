@@ -25,6 +25,28 @@ def _quantile(q: float):
     return lambda values: values.quantile(q)
 
 
+def _trimmed_order_statistic(values: pd.Series, *, side: str, trim_count: int = 2) -> float:
+    sorted_values = values.dropna().sort_values().to_numpy()
+    if len(sorted_values) == 0:
+        return np.nan
+    if len(sorted_values) <= 2 * trim_count:
+        return float(sorted_values[0] if side == "low" else sorted_values[-1])
+
+    if side == "low":
+        return float(sorted_values[trim_count])
+    if side == "high":
+        return float(sorted_values[-trim_count - 1])
+    raise ValueError(f"Unsupported side: {side}")
+
+
+def _trimmed_ci_low(values: pd.Series) -> float:
+    return _trimmed_order_statistic(values, side="low")
+
+
+def _trimmed_ci_high(values: pd.Series) -> float:
+    return _trimmed_order_statistic(values, side="high")
+
+
 def safe_load_json(path: Path) -> Optional[Dict[str, Any]]:
     try:
         with path.open("r") as f:
@@ -176,8 +198,8 @@ def aggregate_mean_std(df_long: pd.DataFrame) -> pd.DataFrame:
         .agg(
             mean_value=("value", "mean"),
             std_value=("value", "std"),
-            ci_low_value=("value", _quantile(0.05)),
-            ci_high_value=("value", _quantile(0.95)),
+            ci_low_value=("value", _trimmed_ci_low),
+            ci_high_value=("value", _trimmed_ci_high),
             n_runs=("value", "size"),
         )
         .sort_values(
@@ -268,8 +290,8 @@ def load_baselines_from_folder(
     agg = df.groupby(["baseline_name", "metric"], as_index=False).agg(
         mean_value=("value", "mean"),
         std_value=("value", "std"),
-        ci_low_value=("value", _quantile(0.05)),
-        ci_high_value=("value", _quantile(0.95)),
+        ci_low_value=("value", _trimmed_ci_low),
+        ci_high_value=("value", _trimmed_ci_high),
         n_runs=("value", "size"),
     )
     agg["std_value"] = agg["std_value"].fillna(0.0)

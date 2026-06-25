@@ -21,6 +21,7 @@ from notebooks.analysis import (
     load_long_metrics,
     plot_dm_dr_ips_naiveho_frequency_based,
     plot_grid,
+    plot_ips_dm_dr_stacked_propensity_grid,
 )
 
 
@@ -107,6 +108,18 @@ def main():
         filename_namespace=filename_namespace,
         dataset_col="dataset_name",
         dataset_order=datasets,
+        interval_mode="ci",
+    )
+
+    print("Generating stacked IPS/DM/DR real-target propensity plot...")
+    plot_ips_dm_dr_stacked_propensity_grid(
+        agg_triple,
+        baselines_triple,
+        metric="NDCG",
+        filename_namespace=filename_namespace,
+        dataset_col="dataset_name",
+        dataset_order=datasets,
+        interval_mode="ci",
     )
 
     try:
@@ -119,6 +132,7 @@ def main():
             filename_namespace=filename_namespace,
             dataset_col="dataset_name",
             dataset_order=datasets,
+            interval_mode="ci",
         )
     except ValueError as e:
         print(f"Skipping method comparison: {e}")
@@ -127,6 +141,7 @@ def main():
         "real-prop-ips.pdf",
         "real-prop-dm.pdf",
         "real-prop-dr.pdf",
+        "real-prop-stacked.pdf",
         "real-methods.pdf",
     )
 

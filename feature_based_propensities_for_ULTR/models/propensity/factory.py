@@ -6,6 +6,7 @@ from flax import nnx
 from omegaconf import DictConfig
 
 from .base import PropensityModelSpec
+from .frequency import FrequencyPropensityModel
 from .mlp import ClassifierPropensityMLP, RegressionPropensityMLP
 from .unsupervised import UnsupervisedGroupingPropensity
 
@@ -25,7 +26,7 @@ def build_propensity_model_spec(
     seed: int,
     method: str | None = None,
 ) -> PropensityModelSpec:
-    method_norm = str(method or config.propensity_model.type).lower()
+    method_norm = str(method or config.propensity_model.type).lower().replace("-", "_")
     feature_dim, positions = _infer_dataset_dims(train_dataset)
     deterministic_groups = bool(config.deterministic_groups)
     bias_width = int(np.asarray(bias_value_array).shape[0])
@@ -36,6 +37,13 @@ def build_propensity_model_spec(
             f"dataset positions={positions}, bias vector length={bias_width}. "
             "Align the click dataset width with the effective aggregation cutoff before "
             "building trainable propensity models."
+        )
+
+    if method_norm == "frequency_based":
+        return PropensityModelSpec(
+            name="frequency_based",
+            model=FrequencyPropensityModel(),
+            trainable=False,
         )
 
     if method_norm == "propensity_mlp_classifier":

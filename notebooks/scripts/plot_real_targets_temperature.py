@@ -21,6 +21,7 @@ from notebooks.analysis import (
     load_long_metrics,
     plot_dm_dr_ips_naiveho_frequency_based,
     plot_grid,
+    plot_ips_dm_dr_stacked_propensity_grid,
 )
 
 
@@ -97,12 +98,30 @@ def main():
         dataset_col="dataset_name",
         dataset_order=datasets,
         x_col="tmp",
-        x_label="Temperature",
+        x_label=r"Epsilon ($\epsilon$)",
         x_scale="linear",
         facet_by_temperature=False,
         x_ticks=TEMPERATURES,
         x_ticklabels=TEMPERATURE_TICK_LABELS,
         x_limits=(TEMPERATURES[0], TEMPERATURES[-1]),
+        interval_mode="ci",
+    )
+
+    print("Generating stacked IPS/DM/DR temperature propensity plot...")
+    plot_ips_dm_dr_stacked_propensity_grid(
+        agg_triple,
+        baselines_triple,
+        metric="NDCG",
+        filename_namespace=filename_namespace,
+        dataset_col="dataset_name",
+        dataset_order=datasets,
+        x_col="tmp",
+        x_label=r"Epsilon ($\epsilon$)",
+        x_scale="linear",
+        x_ticks=TEMPERATURES,
+        x_ticklabels=TEMPERATURE_TICK_LABELS,
+        x_limits=(TEMPERATURES[0], TEMPERATURES[-1]),
+        interval_mode="ci",
     )
 
     print("Generating triple-dataset temperature method comparison plots...")
@@ -115,18 +134,20 @@ def main():
         dataset_col="dataset_name",
         dataset_order=datasets,
         x_col="tmp",
-        x_label="Temperature",
+        x_label=r"Epsilon ($\epsilon$)",
         x_scale="linear",
         facet_by_temperature=False,
         x_ticks=TEMPERATURES,
         x_ticklabels=TEMPERATURE_TICK_LABELS,
         x_limits=(TEMPERATURES[0], TEMPERATURES[-1]),
+        interval_mode="ci",
     )
 
     copy_to_thesis_images(
         "real-temp-prop-ips.pdf",
         "real-temp-prop-dm.pdf",
         "real-temp-prop-dr.pdf",
+        "real-temp-prop-stacked.pdf",
         "real-temp-methods.pdf",
     )
 

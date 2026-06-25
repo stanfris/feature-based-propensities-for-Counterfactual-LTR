@@ -485,7 +485,7 @@ def main():
     THESIS_TABLES_DIR.mkdir(parents=True, exist_ok=True)
 
     for ips_model in ("ips", "dr", "dm"):
-        for include_distance in (False, True):
+        for include_distance in (False,):
             prop_order = (
                 ["true_propensity", "frequency-based", "MLPregression", "cosine", "knn", "kmeans"]
                 if include_distance
@@ -534,32 +534,6 @@ def main():
             column_filename.write_text(column_table_str)
             column_thesis_filename.write_text(column_table_str)
             print(f"Wrote {column_filename}")
-
-            for dataset_key, dataset_label in datasets:
-                if dataset_key not in dataset_tables:
-                    continue
-                column_table_str, _ = render_column_table(
-                    ips_model=ips_model,
-                    include_distance=include_distance,
-                    dataset_key=dataset_key,
-                    dataset_label=dataset_label,
-                    dataset_table=dataset_tables[dataset_key],
-                    temperatures=temperatures,
-                    output_prefix=args.output_prefix,
-                )
-                column_filename = (
-                    TABLES_DIR
-                    / f"tabel_{args.output_prefix}_{dataset_key}_{ips_model}_{toggle_str}_columns.txt"
-                )
-                column_thesis_filename = THESIS_TABLES_DIR / column_filename.name
-                column_table_str = preserve_existing_numeric_cells(
-                    column_table_str,
-                    column_filename,
-                    column_thesis_filename,
-                )
-                column_filename.write_text(column_table_str)
-                column_thesis_filename.write_text(column_table_str)
-                print(f"Wrote {column_filename}")
 
 
 if __name__ == "__main__":

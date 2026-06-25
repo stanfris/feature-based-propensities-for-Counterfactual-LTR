@@ -9,6 +9,7 @@ from .stats import make_combined_latex_table
 
 _PLOTTING_EXPORTS = {
     "plot_dm_dr_ips_naiveho_frequency_based",
+    "plot_ips_dm_dr_stacked_propensity_grid",
     "plot_grid",
     "plot_policy_models_train_histograms_ps1p0",
     "plot_temperature_analysis",
@@ -22,6 +23,7 @@ __all__ = [
     "load_baselines_from_folder",
     "plot_grid",
     "plot_dm_dr_ips_naiveho_frequency_based",
+    "plot_ips_dm_dr_stacked_propensity_grid",
     "plot_policy_models_train_histograms_ps1p0",
     "plot_temperature_analysis",
     "make_combined_latex_table",

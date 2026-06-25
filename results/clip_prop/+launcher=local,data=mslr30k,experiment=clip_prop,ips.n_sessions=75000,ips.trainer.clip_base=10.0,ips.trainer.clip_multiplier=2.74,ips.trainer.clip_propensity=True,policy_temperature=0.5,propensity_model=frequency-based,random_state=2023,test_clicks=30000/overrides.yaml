@@ -1,0 +1,12 @@
+- experiment=clip_prop
+- data=mslr30k
+- policy_temperature=0.5
+- data.preprocessor.max_documents_per_query=25
+- random_state=2023
+- ips.n_sessions=75000
+- test_clicks=30000
+- propensity_model=frequency-based
+- ips.trainer.clip_propensity=True
+- ips.trainer.clip_base=10.0
+- ips.trainer.clip_multiplier=2.74
+- +launcher=local

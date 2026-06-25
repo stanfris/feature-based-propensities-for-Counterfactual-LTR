@@ -1,0 +1,33 @@
+\begin{table}[h!]
+  \caption{NDCG results for propensity estimation methods across sample counts for \ac{IPS}, \ac{DM} and \ac{DR}. Cells show mean (SD); best non-oracle value is bold. Markers indicate two-sided t-test significance versus the frequency-based method: $p<0.01$ ($^\blacktriangle$, $^\blacktriangledown$).}
+  \centering
+  \setlength{\tabcolsep}{3pt}
+  \resizebox{\textwidth}{!}{
+    \begin{tabular}{ll|cccc|cccc|cccc}
+      \toprule
+      \textbf{Dataset} & \textbf{Model} & \multicolumn{4}{|c|}{\textbf{\ac{IPS}}} & \multicolumn{4}{c|}{\textbf{\ac{DM}}} & \multicolumn{4}{c}{\textbf{\ac{DR}}} \\
+      \cmidrule(lr){3-6} \cmidrule(lr){7-10} \cmidrule(lr){11-14}
+       &  & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} & \sampleNheader{3} & \sampleNheader{4} & \sampleNheader{5} & \sampleNheader{6} \\
+      \midrule
+      \multirow{3}{*}{\textbf{MSLR-WEB30K}}
+      & Oracle Propensity & 0.337 (0.012) & 0.423 (0.021)$^{\blacktriangle}$ & 0.492 (0.007)$^{\blacktriangle}$ & 0.507 (0.003)$^{\blacktriangle}$ & 0.411 (0.024)$^{\blacktriangle}$ & 0.455 (0.016)$^{\blacktriangle}$ & 0.477 (0.012) & 0.476 (0.011)$^{\blacktriangle}$ & 0.410 (0.024)$^{\blacktriangle}$ & 0.449 (0.016)$^{\blacktriangle}$ & 0.471 (0.016) & 0.489 (0.009) \\
+      \cmidrule(lr){2-14}
+      & Frequency-Based & 0.336 (0.011) & 0.387 (0.021) & 0.480 (0.009) & 0.492 (0.004) & 0.388 (0.032) & 0.437 (0.018) & 0.471 (0.012) & 0.469 (0.007) & 0.388 (0.032) & 0.432 (0.018) & 0.468 (0.013) & 0.491 (0.004) \\
+      & MLP & \textbf{0.338 (0.011)} & \textbf{0.440 (0.010)}$^{\blacktriangle}$ & \textbf{0.497 (0.007)}$^{\blacktriangle}$ & \textbf{0.515 (0.001)}$^{\blacktriangle}$ & \textbf{0.437 (0.052)}$^{\blacktriangle}$ & \textbf{0.478 (0.008)}$^{\blacktriangle}$ & \textbf{0.496 (0.006)}$^{\blacktriangle}$ & \textbf{0.503 (0.003)}$^{\blacktriangle}$ & \textbf{0.447 (0.017)}$^{\blacktriangle}$ & \textbf{0.473 (0.009)}$^{\blacktriangle}$ & \textbf{0.498 (0.007)}$^{\blacktriangle}$ & \textbf{0.512 (0.004)}$^{\blacktriangle}$ \\
+      \midrule
+      \multirow{3}{*}{\textbf{Istella-S}}
+      & Oracle Propensity & 0.361 (0.039)$^{\blacktriangle}$ & 0.678 (0.011)$^{\blacktriangle}$ & 0.755 (0.008) & 0.793 (0.005) & 0.670 (0.021)$^{\blacktriangle}$ & 0.733 (0.014) & 0.761 (0.006) & 0.776 (0.003) & 0.671 (0.020)$^{\blacktriangle}$ & 0.736 (0.010)$^{\blacktriangle}$ & 0.757 (0.008)$^{\blacktriangledown}$ & 0.778 (0.006)$^{\blacktriangledown}$ \\
+      \cmidrule(lr){2-14}
+      & Frequency-Based & 0.317 (0.035) & 0.651 (0.017) & 0.753 (0.014) & \textbf{0.792 (0.004)} & 0.642 (0.030) & 0.721 (0.018) & \textbf{0.761 (0.006)} & \textbf{0.774 (0.005)} & 0.645 (0.029) & 0.728 (0.011) & \textbf{0.764 (0.008)} & \textbf{0.793 (0.004)} \\
+      & MLP & \textbf{0.385 (0.049)}$^{\blacktriangle}$ & \textbf{0.688 (0.009)}$^{\blacktriangle}$ & \textbf{0.754 (0.006)} & 0.786 (0.004)$^{\blacktriangledown}$ & \textbf{0.696 (0.012)}$^{\blacktriangle}$ & \textbf{0.730 (0.008)} & 0.754 (0.006)$^{\blacktriangledown}$ & 0.772 (0.004) & \textbf{0.694 (0.012)}$^{\blacktriangle}$ & \textbf{0.731 (0.009)} & 0.764 (0.008) & 0.788 (0.004)$^{\blacktriangledown}$ \\
+      \midrule
+      \multirow{3}{*}{\textbf{Yahoo!}}
+      & Oracle Propensity & 0.720 (0.002)$^{\blacktriangle}$ & 0.765 (0.005)$^{\blacktriangle}$ & 0.787 (0.003)$^{\blacktriangle}$ & 0.792 (0.003)$^{\blacktriangle}$ & 0.760 (0.008)$^{\blacktriangle}$ & 0.780 (0.006)$^{\blacktriangle}$ & 0.782 (0.002)$^{\blacktriangle}$ & 0.785 (0.003)$^{\blacktriangle}$ & 0.760 (0.008)$^{\blacktriangle}$ & 0.776 (0.004)$^{\blacktriangle}$ & 0.776 (0.004) & 0.780 (0.003)$^{\blacktriangledown}$ \\
+      \cmidrule(lr){2-14}
+      & Frequency-Based & 0.718 (0.002) & 0.750 (0.008) & 0.780 (0.003) & 0.786 (0.002) & 0.752 (0.010) & 0.770 (0.008) & 0.777 (0.004) & 0.780 (0.002) & 0.753 (0.010) & 0.769 (0.006) & 0.779 (0.004) & 0.785 (0.002) \\
+      & MLP & \textbf{0.720 (0.003)}$^{\blacktriangle}$ & \textbf{0.767 (0.006)}$^{\blacktriangle}$ & \textbf{0.787 (0.003)}$^{\blacktriangle}$ & \textbf{0.795 (0.002)}$^{\blacktriangle}$ & \textbf{0.764 (0.007)}$^{\blacktriangle}$ & \textbf{0.781 (0.004)}$^{\blacktriangle}$ & \textbf{0.785 (0.003)}$^{\blacktriangle}$ & \textbf{0.789 (0.002)}$^{\blacktriangle}$ & \textbf{0.764 (0.008)}$^{\blacktriangle}$ & \textbf{0.779 (0.004)}$^{\blacktriangle}$ & \textbf{0.781 (0.002)} & \textbf{0.787 (0.002)}$^{\blacktriangle}$ \\
+      \bottomrule
+    \end{tabular}
+  }
+  \label{tab:ips_dm_dr_means_real_targets_excluded_columns}
+\end{table}

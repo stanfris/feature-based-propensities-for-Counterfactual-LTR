@@ -74,7 +74,7 @@ hydra:
           - ips.trainer.n_eval_samples
           - ips.trainer.n_samples
           - ips.trainer.learning_rate
-          - ips.trainer.clip_multiplier
+          # - ips.trainer.clip_multiplier
           - ips.trainer.print_updates
           - ips.propensity.checkpoint_dir
           - ips.propensity.debug_compare_true
