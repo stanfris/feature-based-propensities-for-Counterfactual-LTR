@@ -1,8 +1,0 @@
-- experiment=real_targets
-- data=yahoo
-- random_state=55
-- policy_temperature=0.75
-- propensity_model=MLPregression
-- ips.model=dr
-- ips.n_sessions=10000
-- +launcher=slurmcpu

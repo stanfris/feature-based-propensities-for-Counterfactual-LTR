@@ -37,3 +37,9 @@ hydra.yaml
 config.yaml
 overrides.yaml
 run.log
+
+# Private / runtime config logs
+**/hydra.yaml
+**/config.yaml
+**/overrides.yaml
+**/run.log

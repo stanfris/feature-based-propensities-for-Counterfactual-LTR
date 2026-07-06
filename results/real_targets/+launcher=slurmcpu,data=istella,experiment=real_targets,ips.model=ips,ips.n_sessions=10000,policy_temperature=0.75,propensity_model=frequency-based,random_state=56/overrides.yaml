@@ -1,8 +1,0 @@
-- experiment=real_targets
-- data=istella
-- random_state=56
-- policy_temperature=0.75
-- propensity_model=frequency-based
-- ips.model=ips
-- ips.n_sessions=10000
-- +launcher=slurmcpu
