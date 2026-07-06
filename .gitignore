@@ -43,3 +43,6 @@ run.log
 **/config.yaml
 **/overrides.yaml
 **/run.log
+results/**/*.log
+results/**/.submitit/
+results/**/multirun.yaml
