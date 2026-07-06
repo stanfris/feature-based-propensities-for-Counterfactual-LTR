@@ -1,5 +1,4 @@
 # @package _global_
 
-dataset_dir: "~/Documents/Uni/MSc Thesis/ltr_datasets"
-
+dataset_dir: "../ltr_datasets"
 

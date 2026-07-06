@@ -1,15 +1,11 @@
 #!/bin/bash
 
 python run.py -m \
-  experiment=1-example \
-  ips.model=add-two-tower \
-  test_set_mode=clicks \
+  experiment=1_example \
   data=mslr30k \
-  relevance=deep \
-  logging_policy_ranker=deep \
-  relevance_tower=deep \
-  policy_strength=1.0 \
-  policy_temperature=0.0 \
-  random_state=2023 \
-  use_propensity_weighting=False \
-  $@
+  policy_temperature=0.5 \
+  ips.model=ips \
+  propensity_model=MLPregression  \
+  ips.n_sessions=10000 \
+  data.preprocessor.top_x=25 \
+  "$@"

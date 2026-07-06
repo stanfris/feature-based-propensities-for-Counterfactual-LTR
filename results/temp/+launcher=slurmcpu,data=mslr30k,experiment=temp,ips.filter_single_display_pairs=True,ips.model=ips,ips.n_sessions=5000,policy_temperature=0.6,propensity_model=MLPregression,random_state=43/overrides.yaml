@@ -1,9 +1,0 @@
-- experiment=temp
-- data=mslr30k
-- random_state=43
-- policy_temperature=0.6
-- propensity_model=MLPregression
-- ips.model=ips
-- ips.filter_single_display_pairs=True
-- ips.n_sessions=5000
-- +launcher=slurmcpu

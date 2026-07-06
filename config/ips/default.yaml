@@ -64,7 +64,8 @@ click_prediction_eval:
   output_path: "click_prediction_test.npz"
 
 position_bias:
-  source: oracle  # [oracle, csv]
+  source: oracle  # [oracle, csv, estimate]
+  estimator: pivot_one  # Used when source=estimate
   base_epsilon: 0.001
   csv:
     path: null

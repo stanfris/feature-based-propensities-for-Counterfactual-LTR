@@ -36,4 +36,4 @@ two-tower-compare-propensity = "compare_propensity_param:main"
 py-modules = ["compare_propensity_param", "estimate_position_bias", "run"]
 
 [tool.setuptools.packages.find]
-include = ["feature_based_propensities_for_ULTR*", "notebooks*"]
+include = ["feature_based_propensities_for_ULTR*", "result_parsing*"]

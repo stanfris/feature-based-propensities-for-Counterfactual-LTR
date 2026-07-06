@@ -9,5 +9,5 @@ python compare_propensity_param.py -m \
   ips.n_sessions=75000 \
   test_clicks=30000 \
   propensity_model=euclidean \
-  propensity_model.euclidean.euclidean_threshold=3.5 \
+  propensity_model.euclidean.euclidean_threshold=1.0,2.0,3.0,3.5,4.0,5.0 \
   $@

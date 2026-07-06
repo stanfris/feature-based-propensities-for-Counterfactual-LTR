@@ -1,181 +1,119 @@
-# feature-based-propensities-for-ULTR
+# Feature-based Propensities for Counterfactual Learning to Rank
 
-This repository contains research code for doubly robust learning-to-rank experiments. The main workflow is a Hydra-driven experiment pipeline that loads ranking datasets, simulates or reuses click data, trains IPS/DM/DR-style models, and writes experiment outputs to the repository. The canonical setup in this repository is now `uv`-first and targets CPU execution by default.
+This repository contains the code for the paper *Feature-based Propensities for Counterfactual Learning to Rank*. It is partially based on the implementation of *Understanding Two-Tower Models for Unbiased Learning to Rank* (Hager et al., 2025), available [here](https://github.com/philipphager/two-tower-confounding).
 
-## Python version
+## Setup
 
-- Recommended: Python `3.11`
-- Supported by project metadata: `>=3.11,<3.13`
-
-## Install `uv`
-
-Official installer:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-Alternative on macOS with Homebrew:
-
-```bash
-brew install uv
-```
-
-## Canonical setup
-
-From a fresh clone, run:
+The project supports Python 3.11 and 3.12. Install [`uv`](https://docs.astral.sh/uv/), then create and activate the environment:
 
 ```bash
 uv python install 3.11
 uv venv --python 3.11
 uv sync
+source .venv/bin/activate
 ```
 
-This creates `.venv/` and installs the project in editable mode, so local modules such as `two_tower_confounding` resolve correctly.
+All commands below assume that `.venv` is active.
 
-## Optional dependency groups
+## Datasets
 
-The base environment is intentionally focused on the core experiment pipeline.
+The supported datasets are [MSLR-WEB30K/10K](https://www.microsoft.com/en-us/research/project/mslr/), [Yahoo! Webscope](https://webscope.sandbox.yahoo.com/catalog.php?datatype=c), and [Istella-S](https://istella.ai/datasets/letor-dataset/), which must be downloaded manually.
 
-- `dev`: test runner
-- `analysis`: plotting support for `compare_propensity_param.py`
-- `slurm`: Hydra Submitit launcher plugin for `+launcher=slurm` and `+launcher=slurmcpu`
-- `tracking`: optional Weights & Biases integration
-
-Examples:
+Set the dataset root with `LTR_DATASET_DIR`. It defaults to `../ltr_datasets`.
 
 ```bash
-uv sync --group dev
-uv sync --group analysis
-uv sync --group slurm
-uv sync --group tracking
+export LTR_DATASET_DIR=/path/to/ltr_datasets
 ```
 
-## Dataset location
-
-Set the dataset root with `LTR_DATASET_DIR`. If you do not set it, the code defaults to `./data`.
-
-```bash
-export LTR_DATASET_DIR=/absolute/path/to/ltr_datasets
-```
-
-Expected layout under `LTR_DATASET_DIR`:
+Expected layout:
 
 - `download/MSLR-WEB30K.zip` for `data=mslr30k`
 - `download/MSLR-WEB10K.zip` for `data=mslr10k`
 - `download/ltrc_yahoo.tar.bz2` for `data=yahoo`
 - `dataset/istella-s-letor/sample/` for `data=istella`
 
-The code also creates and reuses:
+## Running Experiments
 
-- `dataset/` for extracted raw datasets
-- `cache/` for parsed SVMLight caches
-- experiment-generated click artifacts under the configured dataset root when `persist_datasets=true`
-
-## Running core experiments
-
-The main experiment entry point is:
+Make the script executable, then run it:
 
 ```bash
-uv run two-tower-run
+chmod +x scripts/*.sh
+./scripts/1_example.sh
 ```
 
-Useful smoke-test style example with smaller budgets:
+`1_example.sh` runs IPS on MSLR-WEB30K with an MLP propensity estimator, 10,000 simulated sessions, logging-policy temperature `0.5`, and a ranking cutoff of 25. 
+
+Optionally, you can launch the job on a SLURM cluster to distribute training jobs:
 
 ```bash
-export LTR_DATASET_DIR=/absolute/path/to/ltr_datasets
-uv run two-tower-run \
-  data=mslr30k \
-  random_state=42 \
-  train_clicks=5000 \
-  val_clicks=2500 \
-  test_clicks=1000 \
-  ips.n_sessions=1000 \
-  use_wandb=false
+./scripts/1_example.sh +launcher=slurm
+```
+You can edit the launch parameters for SLURM under: `config/launcher/slurm.yaml`.
+
+The main experiment collections can then be started with:
+
+```bash
+./scripts/compare_propensity_Euclidean.sh
+./scripts/compare_propensity_MLP.sh
+./scripts/run_policy_models.sh
+./scripts/run_baselines.sh
+./scripts/estimated_pos_bias.sh
 ```
 
-Equivalent direct script form:
+These are large multiruns which may cost a significant amount of compute. Please inspect their dataset, seed, model, and session-count lists to align with your needs before launching them.
+
+
+
+## Relevant parameters
+
+The scripts pass [Hydra](https://hydra.cc/) overrides to `run.py`. The most useful overrides are:
+
+| Parameter | Purpose | Common values |
+| --- | --- | --- |
+| `experiment` | Names the directory below `results/` | `1_example`, `real_targets` |
+| `data` | Selects the ranking dataset | `mslr30k`, `yahoo`, `istella` |
+| `ips.model` | Selects the learning objective or baseline | `ips`, `dm`, `dr`, `max-score`, `logging-policy` |
+| `propensity_model` | Selects the propensity estimator | `frequency-based`, `MLPregression`, `kmeans`, `knn`, `cosine`, `euclidean`, `true_propensity` |
+| `ips.n_sessions` | Sets the simulated train/validation session budget | for example `1000` or `100000` |
+| `random_state` | Controls random sampling and model initialization | any integer, we use `40-59` |
+| `policy_temperature` | Controls stochasticity of the logging policy | `0.0` is deterministic; larger values add randomness until `1.0` |
+| `data.preprocessor.top_x` | Sets the top-k ranking cutoff | We use `25` |
+| `ips.position_bias.source` | Chooses the examination-bias curve | `oracle`, `estimate` |
+
+Defaults and all available settings are defined in `config/config.yaml`, `config/ips/default.yaml`, and the files below `config/propensity_model/`.
+
+
+An experiment can also estimate its position-bias curve directly:
 
 ```bash
-uv run python run.py data=mslr30k ips.n_sessions=1000 use_wandb=false
-```
-
-If you want to use the cluster launcher configs such as `+launcher=slurmcpu` or `+launcher=slurm`, install the SLURM group first:
-
-```bash
-uv sync --group slurm
-uv run python run.py -m ... +launcher=slurmcpu
-```
-
-Without that plugin, Hydra only exposes the built-in `basic` launcher and will fail with `Could not find 'hydra/launcher/submitit_slurm'`.
-
-Position-bias export entry point:
-
-```bash
-uv run two-tower-estimate-position-bias data=mslr30k ips.n_sessions=1000
-```
-
-IPS/DM/DR runs can also estimate a position-bias curve directly in each run:
-
-```bash
-uv run two-tower-run \
-  data=mslr30k \
+./scripts/1_example.sh \
   ips.position_bias.source=estimate \
-  ips.position_bias.estimator=pivot_one
+  ips.position_bias.estimator=global_all_pairs
 ```
 
-When `source=estimate`, the run writes the selected curve to `position_bias.json`
-next to `ips_results.json`. Supported estimators are `ctr`, `pivot_one`,
-`adjacent_chain`, and `global_all_pairs`.
+Supported estimators are `ctr`, `pivot_one`, `adjacent_chain`, and `global_all_pairs`. Position-bias estimation requires [ultr_bias_toolkit](https://github.com/philipphager/ultr-bias-toolkit), either installed as a package or checked out next to this repository at `../ultr-bias-toolkit`.
 
-Important: `estimate_position_bias.py` depends on `ultr_bias_toolkit`, which is not vendored in this repository. The current code looks for either:
 
-- an installed `ultr_bias_toolkit` package, or
-- a sibling checkout at `../ultr-bias-toolkit`
+## Results
+We publish all simulation results under `results/`. All code for our visualizations, and the visualisations which are already generated, are under `result_parsing/`. Below, we include a brief description of how to handle results.
 
-That step is therefore not part of the minimal base environment.
+Each multirun is written to:
 
-## Analysis-only script
+```text
+results/<experiment>/<Hydra override directory>/
+```
 
-`compare_propensity_param.py` is not part of the base environment because it requires plotting dependencies. Install the analysis group first:
+The main files are:
+
+- `ips_results.json`: metrics and run metadata
+- `config.yaml`, `overrides.yaml`, and `hydra.yaml`: the resolved Hydra configuration
+- `run.log`: experiment log
+
+You can also generate the visualizations again, for example using:
 
 ```bash
-uv sync --group analysis
-uv run two-tower-compare-propensity data=mslr30k
+python result_parsing/visualization_scripts/plot_real_targets.py
 ```
 
-## Testing
+The PDFs are written to `result_parsing/result_plots/`.
 
-Install the dev group and run the unit tests:
-
-```bash
-uv sync --group dev
-uv run --group dev pytest
-```
-
-The repository tests are unit-style tests and do not require external ranking datasets.
-
-## Compatibility fallback
-
-`requirements.txt` is kept only as a compatibility shim for tools that insist on a pip-style requirements file:
-
-```bash
-uv pip install -r requirements.txt
-```
-
-The canonical workflow remains `uv sync`.
-
-## Non-obvious prerequisites
-
-- CPU execution is the default and the documented path here.
-- Weights & Biases is disabled by default in config. If you want it, install the `tracking` group and authenticate separately.
-- The project writes experiment outputs into the repository tree, especially under `results/`, checkpoints, and display histogram directories.
-- `ultr_bias_toolkit` is required for position-bias estimation and is not part of the base environment.
-
-## Reproducibility notes
-
-- `uv.lock` is the version-pinned record for the environment resolved from `pyproject.toml`.
-- The Python package metadata is the single source of truth for dependencies; `requirements.txt` delegates to it via editable install.
-- Datasets are not included in this repository, so reproducibility depends on staging the same raw archives under `LTR_DATASET_DIR`.
-- The default config no longer hard-codes a machine-specific dataset path.
-- The default config no longer requires W&B for a local run.

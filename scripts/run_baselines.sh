@@ -2,10 +2,10 @@
 
 python run.py -m \
   experiment=true_baselines \
-  data=yahoo \
+  data=istella,mslr30k,yahoo \
   random_state=40,41,42 \
   policy_temperature=0.5 \
-  ips.model=logging_policy \
+  ips.model=logging_policy,max-score \
   propensity_model=frequency-based \
   ips.n_sessions=100 \
   data.preprocessor.top_x=25 \
