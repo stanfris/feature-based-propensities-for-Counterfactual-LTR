@@ -103,13 +103,7 @@ Each multirun is written to:
 results/<experiment>/<Hydra override directory>/
 ```
 
-The main files are:
-
-- `ips_results.json`: metrics and run metadata
-- `config.yaml`, `overrides.yaml`, and `hydra.yaml`: the resolved Hydra configuration
-- `run.log`: experiment log
-
-You can also generate the visualizations again, for example using:
+You can also generate the visualizations, for example using:
 
 ```bash
 python result_parsing/visualization_scripts/plot_real_targets.py

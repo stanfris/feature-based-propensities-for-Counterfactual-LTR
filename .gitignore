@@ -27,3 +27,8 @@ wandb/
 .conda/
 uv.lock
 .vscode/
+
+*/hydra.yaml
+*/config.yaml
+*/overrides.yaml
+*/run.log
