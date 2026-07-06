@@ -44,6 +44,8 @@ DEFAULT_OUTPUT_DIR = REPO_ROOT / "notebooks" / "thesis_plots"
 DEFAULT_THESIS_IMAGES_DIR = REPO_ROOT.parent / "Thesis" / "images"
 LOG_SCALE_EPS = 1e-6
 PROPENSITY_YTICKS = [0.03, 0.05, 0.1, 0.3, 0.5]
+MLP_PROPENSITY_COLOR = "tab:blue"
+FREQUENCY_BASED_PROPENSITY_COLOR = "tab:orange"
 THESIS_OUTPUT_ALIASES = {
     "propensity_estimation_Cosine_Sim.pdf": "propensity_estimation_Cosine_Sim.pdf",
     "propensity_estimation_Euclidean.pdf": "propensity_estimation_Euclidean_model_comp.pdf",
@@ -190,7 +192,7 @@ def describe_csv(csv_path: Path) -> PropensityRun:
                 csv_path=csv_path,
                 family="frequency_based_clipped",
                 method=f"frequency_based_clipped_{suffix}",
-                label=f"frequency-based-clipped ({clip_value:.4f})",
+                label=f"Frequency-based Propensity clipped ({clip_value:.4f})",
                 detail_filename=f"propensity_estimation_frequency_based_clipped_{suffix}.pdf",
                 sort_key=(1, clip_value),
                 clip_value=clip_value,
@@ -199,7 +201,7 @@ def describe_csv(csv_path: Path) -> PropensityRun:
             csv_path=csv_path,
             family="frequency_based",
             method="frequency_based",
-            label="Frequency-Based",
+            label="Frequency-based Propensity",
             detail_filename="propensity_estimation_frequency_based_only.pdf",
             sort_key=(0,),
         )
@@ -222,7 +224,7 @@ def describe_csv(csv_path: Path) -> PropensityRun:
     if match:
         layers, hidden, dropout = match.groups()
         method = f"mlp_regression_l{layers}_h{hidden}_d{dropout}"
-        label = f"Propensity MLP l={layers}, h={hidden}, d={_format_float(_abbr_to_float(dropout))}"
+        label = f"MLP Propensity l={layers}, h={hidden}, d={_format_float(_abbr_to_float(dropout))}"
         return PropensityRun(
             csv_path=csv_path,
             family="mlp_regression",
@@ -329,8 +331,29 @@ def panel_model_label(run: PropensityRun) -> str:
         "knn": "KNN Grouped Propensity",
         "kmeans": "K-Means Grouped Propensity",
         "mlp_classifier": "MLP Classifier",
-        "mlp_regression": "Propensity MLP",
+        "mlp_regression": "MLP Propensity",
     }.get(run.family, run.label)
+
+
+def panel_model_color(run: PropensityRun) -> str:
+    if run.family == "mlp_regression":
+        return MLP_PROPENSITY_COLOR
+    return "tab:green"
+
+
+def summary_method_colors(methods: list[str]) -> dict[str, str]:
+    auto_colors = plt.rcParams["axes.prop_cycle"].by_key()["color"][2:]
+    auto_index = 0
+    color_by_method = {}
+    for method in methods:
+        if method == "mlp_regression_l4_h128_d0p0":
+            color_by_method[method] = MLP_PROPENSITY_COLOR
+        elif method == "frequency_based":
+            color_by_method[method] = FREQUENCY_BASED_PROPENSITY_COLOR
+        else:
+            color_by_method[method] = auto_colors[auto_index % len(auto_colors)]
+            auto_index += 1
+    return color_by_method
 
 
 def plot_multi_panel(
@@ -395,10 +418,10 @@ def plot_multi_panel(
         ax.plot(
             pos_valid,
             mean_expected_propensity,
-            label="Frequency-Based Propensity",
+            label="Frequency-based Propensity",
             marker="s",
             markersize=6,
-            color="tab:blue",
+            color=FREQUENCY_BASED_PROPENSITY_COLOR,
             alpha=0.8,
             zorder=2,
         )
@@ -407,7 +430,7 @@ def plot_multi_panel(
             expected_lower,
             expected_upper,
             alpha=0.2,
-            color="tab:blue",
+            color=FREQUENCY_BASED_PROPENSITY_COLOR,
             label="_nolegend_",
         )
         ax.plot(
@@ -416,7 +439,7 @@ def plot_multi_panel(
             label=model_label,
             marker="o",
             markersize=5,
-            color="tab:orange",
+            color=panel_model_color(run),
             alpha=0.8,
             zorder=2,
         )
@@ -425,7 +448,7 @@ def plot_multi_panel(
             pred_lower,
             pred_upper,
             alpha=0.2,
-            color="tab:orange",
+            color=panel_model_color(run),
             label="_nolegend_",
         )
         ax.set_title(f"Observations = {obs_count}")
@@ -502,10 +525,10 @@ def plot_frequency_only_panel(run: PropensityRun, obs_counts: list[int], output_
         ax.plot(
             pos_valid,
             mean_expected_propensity,
-            label="Frequency-Based Propensity",
+            label="Frequency-based Propensity",
             marker="s",
             markersize=6,
-            color="tab:blue",
+            color=FREQUENCY_BASED_PROPENSITY_COLOR,
             alpha=0.8,
             zorder=2,
         )
@@ -514,7 +537,7 @@ def plot_frequency_only_panel(run: PropensityRun, obs_counts: list[int], output_
             expected_lower,
             expected_upper,
             alpha=0.2,
-            color="tab:blue",
+            color=FREQUENCY_BASED_PROPENSITY_COLOR,
             label="_nolegend_",
         )
         ax.set_title(f"Observations = {obs_count}")
@@ -584,10 +607,10 @@ def plot_frequency_clipping_comparison_panel(
         ax.plot(
             pos_valid,
             base_propensity,
-            label="Frequency-Based Propensity",
+            label="Frequency-based Propensity",
             marker="s",
             markersize=5,
-            color="tab:blue",
+            color=FREQUENCY_BASED_PROPENSITY_COLOR,
             alpha=0.85,
             zorder=4,
         )
@@ -602,7 +625,7 @@ def plot_frequency_clipping_comparison_panel(
                 label=run.label,
                 marker="o",
                 markersize=4,
-                color=colors[(run_idx + 1) % len(colors)],
+                color=colors[(run_idx + 2) % len(colors)],
                 alpha=0.85,
                 zorder=3,
             )
@@ -649,7 +672,7 @@ def create_summary_table(runs: list[PropensityRun], obs_counts: list[int]) -> pd
         for obs_count in obs_counts:
             for prefix, method, label, family, sort_key in (
                 ("pred", run.method, run.label, run.family, run.sort_key),
-                ("exp", "frequency_based", "Frequency-Based", "frequency_based", (0,)),
+                ("exp", "frequency_based", "Frequency-based Propensity", "frequency_based", (0,)),
             ):
                 if method == "frequency_based":
                     key = (method, obs_count)
@@ -727,7 +750,7 @@ def plot_summary(
     std_obs_counts = std_pivot.index.tolist()
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2))
-    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    color_by_method = summary_method_colors(methods)
 
     mean_over_obs = pivot_dev.mean(axis=0)
     std_over_obs = pivot_dev.std(axis=0)
@@ -738,7 +761,7 @@ def plot_summary(
             mean_over_obs[method],
             yerr=std_over_obs[method],
             capsize=4,
-            color=colors[idx % len(colors)],
+            color=color_by_method[method],
         )
 
     axes[0].set_xticks([])
@@ -752,7 +775,7 @@ def plot_summary(
             std_obs_counts,
             std_pivot[method].values,
             marker="o",
-            color=colors[idx % len(colors)],
+            color=color_by_method[method],
             label=labels[method],
         )
 
@@ -765,7 +788,7 @@ def plot_summary(
         fig.suptitle(title)
 
     legend_handles = [
-        mpatches.Patch(color=colors[idx % len(colors)], label=labels[method])
+        mpatches.Patch(color=color_by_method[method], label=labels[method])
         for idx, method in enumerate(methods)
     ]
     fig.legend(
@@ -812,8 +835,7 @@ def plot_summary_lines(
     obs_counts = pivot_dev.index.tolist()
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2), sharex=True)
-    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-    color_by_method = {method: colors[idx % len(colors)] for idx, method in enumerate(methods)}
+    color_by_method = summary_method_colors(methods)
     top_draw_methods = [method for method in ("mlp_regression_l4_h128_d0p0", "frequency_based") if method in methods]
     plot_methods = [method for method in methods if method not in top_draw_methods] + top_draw_methods
     legend_methods = methods
@@ -908,7 +930,7 @@ def final_comparison_summary(summary_df: pd.DataFrame) -> pd.DataFrame:
         "euclidean_t3p5_k50": "Euclidean Distance",
         "kmeans_g200_min1_it3": "K-Means",
         "knn_k2": "KNN",
-        "mlp_regression_l4_h128_d0p0": "Propensity MLP",
+        "mlp_regression_l4_h128_d0p0": "MLP Propensity",
     }
     grouped_families = {"cosine", "euclidean", "kmeans", "knn"}
 
@@ -941,7 +963,7 @@ def euclidean_without_3p5_with_mlp_summary(summary_df: pd.DataFrame) -> pd.DataF
         | summary_df["method"].isin(selected_methods)
     )
     sub = summary_df[keep].copy()
-    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "label"] = "Propensity MLP"
+    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "label"] = "MLP Propensity"
     sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "sort_key"] = pd.Series(
         [(15, 3.5, 50)] * (sub["method"] == "mlp_regression_l4_h128_d0p0").sum(),
         index=sub.index[sub["method"] == "mlp_regression_l4_h128_d0p0"],

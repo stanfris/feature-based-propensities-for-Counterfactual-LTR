@@ -56,7 +56,7 @@ def selected_line_summary(runs, clipped_runs):
         | summary_df["method"].isin(selected_methods)
     )
     sub = summary_df[keep].copy()
-    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "label"] = "Propensity MLP"
+    sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "label"] = "MLP Propensity"
     sub.loc[sub["method"] == "mlp_regression_l4_h128_d0p0", "sort_key"] = pd.Series(
         [(15, 3.5, 50)] * (sub["method"] == "mlp_regression_l4_h128_d0p0").sum(),
         index=sub.index[sub["method"] == "mlp_regression_l4_h128_d0p0"],
@@ -113,10 +113,10 @@ def plot_mlp_regressor_with_clipping(mlp_run, clipped_runs, output_dir: Path) ->
         ax.plot(
             pos_valid,
             expected,
-            label="Frequency-Based Propensity",
+            label="Frequency-based Propensity",
             marker="s",
             markersize=6,
-            color="tab:blue",
+            color="tab:orange",
             alpha=0.8,
             zorder=4,
         )
@@ -125,7 +125,7 @@ def plot_mlp_regressor_with_clipping(mlp_run, clipped_runs, output_dir: Path) ->
             expected_lower,
             expected_upper,
             alpha=0.2,
-            color="tab:blue",
+            color="tab:orange",
             label="_nolegend_",
         )
 
@@ -156,10 +156,10 @@ def plot_mlp_regressor_with_clipping(mlp_run, clipped_runs, output_dir: Path) ->
         ax.plot(
             pos_valid,
             pred,
-            label="Propensity MLP",
+            label="MLP Propensity",
             marker="o",
             markersize=5,
-            color="tab:orange",
+            color="tab:blue",
             alpha=0.8,
             zorder=4,
         )
@@ -168,7 +168,7 @@ def plot_mlp_regressor_with_clipping(mlp_run, clipped_runs, output_dir: Path) ->
             pred_lower,
             pred_upper,
             alpha=0.2,
-            color="tab:orange",
+            color="tab:blue",
             label="_nolegend_",
         )
         ax.set_title(f"Observations = {obs_count}")

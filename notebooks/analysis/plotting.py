@@ -145,8 +145,8 @@ DATASET_TITLE_MAP = {
 }
 
 PROPENSITY_DISPLAY_ALIASES = {
-    "MLPregression": "Propensity MLP",
-    "frequency-based": "Frequency-Based",
+    "MLPregression": "MLP Propensity",
+    "frequency-based": "Frequency-based Propensity",
     "true_propensity": "Oracle Propensity",
     "max-score": "Label-Trained (Skyline)",
     "logging-policy": "Logging Policy (Baseline)",
@@ -154,6 +154,17 @@ PROPENSITY_DISPLAY_ALIASES = {
     "knn": "KNN",
     "kmeans": "K-Means",
 }
+
+PROPENSITY_DISPLAY_COLORS = {
+    "MLPregression": "tab:blue",
+    "frequency-based": "tab:orange",
+    "true_propensity": "tab:green",
+}
+
+
+def propensity_display_color(model: str, index: int, colors) -> object:
+    return PROPENSITY_DISPLAY_COLORS.get(model, colors[(index + 2) % len(colors)])
+
 
 IPS_MODEL_DISPLAY_ALIASES = {
     "ips": "IPS",
@@ -240,7 +251,7 @@ def plot_grid(
             x = s[x_col].to_numpy()
             y = s["mean_value"].to_numpy()
             low, high = get_interval_bounds(s, interval_mode=interval_mode)
-            c = colors[i % len(colors)]
+            c = propensity_display_color(pm, i, colors)
             linestyle = "-." if pm == "true_propensity" else "-"
             ax.plot(x, y, marker="o", color=c, linestyle=linestyle, zorder=2)
             if include_std_bars:
@@ -384,7 +395,7 @@ def plot_grid(
                 handles.append(
                     Line2D(
                         [0], [0],
-                        color=colors[i % len(colors)],
+                        color=propensity_display_color(label, i, colors),
                         marker="o",
                         linestyle="-." if label == "true_propensity" else "-",
                         label=display_label,
@@ -830,7 +841,7 @@ def plot_ips_dm_dr_stacked_propensity_grid(
                     x = s[x_col].to_numpy()
                     y = s["mean_value"].to_numpy()
                     low, high = get_interval_bounds(s, interval_mode=interval_mode)
-                    color = colors[i % len(colors)]
+                    color = propensity_display_color(pm, i, colors)
                     linestyle = "-." if pm == "true_propensity" else "-"
                     ax.plot(x, y, marker="o", color=color, linestyle=linestyle, zorder=2)
                     ax.fill_between(x, low, high, color=color, alpha=0.2, zorder=1)
@@ -870,7 +881,7 @@ def plot_ips_dm_dr_stacked_propensity_grid(
             Line2D(
                 [0],
                 [0],
-                color=colors[i % len(colors)],
+                color=propensity_display_color(label, i, colors),
                 marker="o",
                 linestyle="-." if label == "true_propensity" else "-",
                 label=PROPENSITY_DISPLAY_ALIASES.get(label, label),
@@ -1117,8 +1128,8 @@ def plot_temperature_analysis(
     filters = sorted(agg["plot_filter"].unique())
 
     display_aliases = {
-        "MLPregression": "Propensity MLP",
-        "frequency-based": "Frequency-Based",
+        "MLPregression": "MLP Propensity",
+        "frequency-based": "Frequency-based Propensity",
         "true_propensity": "Oracle Propensity",
         "max-score": "Label-Trained (Skyline)",
         "logging-policy": "Logging Policy (Baseline)",
@@ -1165,7 +1176,7 @@ def plot_temperature_analysis(
                     x = sub["tmp"].to_numpy()
                     y = sub["mean_value"].to_numpy()
                     low, high = get_interval_bounds(sub, interval_mode=interval_mode)
-                    color = colors[i % len(colors)]
+                    color = propensity_display_color(pm, i, colors)
 
                     linestyle = "-." if pm == "true_propensity" else "-"
                     ax.plot(x, y, marker="o", color=color, linestyle=linestyle)
@@ -1193,7 +1204,7 @@ def plot_temperature_analysis(
             Line2D(
                 [0],
                 [0],
-                color=colors[i % len(colors)],
+                color=propensity_display_color(pm, i, colors),
                 marker="o",
                 linestyle="-." if pm == "true_propensity" else "-",
                 label=display_aliases.get(pm, pm),

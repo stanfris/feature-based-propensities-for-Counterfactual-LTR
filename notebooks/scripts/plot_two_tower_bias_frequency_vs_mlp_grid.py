@@ -47,12 +47,12 @@ SESSION_ORDER = (10000, 100000)
 OBJECTIVE_ORDER = ("ips", "dm", "dr")
 PROPENSITY_ORDER = ("frequency-based", "MLPregression")
 PROPENSITY_LABELS = {
-    "frequency-based": "Frequency-Based",
-    "MLPregression": "Feature-Based (MLP)",
+    "frequency-based": "Frequency-based Propensity",
+    "MLPregression": "MLP Propensity",
 }
 PROPENSITY_COLORS = {
-    "frequency-based": "#4C78A8",
-    "MLPregression": "#F58518",
+    "frequency-based": "#F58518",
+    "MLPregression": "#4C78A8",
 }
 SOURCE_ORDER = (
     "real-targets",
