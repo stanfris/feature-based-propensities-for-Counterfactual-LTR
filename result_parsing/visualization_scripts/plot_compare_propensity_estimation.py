@@ -241,7 +241,7 @@ def describe_csv(csv_path: Path) -> PropensityRun:
         threshold, k = match.groups()
         threshold_value = _abbr_to_float(threshold)
         method = f"euclidean_t{threshold}_k{k}"
-        label = f"Euclidean Grouping $\\epsilon{{=}}{_format_float(threshold_value)}$"
+        label = f"Euclidean Grouping $\\varepsilon{{=}}{_format_float(threshold_value)}$"
         return PropensityRun(
             csv_path=csv_path,
             family="euclidean",

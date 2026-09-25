@@ -151,7 +151,7 @@ def aggregate_datasets(
         hist_dir.mkdir(parents=True, exist_ok=True)
 
     logger.info("Initializing simulator...")
-    max_label = int(getattr(getattr(config, "simulation", {}), "max_label", 10))
+    max_label = int(getattr(getattr(config, "simulation", {}), "max_label", 4))
     simulator = Simulator(
         logging_policy_ranker=lambda **_: None,
         logging_policy_sampler=lambda **_: None,

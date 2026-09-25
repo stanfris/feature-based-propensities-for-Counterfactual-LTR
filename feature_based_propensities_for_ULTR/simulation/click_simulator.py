@@ -87,7 +87,7 @@ class Simulator:
         logging_policy_ranker: Callable,
         logging_policy_sampler: Callable,
         bias_strength: float,
-        max_label: int = 10,
+        max_label: int = 4,
         *,
         random_state: int,
     ):

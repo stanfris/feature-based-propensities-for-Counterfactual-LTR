@@ -438,11 +438,13 @@ def click_signature(config: DictConfig, split: str) -> str:
             f"_qs{hashlib.md5(str(query_sampling_ratios).encode()).hexdigest()[:8]}"
         )
     clicks = effective_click_count(config, split_norm)
+    max_label = int(getattr(getattr(config, "simulation", {}), "max_label", 4))
     return (
         f"c{_abbr_value(clicks)}_"
         f"ps{_abbr_value(config.policy_strength)}_"
         f"pt{_abbr_value(config.policy_temperature)}_"
-        f"bs{_abbr_value(config.bias_strength)}"
+        f"bs{_abbr_value(config.bias_strength)}_"
+        f"ml{_abbr_value(max_label)}"
         f"{drop_zero_relevance_sig}"
         f"{ratio_sig}"
         f"{disjoint_chunk_sig}"

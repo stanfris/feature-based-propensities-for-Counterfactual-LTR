@@ -154,12 +154,14 @@ def click_signature(config: DictConfig) -> str:
     def _abbr_value(value) -> str:
         return str(value).replace(".", "p").replace(" ", "")
 
+    max_label = int(getattr(getattr(config, "simulation", {}), "max_label", 4))
     return (
         f"tc{_abbr_value(effective_click_count(config, 'train'))}_"
         f"te{_abbr_value(config.test_clicks)}_"
         f"ps{_abbr_value(config.policy_strength)}_"
         f"pt{_abbr_value(config.policy_temperature)}_"
-        f"bs{_abbr_value(config.bias_strength)}"
+        f"bs{_abbr_value(config.bias_strength)}_"
+        f"ml{_abbr_value(max_label)}"
     )
 
 
@@ -293,7 +295,7 @@ def main(config: DictConfig):
         logging_policy_sampler=lambda **_: None,
         bias_strength=float(config.bias_strength),
         random_state=int(config.random_state),
-        max_label=int(getattr(getattr(config, "simulation", {}), "max_label", 10)),
+        max_label=int(getattr(getattr(config, "simulation", {}), "max_label", 4)),
     )
     test_data = simulator.aggregate(
         click_dataset=test_click_dataset,
